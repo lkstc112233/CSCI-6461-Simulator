@@ -1,8 +1,11 @@
 package increment.simulator;
 
 import java.awt.GridLayout;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 /**
  * 
  * @author Xu Ke
@@ -22,10 +25,15 @@ public class MachineInsightPanel extends JFrame {
 	 */
 	public MachineInsightPanel(Machine machine){
 		this.machine = machine;
-		setSize(900,600);
+		mapping = new HashMap<>();
+		setSize(900, 600);
 		setTitle("Machine Inside");
 		setResizable(false);
 		setLayout(new GridLayout(4,4));
+		// Add parts to window from machine;
+		
 	}
+	
+	private Map<String, JTextField> mapping;
 
 }

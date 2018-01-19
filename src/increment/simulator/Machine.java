@@ -21,4 +21,14 @@ public class Machine {
 	public Cable getCable(String name) {
 		return cables.get(name);
 	}
+	public void tick(){
+		for (Map.Entry<String, Chip> e : chips.entrySet()) {
+			e.getValue().tick();
+		}
+	}
+	public void evaluate(){
+		for (Map.Entry<String, Chip> e : chips.entrySet()) {
+			e.getValue().evaluate();
+		}
+	}
 }
