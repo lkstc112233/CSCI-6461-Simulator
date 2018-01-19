@@ -1,5 +1,7 @@
 package increment.simulator;
 
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A chip. This chip works as a black box. It takes 0 or more inputs (as cable), and gives
@@ -14,7 +16,7 @@ package increment.simulator;
  */
 public abstract class Chip {
 	public Chip(){
-		
+		inputs = new HashMap<>();
 	}
 	/**
 	 * We are using tick here to indicate a clock tick, so we don't have to simulate a 
@@ -31,4 +33,36 @@ public abstract class Chip {
 	 * Such as a change in the outputs.
 	 */
 	public void evaluate(){}
+	/**
+	 * All inputs.
+	 */
+	protected Map<String, Cable> inputs;
+	/**
+	 * Adds an input, with the given name and given width. No Inputs Share same name 
+	 * allowed. This method should be called only during construction.
+	 * @param name
+	 * @param width
+	 */
+	protected void addInput(String name, int width) {
+		if (!inputs.containsKey(name)) {
+			// We only put new input if there is not an existing one.
+			inputs.put(name, new Cable(width));
+		}
+	}
+	/**
+	 * All outputs.
+	 */
+	protected Map<String, Cable> outputs;
+	/**
+	 * Adds an output, with the given name and given width. No outputs share same name
+	 * allowed.
+	 * @param name
+	 * @param width
+	 */
+	protected void addOutput(String name, int width) {
+		if (!outputs.containsKey(name)) {
+			// And we only put new output if there is not an existing one.
+			outputs.put(name, new Cable(width));
+		}
+	}
 }
