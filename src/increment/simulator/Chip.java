@@ -16,7 +16,10 @@ import java.util.Map;
  */
 public abstract class Chip {
 	public Chip(){
+		inputsFormat = new HashMap<>();
+		outputsFormat = new HashMap<>();
 		inputs = new HashMap<>();
+		outputs = new HashMap<>();
 	}
 	/**
 	 * We are using tick here to indicate a clock tick, so we don't have to simulate a 
@@ -34,7 +37,11 @@ public abstract class Chip {
 	 */
 	public void evaluate(){}
 	/**
-	 * All inputs.
+	 * All inputs width.
+	 */
+	protected Map<String, Integer> inputsFormat;
+	/**
+	 * All inputs cable.
 	 */
 	protected Map<String, Cable> inputs;
 	/**
@@ -44,13 +51,30 @@ public abstract class Chip {
 	 * @param width
 	 */
 	protected void addInput(String name, int width) {
-		if (!inputs.containsKey(name)) {
+		if (!inputsFormat.containsKey(name)) {
 			// We only put new input if there is not an existing one.
-			inputs.put(name, new Cable(width));
+			inputsFormat.put(name, width);
+			inputs.put(name, null);
 		}
 	}
 	/**
-	 * All outputs.
+	 * Connects a cable to an input slot.
+	 * @param name
+	 * @param cable
+	 */
+	public void connectInput(String name, Cable cable){
+		if (inputsFormat.containsKey(name) && inputsFormat.get(name) == cable.getWidth()){
+			inputs.put(name, cable);
+		}
+		else
+			throw new IllegalStateException("Connecting input failed when trying to connect " + name);
+	}
+	/**
+	 * All outputs width.
+	 */
+	protected Map<String, Integer> outputsFormat;
+	/**
+	 * All outputs cable.
 	 */
 	protected Map<String, Cable> outputs;
 	/**
@@ -60,9 +84,22 @@ public abstract class Chip {
 	 * @param width
 	 */
 	protected void addOutput(String name, int width) {
-		if (!outputs.containsKey(name)) {
+		if (!outputsFormat.containsKey(name)) {
 			// And we only put new output if there is not an existing one.
-			outputs.put(name, new Cable(width));
+			outputsFormat.put(name, width);
+			outputs.put(name, null);
 		}
+	}
+	/**
+	 * Connects a cable to an output slot.
+	 * @param name
+	 * @param cable
+	 */
+	public void connectOutput(String name, Cable cable){
+		if (outputsFormat.containsKey(name) && outputsFormat.get(name) == cable.getWidth()){
+			outputs.put(name, cable);
+		}
+		else
+			throw new IllegalStateException("Connecting input failed when trying to connect " + name);
 	}
 }
