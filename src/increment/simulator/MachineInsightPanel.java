@@ -1,5 +1,7 @@
 package increment.simulator;
 
+import java.awt.GridLayout;
+
 import javax.swing.JFrame;
 /**
  * 
@@ -20,6 +22,10 @@ public class MachineInsightPanel extends JFrame {
 	 */
 	public MachineInsightPanel(Machine machine){
 		this.machine = machine;
+		setSize(900,600);
+		setTitle("Machine Inside");
+		setResizable(false);
+		setLayout(new GridLayout(4,4));
 	}
 
 }

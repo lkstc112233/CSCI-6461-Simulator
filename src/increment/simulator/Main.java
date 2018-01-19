@@ -3,8 +3,11 @@ package increment.simulator;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		Machine mainMachine = new Machine();
+		MainPanel mp = new MainPanel(mainMachine);
+		MachineInsightPanel mip = new MachineInsightPanel(mainMachine);
+		mp.setVisible(true);
+		mip.setVisible(true);
 	}
 
 }

@@ -1,5 +1,7 @@
 package increment.simulator;
 
+import java.awt.GridLayout;
+
 import javax.swing.JFrame;
 
 /**
@@ -22,5 +24,10 @@ public class MainPanel extends JFrame {
 	 */
 	public MainPanel(Machine machine){
 		this.machine = machine;
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(600, 400);
+		setTitle("Machine Simulation");
+		setResizable(false);
+		setLayout(new GridLayout(2,1));
 	}
 }
