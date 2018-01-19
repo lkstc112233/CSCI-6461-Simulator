@@ -1,0 +1,14 @@
+This is a draft for develop designs.
+
+Part 1: Basic machine
+
+Since we are working on a basic machine of several parts:
+
+	Basic machine architecture
+	Simple Memory
+	Load and Store instructions
+	User interface
+
+I am here building a simple user interface as a further development skeleton. This interface will show several things: the simulated panel which serves as the 'Machine' panel, another panel with several 'States' of the CPU and memory. 
+
+The design of instructions goes into another file.
