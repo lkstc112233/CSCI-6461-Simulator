@@ -13,6 +13,7 @@ public class Machine {
 		chips = new HashMap<>();
 		cables = new HashMap<>();
 		chips.put("PC", new ClockRegister(16));
+		chips.put("Constant 1", new ConstantChip(1, 1));
 	}
 	private Map<String, Chip> chips;
 	private Map<String, Cable> cables;
