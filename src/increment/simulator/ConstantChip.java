@@ -24,6 +24,7 @@ public class ConstantChip extends Chip {
 	}
 	
 	public void evaluate() {
-		outputs.get("output").assign(data);
+		if (outputs.get("output") != null)
+			outputs.get("output").assign(data);
 	}
 }

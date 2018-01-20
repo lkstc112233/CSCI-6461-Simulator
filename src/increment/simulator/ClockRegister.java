@@ -42,7 +42,8 @@ public class ClockRegister extends Chip {
 	 * When evaluates, we move data to output.
 	 */
 	public void evaluate(){
-		outputs.get("output").assign(data);
+		if (outputs.get("output") != null)
+			outputs.get("output").assign(data);
 	}
 	/**
 	 * Turns chip value into a readable way.
