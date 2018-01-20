@@ -26,6 +26,7 @@ public class Cable {
 	 * @param input
 	 */
 	public void assign(Cable input) {
+		if (input == null) return;
 		if (bits.size() < input.bits.size())
 			throw new IllegalStateException("Connecting wrong cables together.");
 		for (int i = 0; i < bits.size(); ++i) {
@@ -53,5 +54,32 @@ public class Cable {
 	 */
 	public void putBit(int bitPos, boolean val) {
 		bits.get(bitPos).put(val);
+	}
+	/**
+	 * Turns cable value into an integer.
+	 * If cable width is larger than 64, behavior is undefined.
+	 * @return
+	 */
+	public long toInteger() {
+		long result = 0;
+		for (Bit b : bits)
+		{
+			if (b.get())
+				result += 1;
+			result <<= 1;
+		}
+		return result;
+	}
+	/**
+	 * Put an integer into the cable.
+	 * Uses only low ```width``` bits.
+	 * @param value
+	 */
+	public void putValue(long value) {
+		for (int i = bits.size(); i > 0; --i)
+		{
+			bits.get(i - 1).put((value & 1) == 1);
+			value >>= 1;
+		}
 	}
 }
