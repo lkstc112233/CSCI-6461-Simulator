@@ -34,6 +34,22 @@ public class Cable {
 		}
 	}
 	/**
+	 * replace part of cable value with another. 
+	 * @param offset
+	 * @param input
+	 * @param inputOffset
+	 * @param length
+	 */
+	public void partialAssign(int offset, Cable input, int inputOffset, int length) {
+		if (input == null) return;
+		while (offset < bits.size() && length > 0 && inputOffset < input.bits.size()) {
+			bits.set(offset, input.bits.get(inputOffset));
+			offset += 1;
+			inputOffset += 1;
+			length -= 1;
+		}
+	}
+	/**
 	 * Returns cable width.
 	 * @return cable width
 	 */
