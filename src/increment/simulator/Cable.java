@@ -82,4 +82,11 @@ public class Cable {
 			value >>= 1;
 		}
 	}
+	/**
+	 * Sets all bits in cable to 0.
+	 */
+	public void setZero() {
+		for (Bit b : bits)
+			b.put(false);
+	}
 }
