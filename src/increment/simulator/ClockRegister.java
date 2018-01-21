@@ -9,7 +9,7 @@ package increment.simulator;
  * A clock register will have one output:
  * 		* output[width]
  * 
- * @author lkstc
+ * @author Xu Ke
  *
  */
 public class ClockRegister extends Chip {
