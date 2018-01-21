@@ -12,6 +12,8 @@ public class Machine {
 	public Machine() {
 		chips = new HashMap<>();
 		cables = new HashMap<>();
+		// Initialize Memory
+		chips.put("memory", new Memory());
 		// Make chips.
 		chips.put("PC", new ClockRegister(16));
 		chips.put("Constant 1", new ConstantChip(1, 1));
@@ -20,6 +22,9 @@ public class Machine {
 		Cable foo = new Cable(1);
 		getChip("PC").connectInput("write", foo);
 		getChip("Constant 0").connectOutput("output", foo);
+		// SIMULATED Boot Loader: 
+		// It loads a testing program into the memory address 0x10, and sets PC to
+		// 0x10.
 		
 	}
 	private Map<String, Chip> chips;
