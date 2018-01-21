@@ -12,20 +12,20 @@ public class Memory extends Chip {
 	 * Constructor. Creating a 16-bit addressed memory.
 	 * A memory will have three inputs:
 	 * 		* write[1]
-	 * 		* address[16]
-	 * 		* input[8] // by now we only support 8-bit(a byte) width i/o.
+	 * 		* address[12]
+	 * 		* input[16] 
 	 * A memory will have one output:
-	 * 		* output[8]
+	 * 		* output[16]
 	 * @param width
 	 */
 	public Memory(){
-		data = new Cable[65536];
+		data = new Cable[4096];
 		for (int i = 0; i < data.length; ++i)
-			data[i] = new Cable(8);
+			data[i] = new Cable(16);
 		addInput("write", 1);
-		addInput("address", 16);
-		addInput("input", 8);
-		addOutput("output", 8);
+		addInput("address", 12);
+		addInput("input", 16);
+		addOutput("output", 16);
 	}
 	/**
 	 * When timer ticks, if input[0] is true, we move data of input to data[address].

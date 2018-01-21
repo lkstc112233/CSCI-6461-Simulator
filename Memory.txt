@@ -1,9 +1,9 @@
 Currently we treat Memory as a black box.
 
-A memory is abstracted as a large array. Each cell in the memory is a 8-bit long word, and can be addressed by a 
-16-bit address. Thus, there are 65536 cells in memory in total, addressed from 0x0000 to 0xffff. 
+A memory is abstracted as a large array. Each cell in the memory is a 16-bit long word, and can be addressed by a 
+12-bit address. Thus, there are 4096 cells in memory in total, addressed from 0x000 to 0xfff. 
 
 As a chip, memory communicates with others by two ports: An input, an output, an address port, and a read/write port.
 
-By now input/output ports are 8-bits width, which is the same with a word. However, if we allow a wider input/output
+By now input/output ports are 16-bits width, which is the same with a word. However, if we allow a wider input/output
 port to exist, then we can do many other great things such load an instruction in one tick.   
