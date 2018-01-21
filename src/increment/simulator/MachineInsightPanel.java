@@ -37,7 +37,7 @@ public class MachineInsightPanel extends JFrame {
 		setSize(900, 600);
 		setTitle("Machine Inside");
 		setResizable(false);
-		setLayout(new GridLayout(4,4));
+		setLayout(new GridLayout(0, 4));
 		// Add parts to window from machine;
 		
 		// Add a button to handle tick.
