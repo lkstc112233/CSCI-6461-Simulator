@@ -3,7 +3,7 @@ package increment.simulator;
 import java.util.ArrayList;
 
 /**
- * A cable. A cable holds several bits on it. A cable has a width indicating how many bits
+ * A cable implementation. A cable holds several bits on it. A cable has a width indicating how many bits
  * it is holding. 
  * 
  * @author Xu Ke
