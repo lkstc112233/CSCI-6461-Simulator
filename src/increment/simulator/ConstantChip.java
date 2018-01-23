@@ -14,7 +14,7 @@ package increment.simulator;
 public class ConstantChip extends Chip {
 	private Cable data;
 	public ConstantChip(int width, long value) {
-		data = new Cable(width);
+		data = new SingleCable(width);
 		data.putValue(value);
 		addOutput("output", width);
 	}

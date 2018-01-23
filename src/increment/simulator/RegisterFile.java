@@ -24,10 +24,10 @@ public class RegisterFile extends Chip {
 		// Connect merged chips.
 		for (int i = 0; i < data.length; ++i) {
 			data[i] = new ClockRegister(width);
-			Cable cable = new Cable(1);
+			Cable cable = new SingleCable(1);
 			demuxForWrite.connectOutput("output" + Integer.toString(i), cable);
 			data[i].connectInput("write", cable);
-			cable = new Cable(width);
+			cable = new SingleCable(width);
 			muxForOutput.connectInput("input" + Integer.toString(i), cable);
 			data[i].connectOutput("output", cable);
 		}

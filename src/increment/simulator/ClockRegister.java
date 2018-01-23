@@ -25,7 +25,7 @@ public class ClockRegister extends Chip {
 	 * @param width
 	 */
 	public ClockRegister(int width){
-		data = new Cable(width);
+		data = new SingleCable(width);
 		addInput("write", 1);
 		addInput("input", width);
 		addOutput("output", width);

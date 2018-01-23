@@ -19,7 +19,7 @@ public class Machine {
 		chips.put("Constant 1", new ConstantChip(1, 1));
 		chips.put("Constant 0", new ConstantChip(1));
 		// Connect chips.
-		Cable foo = new Cable(1);
+		Cable foo = new SingleCable(1);
 		getChip("PC").connectInput("write", foo);
 		getChip("Constant 0").connectOutput("output", foo);
 		// SIMULATED Boot Loader: 

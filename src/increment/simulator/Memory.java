@@ -21,7 +21,7 @@ public class Memory extends Chip {
 	public Memory(){
 		data = new Cable[4096];
 		for (int i = 0; i < data.length; ++i)
-			data[i] = new Cable(16);
+			data[i] = new SingleCable(16);
 		addInput("write", 1);
 		addInput("address", 12);
 		addInput("input", 16);
