@@ -26,12 +26,12 @@ public class Demux extends Chip {
 	 * Moves input to the very output. Set all other outputs to 0.
 	 */
 	public void evaluate(){
-		String veryName = "output" + Long.toString(inputs.get("sel").toInteger());
+		String veryName = "output" + Long.toString(getInput("sel").toInteger());
 		for (String name : outputs.keySet()){
 			if (name.equals(veryName))
-				outputs.get(name).assign(inputs.get("input"));
+				getOutput(name).assign(getInput("input"));
 			else
-				outputs.get(name).setZero();
+				getOutput(name).setZero();
 		}
 	}
 }

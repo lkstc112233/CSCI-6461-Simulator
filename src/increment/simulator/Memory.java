@@ -31,16 +31,15 @@ public class Memory extends Chip {
 	 * When timer ticks, if input[0] is true, we move data of input to data[address].
 	 */
 	public void tick(){
-		if (inputs.get("write").getBit(0)) {
-			data[(int) inputs.get("address").toInteger()].assign(inputs.get("input"));
+		if (getInput("write").getBit(0)) {
+			data[(int) getInput("address").toInteger()].assign(getInput("input"));
 		}
 	}
 	/**
 	 * When evaluates, we move specified data to output.
 	 */
 	public void evaluate(){
-		if (outputs.get("output") != null)
-			outputs.get("output").assign(data[(int) inputs.get("address").toInteger()]);
+		getOutput("output").assign(data[(int) getInput("address").toInteger()]);
 	}
 	/**
 	 * Turns chip value into a readable way.

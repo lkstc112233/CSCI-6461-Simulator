@@ -70,6 +70,14 @@ public abstract class Chip {
 			throw new IllegalStateException("Connecting input failed when trying to connect " + name);
 	}
 	/**
+	 * Returns an input cable of the given name.
+	 * @param name
+	 * @return
+	 */
+	public Cable getInput(String name) {
+		return inputs.get(name);
+	}
+	/**
 	 * All outputs width.
 	 */
 	protected Map<String, Integer> outputsFormat;
@@ -101,5 +109,13 @@ public abstract class Chip {
 		}
 		else
 			throw new IllegalStateException("Connecting input failed when trying to connect " + name);
+	}
+	/**
+	 * Returns an output cable of the given name.
+	 * @param name
+	 * @return
+	 */
+	public Cable getOutput(String name) {
+		return outputs.get(name);
 	}
 }

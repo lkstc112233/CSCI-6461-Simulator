@@ -34,16 +34,15 @@ public class ClockRegister extends Chip {
 	 * When timer ticks, if input[0] is true, we move data of input to data.
 	 */
 	public void tick(){
-		if (inputs.get("write").getBit(0)) {
-			data.assign(inputs.get("input"));
+		if (getInput("write").getBit(0)) {
+			data.assign(getInput("input"));
 		}
 	}
 	/**
 	 * When evaluates, we move data to output.
 	 */
 	public void evaluate(){
-		if (outputs.get("output") != null)
-			outputs.get("output").assign(data);
+		getOutput("output").assign(data);
 	}
 	/**
 	 * Turns chip value into a readable way.
@@ -53,5 +52,12 @@ public class ClockRegister extends Chip {
 		sb.append("Reg: ");
 		sb.append(data.toInteger());
 		return sb.toString();
+	}
+	/**
+	 * Replaces the value inside with i.
+	 * @param i
+	 */
+	public void setValue(long i) {
+		data.putValue(i);
 	}
 }

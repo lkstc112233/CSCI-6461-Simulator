@@ -25,10 +25,10 @@ public class InstructionDecoder extends Chip {
 		addOutput("address", 5);
 	}
 	public void evaluate() {
-		outputs.get("opcode").partialAssign(0, inputs.get("input"), 0, 6);
-		outputs.get("R").partialAssign(0, inputs.get("input"), 6, 2);
-		outputs.get("IX").partialAssign(0, inputs.get("input"), 8, 2);
-		outputs.get("I").partialAssign(0, inputs.get("input"), 10, 1);
-		outputs.get("address").partialAssign(0, inputs.get("input"), 11, 5);
+		getOutput("opcode").partialAssign(0, getInput("input"), 0, 6);
+		getOutput("R").partialAssign(0, getInput("input"), 6, 2);
+		getOutput("IX").partialAssign(0, getInput("input"), 8, 2);
+		getOutput("I").partialAssign(0, getInput("input"), 10, 1);
+		getOutput("address").partialAssign(0, getInput("input"), 11, 5);
 	}
 }

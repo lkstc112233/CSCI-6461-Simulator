@@ -35,15 +35,16 @@ public class ControlUnit extends Chip {
 		addOutput("MAR_write", 1);
 		addOutput("memory_read", 1);
 		addOutput("memory_write", 1);
+		addOutput("MBR_output",1);
 		addOutput("register_write", 1);
 	}
 	/**
 	 * Resets all outputs to zero.
 	 * So after calling this, we only have to set those should be 1 to 1.
 	 */
-	protected void resetOutputs(){
-		for (Entry<String, Cable> c : outputs.entrySet()){
-			c.getValue().setZero();
+	protected void resetOutputs() {
+		for (String name : outputs.keySet()){
+			getOutput(name).setZero();
 		}
 	}
 	// The control Unit will perform an action based on current status every tick.
@@ -51,8 +52,8 @@ public class ControlUnit extends Chip {
 		resetOutputs();
 		switch (status){
 		case FETCH_PC_TO_MAR:
-			outputs.get("PC_output").putValue(1);
-			outputs.get("MAR_write").putValue(1);
+			getOutput("PC_output").putValue(1);
+			getOutput("MAR_write").putValue(1);
 			status = Status.FETCH_MEMORY_ACCESS;
 			break;
 		case FETCH_MEMORY_ACCESS:

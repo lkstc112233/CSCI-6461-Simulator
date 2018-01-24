@@ -13,6 +13,9 @@ public class CableAdapter extends Cable {
 		this.offset = offset;
 		this.motherCable = cableInput;
 	}
+	public CableAdapter(int width, Cable cableInput){
+		this(width, cableInput, 0);
+	}
 	/**
 	 * Returns width.
 	 */
