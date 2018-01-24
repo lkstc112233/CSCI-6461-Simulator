@@ -5,4 +5,4 @@ We as group Increment (TBC) code this project in this repo.
 
 Currently this project contains a skeleton of the project. More architecture stuff to be added.
 
-@Author Xu Ke, Rongjie Zhang, Kyung Ryeol Choi
+@Author Xu Ke, Ferguson Shi, Yuankai Guan, Yiding Yang
