@@ -45,7 +45,17 @@ public class Memory extends Chip {
 	 * Turns chip value into a readable way.
 	 */
 	public String toString() {
-		// TODO: To be implemented
-		return "Memory chip.";
+		StringBuilder sb = new StringBuilder();
+		sb.append("Memory chip data:\n");
+		for (int i = 0; i < 4096; ++i) {
+			sb.append(i);
+			sb.append(": ");
+			sb.append(data[i].toInteger());
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+	public void putValue(int address, int value) {
+		data[address].putValue(value);
 	}
 }
