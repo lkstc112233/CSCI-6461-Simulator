@@ -54,7 +54,7 @@ public abstract class Chip {
 		if (!inputsFormat.containsKey(name)) {
 			// We only put new input if there is not an existing one.
 			inputsFormat.put(name, width);
-			inputs.put(name, null);
+			inputs.put(name, new DummyCable(width));
 		}
 	}
 	/**
@@ -95,7 +95,7 @@ public abstract class Chip {
 		if (!outputsFormat.containsKey(name)) {
 			// And we only put new output if there is not an existing one.
 			outputsFormat.put(name, width);
-			outputs.put(name, null);
+			outputs.put(name, new DummyCable(width));
 		}
 	}
 	/**
