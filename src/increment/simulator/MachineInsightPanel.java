@@ -52,19 +52,60 @@ public class MachineInsightPanel extends JFrame {
 					currentTick += 1;
 				} else
 					machine.evaluate();
+				updateUI();
 				nowTick = !nowTick;
-				mapping.get("PC").setText(machine.getChip("PC").toString());
 			}});
 		add(jb);
-		
-		// Add a panel for PC.
+
+		// Add a panel for Tick.
 		JPanel jp = new JPanel();
 		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+		jp.add(new JLabel("Tick"));
+		JLabel foo = new JLabel("Tick Value here");
+		mapping.put("tick", foo);
+		jp.add(foo);
+		add(jp);
+		// Add a panel for PC.
+		jp = new JPanel();
+		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
 		jp.add(new JLabel("PC"));
-		JLabel foo = new JLabel("PC Value here");
+		foo = new JLabel("PC Value here");
 		mapping.put("PC", foo);
 		jp.add(foo);
 		add(jp);
+		// Add a panel for bus.
+		jp = new JPanel();
+		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+		jp.add(new JLabel("BUS"));
+		foo = new JLabel("BUS");
+		mapping.put("bus", foo);
+		jp.add(foo);
+		add(jp);
+		// Add a panel for MAR.
+		jp = new JPanel();
+		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+		jp.add(new JLabel("MAR"));
+		foo = new JLabel("mar");
+		mapping.put("MAR", foo);
+		jp.add(foo);
+		add(jp);
+		// Add a panel for MBR.
+		jp = new JPanel();
+		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+		jp.add(new JLabel("MBR"));
+		foo = new JLabel("mbr");
+		mapping.put("MBR", foo);
+		jp.add(foo);
+		add(jp);
+		updateUI();
+	}
+	
+	private void updateUI() {
+		mapping.get("tick").setText("Tick: " + Integer.toString(currentTick));
+		mapping.get("PC").setText(machine.getChip("PC").toString());
+		mapping.get("bus").setText(machine.getCable("bus").toString());
+		mapping.get("MAR").setText(machine.getChip("MAR").toString());
+		mapping.get("MBR").setText(machine.getChip("MBR").toString());
 	}
 	
 	private Map<String, JLabel> mapping;

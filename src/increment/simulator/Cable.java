@@ -62,9 +62,9 @@ public abstract class Cable {
 			long result = 0;
 			for (int i = 0; i < getWidth(); ++i)
 			{
+				result <<= 1;
 				if (getBit(i))
 					result += 1;
-				result <<= 1;
 			}
 			return result;
 		}
@@ -86,5 +86,14 @@ public abstract class Cable {
 		public void setZero(){
 			for (int i = 0; i < getWidth(); ++i)
 				putBit(i, false);
+		}
+		/**
+		 * Gets a readable form
+		 */
+		public String toString(){
+			StringBuilder sb = new StringBuilder();
+			sb.append("Cable value: ");
+			sb.append(toInteger());
+			return sb.toString();
 		}
 }

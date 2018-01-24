@@ -1,7 +1,5 @@
 package increment.simulator;
 
-import java.util.Map.Entry;
-
 /**
  * The control unit. It controls how everything else works, such as write signals, or who is to use the bus.
  * 
@@ -25,6 +23,7 @@ public class ControlUnit extends Chip {
 		FETCH_PC_TO_MAR,
 		FETCH_MEMORY_ACCESS,
 		FETCH_MBR_TO_IR,
+		DECODE,
 	}
 	Status status;
 	public ControlUnit() {
@@ -36,7 +35,7 @@ public class ControlUnit extends Chip {
 		addOutput("memory_read", 1);
 		addOutput("memory_write", 1);
 		addOutput("MBR_output",1);
-		addOutput("register_write", 1);
+		addOutput("IR_write", 1);
 	}
 	/**
 	 * Resets all outputs to zero.
@@ -57,8 +56,13 @@ public class ControlUnit extends Chip {
 			status = Status.FETCH_MEMORY_ACCESS;
 			break;
 		case FETCH_MEMORY_ACCESS:
+			getOutput("memory_read").putValue(1);
+			status = Status.FETCH_MBR_TO_IR;
 			break;
 		case FETCH_MBR_TO_IR:
+			getOutput("MBR_output").putValue(1);
+			getOutput("IR_write").putValue(1);
+			status = Status.DECODE;
 			break;
 		}
 	}
