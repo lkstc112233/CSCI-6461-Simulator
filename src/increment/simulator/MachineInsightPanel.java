@@ -1,6 +1,5 @@
 package increment.simulator;
 
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 /**
  * 
  * @author Xu Ke
@@ -65,6 +65,23 @@ public class MachineInsightPanel extends JFrame {
 		mapping.put("tick", foo);
 		jp.add(foo);
 		add(jp);
+		// Add a button for Memory popup window.
+		jb = new JButton();
+		jb.setText("ShowMemory");
+		jb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (memoryFrame == null) {
+					memoryFrame = new JFrame();
+					memoryFrame.setResizable(false);
+					memoryFrame.setSize(300, 700);
+					memoryEdit = new JTextPane();
+					memoryFrame.add(new JScrollPane(memoryEdit));
+				}
+				memoryFrame.setVisible(true);
+				updateUI();
+			}});
+		add(jb);
 		// Add a panel for PC.
 		jp = new JPanel();
 		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
@@ -102,6 +119,9 @@ public class MachineInsightPanel extends JFrame {
 	
 	private void updateUI() {
 		mapping.get("tick").setText("Tick: " + Integer.toString(currentTick));
+		if (memoryFrame != null){
+			memoryEdit.setText(machine.getChip("memory").toString());
+		}
 		mapping.get("PC").setText(machine.getChip("PC").toString());
 		mapping.get("bus").setText(machine.getCable("bus").toString());
 		mapping.get("MAR").setText(machine.getChip("MAR").toString());
@@ -109,5 +129,6 @@ public class MachineInsightPanel extends JFrame {
 	}
 	
 	private Map<String, JLabel> mapping;
-
+	private JFrame memoryFrame;
+	private JTextPane memoryEdit;
 }
