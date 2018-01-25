@@ -46,6 +46,7 @@ public class ControlUnit extends Chip {
 		addOutput("MBR_output",1);
 		addOutput("IR_write", 1);
 		addOutput("Direct_EA_Gate", 1);
+		addOutput("GPRF_write", 1);
 	}
 	/**
 	 * Resets all outputs to zero.
@@ -83,6 +84,16 @@ public class ControlUnit extends Chip {
 				status = Status.LDR_PUT_EA_TO_MAR;
 				break;
 			}
+			System.out.println((int) getInput("opcode").toInteger());
+			break;
+		case LDR_PUT_EA_TO_MAR:
+			status = Status.LDR_MEMORY_ACCESS;
+			break;
+		case LDR_MEMORY_ACCESS:
+			status = Status.LDR_MBR_TO_REGISTER;
+			break;
+		case LDR_MBR_TO_REGISTER:
+			status = Status.UPDATE_PC;
 			break;
 		}
 	}
@@ -111,6 +122,14 @@ public class ControlUnit extends Chip {
 			break;
 		case LDR_PUT_EA_TO_MAR:
 			getOutput("Direct_EA_Gate").putValue(1);
+			getOutput("MAR_write").putValue(1);
+			break;
+		case LDR_MEMORY_ACCESS:
+			getOutput("memory_read").putValue(1);
+			break;
+		case LDR_MBR_TO_REGISTER:
+			getOutput("MBR_output").putValue(1);
+			getOutput("GPRF_write").putValue(1);
 			break;
 		}
 		return true;

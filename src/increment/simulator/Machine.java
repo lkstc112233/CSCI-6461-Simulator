@@ -25,7 +25,8 @@ public class Machine {
 		chips.put("MBR_Gate", new Gate(16));
 		chips.put("PC", new ClockRegister(12));
 		chips.put("PC_Gate", new Gate(12));
-		chips.put("Direct_EA", new Gate(5));
+		chips.put("Direct_EA_Gate", new Gate(5));
+		chips.put("GeneralPurposeRegisterFile", new RegisterFile(2, 16));
 		chips.put("Constant 1", new ConstantChip(1, 1));
 		chips.put("Constant 0", new ConstantChip(1));
 		// Make bus.
@@ -48,6 +49,15 @@ public class Machine {
 		getChip("IR").connectInput("input", getCable("bus"));
 		singleConnect("decoder", "input", "IR", "output", 16);
 		singleConnect("IR", "write", "CU", "IR_write", 1);
+		singleConnect("CU", "opcode", "decoder", "opcode", 6);
+		singleConnect("Direct_EA_Gate", "input", "decoder", "address", 5);
+		singleConnect("Direct_EA_Gate", "transfer", "CU", "Direct_EA_Gate", 1);
+		foo = new CableAdapter(5, getCable("bus"));
+		getChip("Direct_EA_Gate").connectOutput("output", foo);
+		singleConnect("GeneralPurposeRegisterFile", "address", "decoder", "R", 2);
+		singleConnect("GeneralPurposeRegisterFile", "write", "CU", "GPRF_write", 1);
+		getChip("GeneralPurposeRegisterFile").connectInput("input", getCable("bus"));
+		
 		// SIMULATED Boot Loader: 
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.

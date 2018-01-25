@@ -67,7 +67,7 @@ public class MachineInsightPanel extends JFrame {
 		add(jp);
 		// Add a button for Memory popup window.
 		jb = new JButton();
-		jb.setText("ShowMemory");
+		jb.setText("Show Memory");
 		jb.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -79,6 +79,23 @@ public class MachineInsightPanel extends JFrame {
 					memoryFrame.add(new JScrollPane(memoryEdit));
 				}
 				memoryFrame.setVisible(true);
+				updateUI();
+			}});
+		add(jb);
+		// Add a button for General Purpose Register File popup window.
+		jb = new JButton();
+		jb.setText("Show General Purpose Register File");
+		jb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (gprFrame == null) {
+					gprFrame = new JFrame();
+					gprFrame.setResizable(false);
+					gprFrame.setSize(300, 300);
+					gprEdit = new JTextPane();
+					gprFrame.add(new JScrollPane(gprEdit));
+				}
+				gprFrame.setVisible(true);
 				updateUI();
 			}});
 		add(jb);
@@ -130,6 +147,9 @@ public class MachineInsightPanel extends JFrame {
 		if (memoryFrame != null){
 			memoryEdit.setText(machine.getChip("memory").toString());
 		}
+		if (gprFrame != null){
+			gprEdit.setText(machine.getChip("GeneralPurposeRegisterFile").toString());
+		}
 		mapping.get("PC").setText(machine.getChip("PC").toString());
 		mapping.get("bus").setText(machine.getCable("bus").toString());
 		mapping.get("MAR").setText(machine.getChip("MAR").toString());
@@ -140,4 +160,6 @@ public class MachineInsightPanel extends JFrame {
 	private Map<String, JLabel> mapping;
 	private JFrame memoryFrame;
 	private JTextPane memoryEdit;
+	private JFrame gprFrame;
+	private JTextPane gprEdit;
 }
