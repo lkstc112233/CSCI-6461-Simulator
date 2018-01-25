@@ -29,6 +29,9 @@ public class ControlUnit extends Chip {
 		LDR_PUT_EA_TO_MAR,
 		LDR_MEMORY_ACCESS,
 		LDR_MBR_TO_REGISTER,
+		STR_PUT_EA_TO_MAR,
+		STR_REGISTER_TO_MBR,
+		STR_MEMORY_ACCESS,
 		UPDATE_PC,
 		HALT,
 	}
@@ -41,12 +44,14 @@ public class ControlUnit extends Chip {
 		addOutput("PC_write", 1);
 		addOutput("PC_output", 1);
 		addOutput("MAR_write", 1);
+		addOutput("MBR_input_sel", 1);
 		addOutput("memory_read", 1);
 		addOutput("memory_write", 1);
 		addOutput("MBR_output",1);
 		addOutput("IR_write", 1);
 		addOutput("Direct_EA_Gate", 1);
 		addOutput("GPRF_write", 1);
+		addOutput("GPRF_output", 1);
 	}
 	/**
 	 * Resets all outputs to zero.
@@ -83,6 +88,9 @@ public class ControlUnit extends Chip {
 			case 0x01: // LDR
 				status = Status.LDR_PUT_EA_TO_MAR;
 				break;
+			case 0x02: // STR
+				status = Status.STR_PUT_EA_TO_MAR;
+				break;
 			}
 			System.out.println((int) getInput("opcode").toInteger());
 			break;
@@ -93,6 +101,15 @@ public class ControlUnit extends Chip {
 			status = Status.LDR_MBR_TO_REGISTER;
 			break;
 		case LDR_MBR_TO_REGISTER:
+			status = Status.UPDATE_PC;
+			break;
+		case STR_PUT_EA_TO_MAR:
+			status = Status.STR_REGISTER_TO_MBR;
+			break;
+		case STR_REGISTER_TO_MBR:
+			status = Status.STR_MEMORY_ACCESS;
+			break;
+		case STR_MEMORY_ACCESS:
 			status = Status.UPDATE_PC;
 			break;
 		case UPDATE_PC:
@@ -133,6 +150,18 @@ public class ControlUnit extends Chip {
 		case LDR_MBR_TO_REGISTER:
 			getOutput("MBR_output").putValue(1);
 			getOutput("GPRF_write").putValue(1);
+			break;
+		case STR_PUT_EA_TO_MAR:
+			getOutput("Direct_EA_Gate").putValue(1);
+			getOutput("MAR_write").putValue(1);
+			break;
+		case STR_REGISTER_TO_MBR:
+			getOutput("memory_read").putValue(1);
+			getOutput("GPRF_output").putValue(1);
+			getOutput("MBR_input_sel").putValue(1);
+			break;
+		case STR_MEMORY_ACCESS:
+			getOutput("memory_write").putValue(1);
 			break;
 		case UPDATE_PC:
 			getOutput("PC_write").putValue(1);

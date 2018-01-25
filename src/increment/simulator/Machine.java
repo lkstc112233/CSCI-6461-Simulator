@@ -22,11 +22,13 @@ public class Machine {
 		chips.put("IR", new ClockRegister(16));
 		chips.put("MAR", new ClockRegister(12));
 		chips.put("MBR", new ClockRegister(16));
+		chips.put("MBR_input_mux", new Mux(1, 16));
 		chips.put("MBR_Gate", new Gate(16));
 		chips.put("PC", new ClockRegister(12));
 		chips.put("PC_Gate", new Gate(12));
 		chips.put("Direct_EA_Gate", new Gate(5));
 		chips.put("GeneralPurposeRegisterFile", new RegisterFile(2, 16));
+		chips.put("GPRF_Gate", new Gate(16));
 		chips.put("PC_Adder", new Adder(12));
 		chips.put("Constant 1", new ConstantChip(1, 1));
 		chips.put("Constant 0", new ConstantChip(1));
@@ -46,9 +48,14 @@ public class Machine {
 		getChip("MAR").connectInput("input", foo);
 		singleConnect("MAR", "write", "CU", "MAR_write", 1);
 		singleConnect("memory", "address", "MAR", "output", 12);
-		singleConnect("MBR", "input", "memory", "output", 16);
+		singleConnect("MBR_input_mux", "input0", "memory", "output", 16);
+		getChip("MBR_input_mux").connectInput("input1", getCable("bus"));
+		singleConnect("MBR_input_mux", "sel", "CU", "MBR_input_sel", 1);
+		singleConnect("MBR", "input", "MBR_input_mux", "output", 16);
 		singleConnect("MBR", "write", "CU", "memory_read", 1);
 		singleConnect("MBR_Gate", "input", "MBR", "output", 16);
+		getChip("memory").connectInput("input", getChip("MBR").getOutput("output"));
+		singleConnect("memory", "write", "CU", "memory_write", 1);
 		singleConnect("MBR_Gate", "transfer", "CU", "MBR_output", 1);
 		getChip("MBR_Gate").connectOutput("output", getCable("bus"));
 		getChip("IR").connectInput("input", getCable("bus"));
@@ -62,6 +69,9 @@ public class Machine {
 		singleConnect("GeneralPurposeRegisterFile", "address", "decoder", "R", 2);
 		singleConnect("GeneralPurposeRegisterFile", "write", "CU", "GPRF_write", 1);
 		getChip("GeneralPurposeRegisterFile").connectInput("input", getCable("bus"));
+		singleConnect("GPRF_Gate", "input", "GeneralPurposeRegisterFile", "output", 16);
+		singleConnect("GPRF_Gate", "transfer", "CU", "GPRF_output", 1);
+		getChip("GPRF_Gate").connectOutput("output", getCable("bus"));
 		
 		// SIMULATED Boot Loader: 
 		// It loads a testing program into the memory address 0x10, and sets PC to
