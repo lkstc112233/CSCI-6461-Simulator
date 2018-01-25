@@ -20,7 +20,7 @@ public class RegisterFile extends Chip {
 	public RegisterFile(int addressWidth, int width){
 		data = new ClockRegister[1 << addressWidth];
 		muxForOutput = new Mux(addressWidth, width);
-		demuxForWrite = new Demux(addressWidth, width);
+		demuxForWrite = new Demux(addressWidth, 1);
 		// Connect merged chips.
 		for (int i = 0; i < data.length; ++i) {
 			data[i] = new ClockRegister(width);
