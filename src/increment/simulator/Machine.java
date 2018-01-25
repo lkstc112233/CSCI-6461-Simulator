@@ -94,8 +94,13 @@ public class Machine {
 		}
 	}
 	public void evaluate(){
-		for (Map.Entry<String, Chip> e : chips.entrySet()) {
-			e.getValue().evaluate();
+		boolean change = true;
+		while (change) {
+			change = false;
+			for (Map.Entry<String, Chip> e : chips.entrySet()) {
+				if (e.getValue().evaluate())
+					change = true;
+			}
 		}
 	}
 }

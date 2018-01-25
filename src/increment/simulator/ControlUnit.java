@@ -20,14 +20,17 @@ public class ControlUnit extends Chip {
 	 *
 	 */
 	private enum Status{
+		INITIALIZED,
 		FETCH_PC_TO_MAR,
 		FETCH_MEMORY_ACCESS,
 		FETCH_MBR_TO_IR,
 		DECODE,
 	}
 	Status status;
+	
+	private boolean ticked = false;
 	public ControlUnit() {
-		status = Status.FETCH_PC_TO_MAR;
+		status = Status.INITIALIZED;
 		addInput("opcode", 6);
 		addOutput("PC_write", 1);
 		addOutput("PC_output", 1);
@@ -46,24 +49,48 @@ public class ControlUnit extends Chip {
 			getOutput(name).setZero();
 		}
 	}
-	// The control Unit will perform an action based on current status every tick.
-	public void evaluate(){
+	/**
+	 * This is when the status changes.
+	 */
+	public void tick(){
+		ticked = true;
+		switch (status){
+		case INITIALIZED:
+			status = Status.FETCH_PC_TO_MAR;
+			break;
+		case FETCH_PC_TO_MAR:
+			status = Status.FETCH_MEMORY_ACCESS;
+			break;
+		case FETCH_MEMORY_ACCESS:
+			status = Status.FETCH_MBR_TO_IR;
+			break;
+		case FETCH_MBR_TO_IR:
+			status = Status.DECODE;
+			break;
+		}
+	}
+	
+	/**
+	 * The control Unit will perform an action based on current status every tick.
+	 */
+	public boolean evaluate(){
+		if (!ticked)
+			return false;
+		ticked = false;
 		resetOutputs();
 		switch (status){
 		case FETCH_PC_TO_MAR:
 			getOutput("PC_output").putValue(1);
 			getOutput("MAR_write").putValue(1);
-			status = Status.FETCH_MEMORY_ACCESS;
 			break;
 		case FETCH_MEMORY_ACCESS:
 			getOutput("memory_read").putValue(1);
-			status = Status.FETCH_MBR_TO_IR;
 			break;
 		case FETCH_MBR_TO_IR:
 			getOutput("MBR_output").putValue(1);
 			getOutput("IR_write").putValue(1);
-			status = Status.DECODE;
 			break;
 		}
+		return true;
 	}
 }

@@ -38,8 +38,8 @@ public class Memory extends Chip {
 	/**
 	 * When evaluates, we move specified data to output.
 	 */
-	public void evaluate(){
-		getOutput("output").assign(data[(int) getInput("address").toInteger()]);
+	public boolean evaluate(){
+		return getOutput("output").assign(data[(int) getInput("address").toInteger()]);
 	}
 	/**
 	 * Turns chip value into a readable way.

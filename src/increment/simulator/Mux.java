@@ -28,7 +28,7 @@ public class Mux extends Chip {
 	/**
 	 * Moves the very input to output.
 	 */
-	public void evaluate(){
-		getOutput("output").assign(getInput("input" + Long.toString(getInput("sel").toInteger())));
+	public boolean evaluate(){
+		return getOutput("output").assign(getInput("input" + Long.toString(getInput("sel").toInteger())));
 	}
 }

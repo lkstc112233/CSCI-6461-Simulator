@@ -9,6 +9,7 @@ public class DummyCable extends Cable {
 	public DummyCable(int width) {
 		this.width = width;
 	}
+	
 	@Override
 	public int getWidth() {
 		return width;

@@ -34,8 +34,9 @@ public abstract class Chip {
 	 * Instead, this method evaluates any change in the chip (which takes time to happen).
 	 * 
 	 * Such as a change in the outputs.
+	 * @return true if anything in output has changed.
 	 */
-	public void evaluate(){}
+	public boolean evaluate(){ return false; }
 	/**
 	 * All inputs width.
 	 */

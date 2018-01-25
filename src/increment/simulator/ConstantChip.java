@@ -23,7 +23,9 @@ public class ConstantChip extends Chip {
 		this(width, 0l);
 	}
 	
-	public void evaluate() {
+	@Override
+	public boolean evaluate() {
 		getOutput("output").assign(data);
+		return false;
 	}
 }

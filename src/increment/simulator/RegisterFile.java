@@ -64,10 +64,12 @@ public class RegisterFile extends Chip {
 			c.tick();
 	}
 	
-	public void evaluate(){
-		demuxForWrite.evaluate();
+	public boolean evaluate(){
+		boolean vary = false;
+		vary |= demuxForWrite.evaluate();
 		for (Chip c : data)
-			c.evaluate();
-		muxForOutput.evaluate();
+			vary |= c.evaluate();
+		vary |= muxForOutput.evaluate();
+		return vary;
 	}
 }

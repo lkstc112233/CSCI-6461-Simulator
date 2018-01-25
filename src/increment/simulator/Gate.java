@@ -19,9 +19,10 @@ public class Gate extends Chip {
 	}
 	
 	@Override
-	public void evaluate(){
-		if (getInput("transfer").getBit(0)) {
-			getOutput("output").assign(getInput("input"));
-		}
+	public boolean evaluate() {
+		if (getInput("transfer").getBit(0))
+			if(getOutput("output").assign(getInput("input")))
+				return true;
+		return false;
 	}
 }

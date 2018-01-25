@@ -12,14 +12,17 @@ public abstract class Cable {
 		 * replace cable value with another. Note that the input should share the same 
 		 * width with this one.
 		 * @param input
+		 * @return true if the value has been changed by the method.
 		 */
-		public void assign(Cable input) {
-			if (input == null) return;
+		public boolean assign(Cable input) {
+			if (input == null) return false;
 			if (getWidth() < input.getWidth())
 				throw new IllegalStateException("Connecting wrong cables together.");
+			long initialValue = toInteger();
 			for (int i = 0; i < getWidth(); ++i) {
 				putBit(i, input.getBit(i));
 			}
+			return toInteger() != initialValue;
 		}
 		/**
 		 * replace part of cable value with another. 
@@ -27,15 +30,18 @@ public abstract class Cable {
 		 * @param input
 		 * @param inputOffset
 		 * @param length
+		 * @return true if the value has been changed by the method.
 		 */
-		public void partialAssign(int offset, Cable input, int inputOffset, int length) {
-			if (input == null) return;
+		public boolean partialAssign(int offset, Cable input, int inputOffset, int length) {
+			if (input == null) return false;
+			long initialValue = toInteger();
 			while (offset < getWidth() && length > 0 && inputOffset < input.getWidth()) {
 				putBit(offset, input.getBit(inputOffset));
 				offset += 1;
 				inputOffset += 1;
 				length -= 1;
 			}
+			return toInteger() != initialValue;
 		}
 		/**
 		 * Returns cable width.
