@@ -82,10 +82,11 @@ public class Machine {
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(0x10);
-		mem.putValue(0x12, 0x0000); // HALT
 		((RegisterFile)getChip("IndexRegisterFile")).setValue(0, 0);
 		mem.putValue(0x10, 0x071F); // LDR 3,0,31,0	0000 0111 0001 1111
 		mem.putValue(0x11, 0x0B14); // STR 3,0,20,0	0000 1011 0001 0100
+		mem.putValue(0x12, 0x0D06); // LDA 1,0,6,0	0000 1101 0000 0110
+		mem.putValue(0x13, 0x0000); // HALT
 		mem.putValue(0x1F, 0x1234); // Data at 0x1F
 	}
 	/**

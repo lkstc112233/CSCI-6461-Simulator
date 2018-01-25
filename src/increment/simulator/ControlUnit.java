@@ -31,6 +31,7 @@ public class ControlUnit extends Chip {
 		STR_PUT_EA_TO_MAR,
 		STR_REGISTER_TO_MBR,
 		STR_MEMORY_ACCESS,
+		LDA_PUT_EA_TO_REGISTER,
 		UPDATE_PC,
 		HALT,
 	}
@@ -90,6 +91,9 @@ public class ControlUnit extends Chip {
 			case 0x02: // STR
 				status = Status.STR_PUT_EA_TO_MAR;
 				break;
+			case 0x03: // LDA
+				status = Status.LDA_PUT_EA_TO_REGISTER;
+				break;
 			}
 			System.out.println((int) getInput("opcode").toInteger());
 			break;
@@ -109,6 +113,9 @@ public class ControlUnit extends Chip {
 			status = Status.STR_MEMORY_ACCESS;
 			break;
 		case STR_MEMORY_ACCESS:
+			status = Status.UPDATE_PC;
+			break;
+		case LDA_PUT_EA_TO_REGISTER:
 			status = Status.UPDATE_PC;
 			break;
 		case UPDATE_PC:
@@ -161,6 +168,10 @@ public class ControlUnit extends Chip {
 			break;
 		case STR_MEMORY_ACCESS:
 			getOutput("memory_write").putValue(1);
+			break;
+		case LDA_PUT_EA_TO_REGISTER:
+			getOutput("EA_Gate").putValue(1);
+			getOutput("GPRF_write").putValue(1);
 			break;
 		case UPDATE_PC:
 			getOutput("PC_write").putValue(1);
