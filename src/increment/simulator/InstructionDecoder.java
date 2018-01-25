@@ -26,11 +26,11 @@ public class InstructionDecoder extends Chip {
 	}
 	public boolean evaluate() {
 		boolean vary = false;
-		vary |= getOutput("opcode").partialAssign(0, getInput("input"), 0, 6);
-		vary |= getOutput("R").partialAssign(0, getInput("input"), 6, 2);
-		vary |= getOutput("IX").partialAssign(0, getInput("input"), 8, 2);
-		vary |= getOutput("I").partialAssign(0, getInput("input"), 10, 1);
-		vary |= getOutput("address").partialAssign(0, getInput("input"), 11, 5);
+		vary |= getOutput("opcode").partialAssign(0, getInput("input"), 10, 6);
+		vary |= getOutput("R").partialAssign(0, getInput("input"), 8, 2);
+		vary |= getOutput("IX").partialAssign(0, getInput("input"), 6, 2);
+		vary |= getOutput("I").partialAssign(0, getInput("input"), 5, 1);
+		vary |= getOutput("address").partialAssign(0, getInput("input"), 0, 5);
 		return vary;
 	}
 }
