@@ -77,7 +77,10 @@ public class RegisterFile extends Chip {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Register File:\n");
+		int i = 0;
 		for (Chip c : data) {
+			sb.append(i++);
+			sb.append(": ");
 			sb.append(c);
 			sb.append('\n');
 		}
