@@ -15,7 +15,7 @@ public class ControlUnit extends Chip {
 	/**
 	 * Indicating the current processor status.
 	 * Member format:
-	 * 		StateName_PhaseName, all caps.
+	 * 		StateNameOrInstructionName_PhaseName, all caps.
 	 * @author Xu Ke
 	 *
 	 */
@@ -25,6 +25,12 @@ public class ControlUnit extends Chip {
 		FETCH_MEMORY_ACCESS,
 		FETCH_MBR_TO_IR,
 		DECODE,
+		LDR_CALC_EA,
+		LDR_PUT_EA_TO_MAR,
+		LDR_MEMORY_ACCESS,
+		LDR_MBR_TO_REGISTER,
+		UPDATE_PC,
+		HALT,
 	}
 	Status status;
 	
@@ -39,6 +45,7 @@ public class ControlUnit extends Chip {
 		addOutput("memory_write", 1);
 		addOutput("MBR_output",1);
 		addOutput("IR_write", 1);
+		addOutput("Direct_EA_Gate", 1);
 	}
 	/**
 	 * Resets all outputs to zero.
@@ -67,6 +74,16 @@ public class ControlUnit extends Chip {
 		case FETCH_MBR_TO_IR:
 			status = Status.DECODE;
 			break;
+		case DECODE:
+			switch((int) getInput("opcode").toInteger()) {
+			case 0x00: // HLT
+				status = Status.HALT;
+				break;
+			case 0x01: // LDR
+				status = Status.LDR_PUT_EA_TO_MAR;
+				break;
+			}
+			break;
 		}
 	}
 	
@@ -89,6 +106,11 @@ public class ControlUnit extends Chip {
 		case FETCH_MBR_TO_IR:
 			getOutput("MBR_output").putValue(1);
 			getOutput("IR_write").putValue(1);
+			break;
+		case DECODE:
+			break;
+		case LDR_PUT_EA_TO_MAR:
+			getOutput("Direct_EA_Gate").putValue(1);
 			break;
 		}
 		return true;

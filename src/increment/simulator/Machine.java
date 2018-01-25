@@ -25,6 +25,7 @@ public class Machine {
 		chips.put("MBR_Gate", new Gate(16));
 		chips.put("PC", new ClockRegister(12));
 		chips.put("PC_Gate", new Gate(12));
+		chips.put("Direct_EA", new Gate(5));
 		chips.put("Constant 1", new ConstantChip(1, 1));
 		chips.put("Constant 0", new ConstantChip(1));
 		// Make bus.
