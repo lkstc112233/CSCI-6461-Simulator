@@ -12,10 +12,23 @@ public class CableAdapter extends Cable {
 		this.width = width;
 		this.offset = offset;
 		this.motherCable = cableInput;
-	}
+	} 
+	
 	public CableAdapter(int width, Cable cableInput){
 		this(width, cableInput, 0);
 	}
+	
+	/**
+	 * By assign will reset mother cable.
+	 */
+	@Override
+	public boolean assign(Cable cable) {
+		long oldValue = motherCable.toInteger();
+		motherCable.setZero();
+		super.assign(cable);
+		return motherCable.toInteger() != oldValue;
+	}
+	
 	/**
 	 * Returns width.
 	 */
