@@ -51,7 +51,7 @@ public class ClockRegister extends Chip {
 	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Reg: ");
+		sb.append("Register value: ");
 		sb.append(data.toInteger());
 		return sb.toString();
 	}
