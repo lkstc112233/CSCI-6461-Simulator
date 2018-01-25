@@ -114,6 +114,14 @@ public class MachineInsightPanel extends JFrame {
 		mapping.put("MBR", foo);
 		jp.add(foo);
 		add(jp);
+		// Add a panel for IR.
+		jp = new JPanel();
+		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+		jp.add(new JLabel("IR"));
+		foo = new JLabel("ir");
+		mapping.put("IR", foo);
+		jp.add(foo);
+		add(jp);
 		updateUI();
 	}
 	
@@ -126,6 +134,7 @@ public class MachineInsightPanel extends JFrame {
 		mapping.get("bus").setText(machine.getCable("bus").toString());
 		mapping.get("MAR").setText(machine.getChip("MAR").toString());
 		mapping.get("MBR").setText(machine.getChip("MBR").toString());
+		mapping.get("IR").setText(machine.getChip("IR").toString());
 	}
 	
 	private Map<String, JLabel> mapping;
