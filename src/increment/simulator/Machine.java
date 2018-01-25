@@ -30,6 +30,7 @@ public class Machine {
 		chips.put("GeneralPurposeRegisterFile", new RegisterFile(2, 16));
 		chips.put("IndexRegisterFile", new RegisterFile(2, 16));
 		chips.put("address_adder", new Adder(16));
+		chips.put("address_adder_operand_1_mux", new Mux(1, 5));
 		chips.put("GPRF_Gate", new Gate(16));
 		chips.put("PC_Adder", new Adder(12));
 		chips.put("Constant 1", new ConstantChip(1, 1));
@@ -72,8 +73,11 @@ public class Machine {
 		singleConnect("GPRF_Gate", "transfer", "CU", "GPRF_output", 1);
 		getChip("GPRF_Gate").connectOutput("output", getCable("bus"));
 		singleConnect("IndexRegisterFile", "address", "decoder", "IX", 2);
+		singleConnect("IndexRegisterFile", "write", "CU", "IRF_write", 1);
 		getChip("address_adder").connectInput("operand1", new SingleCable(16));
-		getChip("decoder").connectOutput("address", new CableAdapter(5, getChip("address_adder").getInput("operand1")));
+		singleConnect("address_adder_operand_1_mux", "input0", "decoder", "address", 5);
+		singleConnect("address_adder_operand_1_mux", "sel", "CU", "IRF_only", 1);
+		getChip("address_adder_operand_1_mux").connectOutput("output", new CableAdapter(5, getChip("address_adder").getInput("operand1")));
 		singleConnect("address_adder", "operand2", "IndexRegisterFile", "output", 16);
 		getChip("EA_Gate").connectOutput("output", getCable("bus"));
 		singleConnect("EA_Gate", "input", "address_adder", "result", 16);

@@ -32,6 +32,12 @@ public class ControlUnit extends Chip {
 		STR_REGISTER_TO_MBR,
 		STR_MEMORY_ACCESS,
 		LDA_PUT_EA_TO_REGISTER,
+		LDX_PUT_EA_TO_MAR,
+		LDX_MEMORY_ACCESS,
+		LDX_MBR_TO_REGISTER,
+		STX_PUT_EA_TO_MAR,
+		STX_REGISTER_TO_MBR,
+		STX_MEMORY_ACCESS,
 		UPDATE_PC,
 		HALT,
 	}
@@ -52,6 +58,8 @@ public class ControlUnit extends Chip {
 		addOutput("EA_Gate", 1);
 		addOutput("GPRF_write", 1);
 		addOutput("GPRF_output", 1);
+		addOutput("IRF_write", 1);
+		addOutput("IRF_only", 1);
 	}
 	/**
 	 * Resets all outputs to zero.
@@ -94,6 +102,12 @@ public class ControlUnit extends Chip {
 			case 0x03: // LDA
 				status = Status.LDA_PUT_EA_TO_REGISTER;
 				break;
+			case 0x21: // LDX
+				status = Status.LDX_PUT_EA_TO_MAR;
+				break;
+			case 0x22: // STX
+				status = Status.STX_PUT_EA_TO_MAR;
+				break;
 			}
 			System.out.println((int) getInput("opcode").toInteger());
 			break;
@@ -117,6 +131,12 @@ public class ControlUnit extends Chip {
 			break;
 		case LDA_PUT_EA_TO_REGISTER:
 			status = Status.UPDATE_PC;
+			break;
+		case LDX_PUT_EA_TO_MAR:
+			status = Status.LDX_MEMORY_ACCESS;
+			break;
+		case LDX_MEMORY_ACCESS:
+			status = Status.LDX_MBR_TO_REGISTER;
 			break;
 		case UPDATE_PC:
 			status = Status.FETCH_PC_TO_MAR;
@@ -172,6 +192,29 @@ public class ControlUnit extends Chip {
 		case LDA_PUT_EA_TO_REGISTER:
 			getOutput("EA_Gate").putValue(1);
 			getOutput("GPRF_write").putValue(1);
+			break;
+		case LDX_PUT_EA_TO_MAR:
+			getOutput("EA_Gate").putValue(1);
+			getOutput("MAR_write").putValue(1);
+			break;
+		case LDX_MEMORY_ACCESS:
+			getOutput("memory_read").putValue(1);
+			break;
+		case LDX_MBR_TO_REGISTER:
+			getOutput("MBR_output").putValue(1);
+			getOutput("IRF_write").putValue(1);
+			break;
+		case STX_PUT_EA_TO_MAR:
+			getOutput("EA_Gate").putValue(1);
+			getOutput("MAR_write").putValue(1);
+			break;
+		case STX_REGISTER_TO_MBR:
+			getOutput("memory_read").putValue(1);
+			getOutput("IRF_only").putValue(1);
+			getOutput("MBR_input_sel").putValue(1);
+			break;
+		case STX_MEMORY_ACCESS:
+			getOutput("memory_write").putValue(1);
 			break;
 		case UPDATE_PC:
 			getOutput("PC_write").putValue(1);
