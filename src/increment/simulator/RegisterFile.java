@@ -72,4 +72,15 @@ public class RegisterFile extends Chip {
 		vary |= muxForOutput.evaluate();
 		return vary;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Register File:\n");
+		for (Chip c : data) {
+			sb.append(c);
+			sb.append('\n');
+		}
+		return sb.toString();
+	}
 }
