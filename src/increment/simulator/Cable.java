@@ -66,10 +66,10 @@ public abstract class Cable {
 		 */
 		public long toInteger() {
 			long result = 0;
-			for (int i = 0; i < getWidth(); ++i)
+			for (int i = getWidth(); i > 0; --i)
 			{
 				result <<= 1;
-				if (getBit(i))
+				if (getBit(i - 1))
 					result += 1;
 			}
 			return result;
@@ -80,9 +80,9 @@ public abstract class Cable {
 		 * @param value
 		 */
 		public void putValue(long value) {
-			for (int i = getWidth(); i > 0; --i)
+			for (int i = 0; i < getWidth(); ++i)
 			{
-				putBit(i - 1, (value & 1) == 1);
+				putBit(i, (value & 1) == 1);
 				value >>= 1;
 			}
 		}
