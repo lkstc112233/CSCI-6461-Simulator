@@ -25,6 +25,22 @@ public abstract class Cable {
 			return toInteger() != initialValue;
 		}
 		/**
+		 * replace cable value with another, but reversed. Note that the input should share the same 
+		 * width with this one.
+		 * @param input
+		 * @return true if the value has been changed by the method.
+		 */
+		public boolean assignReverse(Cable input) {
+			if (input == null) return false;
+			if (getWidth() < input.getWidth())
+				throw new IllegalStateException("Connecting wrong cables together.");
+			long initialValue = toInteger();
+			for (int i = 0; i < getWidth(); ++i) {
+				putBit(i, !input.getBit(i));
+			}
+			return toInteger() != initialValue;
+		}
+		/**
 		 * replace part of cable value with another. 
 		 * @param offset
 		 * @param input
