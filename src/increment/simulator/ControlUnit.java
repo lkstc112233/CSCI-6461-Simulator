@@ -95,6 +95,9 @@ public class ControlUnit extends Chip {
 		case LDR_MBR_TO_REGISTER:
 			status = Status.UPDATE_PC;
 			break;
+		case UPDATE_PC:
+			status = Status.FETCH_PC_TO_MAR;
+			break;
 		}
 	}
 	
@@ -130,6 +133,9 @@ public class ControlUnit extends Chip {
 		case LDR_MBR_TO_REGISTER:
 			getOutput("MBR_output").putValue(1);
 			getOutput("GPRF_write").putValue(1);
+			break;
+		case UPDATE_PC:
+			getOutput("PC_write").putValue(1);
 			break;
 		}
 		return true;

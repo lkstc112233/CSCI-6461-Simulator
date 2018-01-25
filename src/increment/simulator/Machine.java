@@ -27,6 +27,7 @@ public class Machine {
 		chips.put("PC_Gate", new Gate(12));
 		chips.put("Direct_EA_Gate", new Gate(5));
 		chips.put("GeneralPurposeRegisterFile", new RegisterFile(2, 16));
+		chips.put("PC_Adder", new Adder(12));
 		chips.put("Constant 1", new ConstantChip(1, 1));
 		chips.put("Constant 0", new ConstantChip(1));
 		// Make bus.
@@ -34,6 +35,10 @@ public class Machine {
 		// Connect chips.
 		singleConnect("PC", "write", "CU", "PC_write", 1);
 		singleConnect("PC_Gate", "input", "PC", "output", 12);
+		getChip("PC_Adder").connectInput("operand1", getChip("PC").getOutput("output"));
+		getChip("PC_Adder").connectInput("operand2", new SingleCable(12));
+		getChip("Constant 1").connectOutput("output", new CableAdapter(1, getChip("PC_Adder").getInput("operand2")));
+		singleConnect("PC", "input", "PC_Adder", "result", 12);
 		singleConnect("PC_Gate", "transfer", "CU", "PC_output", 1);
 		Cable foo = new CableAdapter(12, getCable("bus"));
 		getChip("PC_Gate").connectOutput("output", foo);
