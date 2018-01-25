@@ -13,7 +13,8 @@ public class Machine {
 		chips = new HashMap<>();
 		cables = new HashMap<>();
 		// Initialize Memory
-		chips.put("memory", new Memory());
+		Memory mem;
+		chips.put("memory", mem = new Memory());
 		// Initialize Control Unit.
 		chips.put("CU", new ControlUnit());
 		// Make chips.
@@ -43,10 +44,15 @@ public class Machine {
 		singleConnect("MBR_Gate", "transfer", "CU", "MBR_output", 1);
 		getChip("MBR_Gate").connectOutput("output", getCable("bus"));
 		getChip("IR").connectInput("input", getCable("bus"));
+		singleConnect("decoder", "input", "IR", "output", 16);
 		// SIMULATED Boot Loader: 
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(0x10);
+		mem.putValue(0x10, 0x071F); // LDR 3,0,31,0
+		mem.putValue(0x11, 0x0B14); // STR 3,0,20,0
+		mem.putValue(0x12, 0x0000); // HALT
+		mem.putValue(0x1F, 0x1234); // Data at 0x1F
 	}
 	/**
 	 * Connects two ports on two chips, one with an input and the other with an output,
