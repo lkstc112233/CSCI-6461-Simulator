@@ -38,6 +38,7 @@ public class Machine {
 		foo = new CableAdapter(12, getCable("bus"));
 		getChip("MAR").connectInput("input", foo);
 		singleConnect("MAR", "write", "CU", "MAR_write", 1);
+		singleConnect("memory", "address", "MAR", "output", 12);
 		singleConnect("MBR", "input", "memory", "output", 16);
 		singleConnect("MBR", "write", "CU", "memory_read", 1);
 		singleConnect("MBR_Gate", "input", "MBR", "output", 16);
@@ -45,6 +46,7 @@ public class Machine {
 		getChip("MBR_Gate").connectOutput("output", getCable("bus"));
 		getChip("IR").connectInput("input", getCable("bus"));
 		singleConnect("decoder", "input", "IR", "output", 16);
+		singleConnect("IR", "write", "CU", "IR_write", 1);
 		// SIMULATED Boot Loader: 
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.
