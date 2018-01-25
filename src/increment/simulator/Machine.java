@@ -74,6 +74,7 @@ public class Machine {
 		getChip("GPRF_Gate").connectOutput("output", getCable("bus"));
 		singleConnect("IndexRegisterFile", "address", "decoder", "IX", 2);
 		singleConnect("IndexRegisterFile", "write", "CU", "IRF_write", 1);
+		getChip("IndexRegisterFile").connectInput("input", getCable("bus"));
 		getChip("address_adder").connectInput("operand1", new SingleCable(16));
 		singleConnect("address_adder_operand_1_mux", "input0", "decoder", "address", 5);
 		singleConnect("address_adder_operand_1_mux", "sel", "CU", "IRF_only", 1);
@@ -87,11 +88,12 @@ public class Machine {
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(0x10);
 		((RegisterFile)getChip("IndexRegisterFile")).setValue(0, 0);
-		mem.putValue(0x10, 0x071F); // LDR 3,0,31,0	0000 0111 0001 1111
-		mem.putValue(0x11, 0x0B14); // STR 3,0,20,0	0000 1011 0001 0100
-		mem.putValue(0x12, 0x0D06); // LDA 1,0,6,0	0000 1101 0000 0110
+		mem.putValue(0x10, 0x848F); // LDX 2,15		1000 0100 1000 1111
+		mem.putValue(0x11, 0x0494); // LDR 0,2,20,0	0000 0100 1001 0100
+		mem.putValue(0x12, 0x0D06); // LDA 1,2,6,0	0000 1101 0000 0110
 		mem.putValue(0x13, 0x0000); // HALT
-		mem.putValue(0x1F, 0x1234); // Data at 0x1F
+		mem.putValue(0x0F, 0x0230); // Data (560) at 0x0F, it's used as an address for IDX
+		mem.putValue(0x244, 0x2134); // Data at 580(0x244)
 	}
 	/**
 	 * Connects two ports on two chips, one with an input and the other with an output,

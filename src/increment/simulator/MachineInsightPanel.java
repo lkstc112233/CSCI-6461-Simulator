@@ -99,6 +99,23 @@ public class MachineInsightPanel extends JFrame {
 				updateUI();
 			}});
 		add(jb);
+		// Add a button for Index Register File popup window.
+		jb = new JButton();
+		jb.setText("Show Index Register File");
+		jb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (irFrame == null) {
+					irFrame = new JFrame();
+					irFrame.setResizable(false);
+					irFrame.setSize(300, 300);
+					irEdit = new JTextPane();
+					irFrame.add(new JScrollPane(irEdit));
+				}
+				irFrame.setVisible(true);
+				updateUI();
+			}});
+		add(jb);
 		// Add a panel for PC.
 		jp = new JPanel();
 		jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
@@ -150,6 +167,9 @@ public class MachineInsightPanel extends JFrame {
 		if (gprFrame != null){
 			gprEdit.setText(machine.getChip("GeneralPurposeRegisterFile").toString());
 		}
+		if (irFrame != null){
+			irEdit.setText(machine.getChip("IndexRegisterFile").toString());
+		}
 		mapping.get("PC").setText(machine.getChip("PC").toString());
 		mapping.get("bus").setText(machine.getCable("bus").toString());
 		mapping.get("MAR").setText(machine.getChip("MAR").toString());
@@ -162,4 +182,6 @@ public class MachineInsightPanel extends JFrame {
 	private JTextPane memoryEdit;
 	private JFrame gprFrame;
 	private JTextPane gprEdit;
+	private JFrame irFrame;
+	private JTextPane irEdit;
 }

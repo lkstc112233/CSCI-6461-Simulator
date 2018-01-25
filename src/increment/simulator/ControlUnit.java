@@ -138,6 +138,18 @@ public class ControlUnit extends Chip {
 		case LDX_MEMORY_ACCESS:
 			status = Status.LDX_MBR_TO_REGISTER;
 			break;
+		case LDX_MBR_TO_REGISTER:
+			status = Status.UPDATE_PC;
+			break;
+		case STX_PUT_EA_TO_MAR:
+			status = Status.STX_REGISTER_TO_MBR;
+			break;
+		case STX_REGISTER_TO_MBR:
+			status = Status.STX_MEMORY_ACCESS;
+			break;
+		case STX_MEMORY_ACCESS:
+			status = Status.UPDATE_PC;
+			break;
 		case UPDATE_PC:
 			status = Status.FETCH_PC_TO_MAR;
 			break;
