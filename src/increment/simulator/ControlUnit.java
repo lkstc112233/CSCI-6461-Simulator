@@ -25,7 +25,6 @@ public class ControlUnit extends Chip {
 		FETCH_MEMORY_ACCESS,
 		FETCH_MBR_TO_IR,
 		DECODE,
-		LDR_CALC_EA,
 		LDR_PUT_EA_TO_MAR,
 		LDR_MEMORY_ACCESS,
 		LDR_MBR_TO_REGISTER,
@@ -49,7 +48,7 @@ public class ControlUnit extends Chip {
 		addOutput("memory_write", 1);
 		addOutput("MBR_output",1);
 		addOutput("IR_write", 1);
-		addOutput("Direct_EA_Gate", 1);
+		addOutput("EA_Gate", 1);
 		addOutput("GPRF_write", 1);
 		addOutput("GPRF_output", 1);
 	}
@@ -141,7 +140,7 @@ public class ControlUnit extends Chip {
 		case DECODE:
 			break;
 		case LDR_PUT_EA_TO_MAR:
-			getOutput("Direct_EA_Gate").putValue(1);
+			getOutput("EA_Gate").putValue(1);
 			getOutput("MAR_write").putValue(1);
 			break;
 		case LDR_MEMORY_ACCESS:
@@ -152,7 +151,7 @@ public class ControlUnit extends Chip {
 			getOutput("GPRF_write").putValue(1);
 			break;
 		case STR_PUT_EA_TO_MAR:
-			getOutput("Direct_EA_Gate").putValue(1);
+			getOutput("EA_Gate").putValue(1);
 			getOutput("MAR_write").putValue(1);
 			break;
 		case STR_REGISTER_TO_MBR:

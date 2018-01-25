@@ -58,6 +58,14 @@ public class RegisterFile extends Chip {
 		else
 			super.connectOutput(name, cable);
 	}
+	/**
+	 * Sets a value for a very register.
+	 * @param index
+	 * @param value
+	 */
+	public void setValue(int index, long value) {
+		data[index].setValue(value);
+	}
 	
 	public void tick(){
 		for (Chip c : data)

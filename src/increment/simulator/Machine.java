@@ -26,8 +26,10 @@ public class Machine {
 		chips.put("MBR_Gate", new Gate(16));
 		chips.put("PC", new ClockRegister(12));
 		chips.put("PC_Gate", new Gate(12));
-		chips.put("Direct_EA_Gate", new Gate(5));
+		chips.put("EA_Gate", new Gate(16));
 		chips.put("GeneralPurposeRegisterFile", new RegisterFile(2, 16));
+		chips.put("IndexRegisterFile", new RegisterFile(2, 16));
+		chips.put("address_adder", new Adder(16));
 		chips.put("GPRF_Gate", new Gate(16));
 		chips.put("PC_Adder", new Adder(12));
 		chips.put("Constant 1", new ConstantChip(1, 1));
@@ -62,24 +64,28 @@ public class Machine {
 		singleConnect("decoder", "input", "IR", "output", 16);
 		singleConnect("IR", "write", "CU", "IR_write", 1);
 		singleConnect("CU", "opcode", "decoder", "opcode", 6);
-		singleConnect("Direct_EA_Gate", "input", "decoder", "address", 5);
-		singleConnect("Direct_EA_Gate", "transfer", "CU", "Direct_EA_Gate", 1);
-		foo = new CableAdapter(5, getCable("bus"));
-		getChip("Direct_EA_Gate").connectOutput("output", foo);
+		singleConnect("EA_Gate", "transfer", "CU", "EA_Gate", 1);
 		singleConnect("GeneralPurposeRegisterFile", "address", "decoder", "R", 2);
 		singleConnect("GeneralPurposeRegisterFile", "write", "CU", "GPRF_write", 1);
 		getChip("GeneralPurposeRegisterFile").connectInput("input", getCable("bus"));
 		singleConnect("GPRF_Gate", "input", "GeneralPurposeRegisterFile", "output", 16);
 		singleConnect("GPRF_Gate", "transfer", "CU", "GPRF_output", 1);
 		getChip("GPRF_Gate").connectOutput("output", getCable("bus"));
+		singleConnect("IndexRegisterFile", "address", "decoder", "IX", 2);
+		getChip("address_adder").connectInput("operand1", new SingleCable(16));
+		getChip("decoder").connectOutput("address", new CableAdapter(5, getChip("address_adder").getInput("operand1")));
+		singleConnect("address_adder", "operand2", "IndexRegisterFile", "output", 16);
+		getChip("EA_Gate").connectOutput("output", getCable("bus"));
+		singleConnect("EA_Gate", "input", "address_adder", "result", 16);
 		
 		// SIMULATED Boot Loader: 
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(0x10);
-		mem.putValue(0x10, 0x071F); // LDR 3,0,31,0
-		mem.putValue(0x11, 0x0B14); // STR 3,0,20,0
 		mem.putValue(0x12, 0x0000); // HALT
+		((RegisterFile)getChip("IndexRegisterFile")).setValue(0, 0);
+		mem.putValue(0x10, 0x071F); // LDR 3,0,31,0	0000 0111 0001 1111
+		mem.putValue(0x11, 0x0B14); // STR 3,0,20,0	0000 1011 0001 0100
 		mem.putValue(0x1F, 0x1234); // Data at 0x1F
 	}
 	/**
