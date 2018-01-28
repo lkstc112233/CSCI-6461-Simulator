@@ -13,15 +13,15 @@ package increment.simulator;
  */
 public class Gate extends Chip {
 	public Gate(int width) {
-		addInput("input", width);
-		addInput("transfer", 1);
-		addOutput("output", width);
+		addPort("input", width);
+		addPort("transfer", 1);
+		addPort("output", width);
 	}
 	
 	@Override
 	public boolean evaluate() {
-		if (getInput("transfer").getBit(0))
-			if(getOutput("output").assign(getInput("input")))
+		if (getPort("transfer").getBit(0))
+			if(getPort("output").assign(getPort("input")))
 				return true;
 		return false;
 	}

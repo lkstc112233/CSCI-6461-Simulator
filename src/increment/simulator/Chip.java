@@ -7,7 +7,7 @@ import java.util.Map;
  * A chip. This chip works as a black box. It takes 0 or more inputs (as cable), and gives
  * 0 or more outputs (also as cable). 
  * 
- * Each input or output has a name, and a specific width.
+ * Each port has a name, and a specific width.
  * 
  * This Chip class works as an abstract class.
  * 
@@ -16,10 +16,8 @@ import java.util.Map;
  */
 public abstract class Chip {
 	public Chip(){
-		inputsFormat = new HashMap<>();
-		outputsFormat = new HashMap<>();
-		inputs = new HashMap<>();
-		outputs = new HashMap<>();
+		portsFormat = new HashMap<>();
+		ports = new HashMap<>();
 	}
 	/**
 	 * We are using tick here to indicate a clock tick, so we don't have to simulate a 
@@ -38,85 +36,54 @@ public abstract class Chip {
 	 */
 	public boolean evaluate(){ return false; }
 	/**
-	 * All inputs width.
+	 * All ports width.
 	 */
-	protected Map<String, Integer> inputsFormat;
+	protected Map<String, Integer> portsFormat;
 	/**
-	 * All inputs cable.
+	 * All ports cable.
 	 */
-	protected Map<String, Cable> inputs;
+	protected Map<String, Cable> ports;
 	/**
-	 * Adds an input, with the given name and given width. No Inputs Share same name 
+	 * Adds a port, with the given name and given width. No ports share same name 
 	 * allowed. This method should be called only during construction.
 	 * @param name
 	 * @param width
 	 */
-	protected void addInput(String name, int width) {
-		if (!inputsFormat.containsKey(name)) {
+	protected void addPort(String name, int width) {
+		if (!portsFormat.containsKey(name)) {
 			// We only put new input if there is not an existing one.
-			inputsFormat.put(name, width);
-			inputs.put(name, new DummyCable(width));
+			portsFormat.put(name, width);
+			ports.put(name, new DummyCable(width));
 		}
 	}
 	/**
-	 * Connects a cable to an input slot.
+	 * Connects a cable to a port.
 	 * @param name
 	 * @param cable
 	 */
-	public void connectInput(String name, Cable cable){
-		if (inputsFormat.containsKey(name) && inputsFormat.get(name) == cable.getWidth()){
-			inputs.put(name, cable);
+	public void connectPort(String name, Cable cable){
+		if (portsFormat.containsKey(name) && portsFormat.get(name) == cable.getWidth()){
+			ports.put(name, cable);
 		}
 		else
-			throw new IllegalStateException("Connecting input failed when trying to connect " + name);
+			throw new IllegalStateException("Connecting failed when trying to connect port " + name);
 	}
 	/**
-	 * Returns an input cable of the given name.
+	 * Returns an cable connecting to the port of the given name.
 	 * @param name
 	 * @return
 	 */
-	public Cable getInput(String name) {
-		return inputs.get(name);
+	public Cable getPort(String name) {
+		return ports.get(name);
 	}
 	/**
-	 * All outputs width.
-	 */
-	protected Map<String, Integer> outputsFormat;
-	/**
-	 * All outputs cable.
-	 */
-	protected Map<String, Cable> outputs;
-	/**
-	 * Adds an output, with the given name and given width. No outputs share same name
-	 * allowed.
 	 * @param name
-	 * @param width
+	 * @return The width of port[name]. -1 when the given name not existing.
 	 */
-	protected void addOutput(String name, int width) {
-		if (!outputsFormat.containsKey(name)) {
-			// And we only put new output if there is not an existing one.
-			outputsFormat.put(name, width);
-			outputs.put(name, new DummyCable(width));
-		}
-	}
-	/**
-	 * Connects a cable to an output slot.
-	 * @param name
-	 * @param cable
-	 */
-	public void connectOutput(String name, Cable cable){
-		if (outputsFormat.containsKey(name) && outputsFormat.get(name) == cable.getWidth()){
-			outputs.put(name, cable);
-		}
+	public int getPortWidth(String name) {
+		if (portsFormat.containsKey(name))
+			return portsFormat.get(name);
 		else
-			throw new IllegalStateException("Connecting input failed when trying to connect " + name);
-	}
-	/**
-	 * Returns an output cable of the given name.
-	 * @param name
-	 * @return
-	 */
-	public Cable getOutput(String name) {
-		return outputs.get(name);
+			return -1;
 	}
 }

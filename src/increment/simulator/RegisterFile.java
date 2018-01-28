@@ -25,38 +25,30 @@ public class RegisterFile extends Chip {
 		for (int i = 0; i < data.length; ++i) {
 			data[i] = new ClockRegister(width);
 			Cable cable = new SingleCable(1);
-			demuxForWrite.connectOutput("output" + Integer.toString(i), cable);
-			data[i].connectInput("write", cable);
+			demuxForWrite.connectPort("output" + Integer.toString(i), cable);
+			data[i].connectPort("write", cable);
 			cable = new SingleCable(width);
-			muxForOutput.connectInput("input" + Integer.toString(i), cable);
-			data[i].connectOutput("output", cable);
+			muxForOutput.connectPort("input" + Integer.toString(i), cable);
+			data[i].connectPort("output", cable);
 		}
 	}
 	/**
-	 * Since this is a merged chip, we connect output manually.
+	 * Since this is a merged chip, we connect ports manually.
 	 */
 	@Override
-	public void connectOutput(String name, Cable cable){
+	public void connectPort(String name, Cable cable){
 		if (name.equals("output"))
-			muxForOutput.connectOutput(name, cable);
-		else
-			super.connectOutput(name, cable);
-	}
-	/**
-	 * Since this is a merged chip, we connect these inputs manually.
-	 */
-	@Override
-	public void connectInput(String name, Cable cable){
-		if (name.equals("input"))
+			muxForOutput.connectPort(name, cable);
+		else if (name.equals("input"))
 			for (Chip c : data)
-				c.connectInput(name, cable);
+				c.connectPort(name, cable);
 		else if (name.equals("address")) {
-			muxForOutput.connectInput("sel", cable);
-			demuxForWrite.connectInput("sel", cable);
+			muxForOutput.connectPort("sel", cable);
+			demuxForWrite.connectPort("sel", cable);
 		}else if (name.equals("write"))
-			demuxForWrite.connectInput("input", cable);
+			demuxForWrite.connectPort("input", cable);
 		else
-			super.connectOutput(name, cable);
+			super.connectPort(name, cable);
 	}
 	/**
 	 * Sets a value for a very register.

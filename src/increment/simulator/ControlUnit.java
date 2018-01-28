@@ -1,5 +1,7 @@
 package increment.simulator;
 
+import java.util.HashSet;
+
 /**
  * The control unit. It controls how everything else works, such as write signals, or who is to use the bus.
  * 
@@ -44,30 +46,34 @@ public class ControlUnit extends Chip {
 	Status status;
 	
 	private boolean ticked = false;
+	private HashSet<String> inputPortNames;
 	public ControlUnit() {
+		inputPortNames = new HashSet<>();
 		status = Status.INITIALIZED;
-		addInput("opcode", 6);
-		addOutput("PC_write", 1);
-		addOutput("PC_output", 1);
-		addOutput("MAR_write", 1);
-		addOutput("MBR_input_sel", 1);
-		addOutput("memory_read", 1);
-		addOutput("memory_write", 1);
-		addOutput("MBR_output",1);
-		addOutput("IR_write", 1);
-		addOutput("EA_Gate", 1);
-		addOutput("GPRF_write", 1);
-		addOutput("GPRF_output", 1);
-		addOutput("IRF_write", 1);
-		addOutput("IRF_only", 1);
+		addPort("opcode", 6);
+		inputPortNames.add("opcode");
+		addPort("PC_write", 1);
+		addPort("PC_output", 1);
+		addPort("MAR_write", 1);
+		addPort("MBR_input_sel", 1);
+		addPort("memory_read", 1);
+		addPort("memory_write", 1);
+		addPort("MBR_output",1);
+		addPort("IR_write", 1);
+		addPort("EA_Gate", 1);
+		addPort("GPRF_write", 1);
+		addPort("GPRF_output", 1);
+		addPort("IRF_write", 1);
+		addPort("IRF_only", 1);
 	}
 	/**
 	 * Resets all outputs to zero.
 	 * So after calling this, we only have to set those should be 1 to 1.
 	 */
 	protected void resetOutputs() {
-		for (String name : outputs.keySet()){
-			getOutput(name).setZero();
+		for (String name : ports.keySet()){
+			if (!inputPortNames.contains(name))
+				getPort(name).setZero();
 		}
 	}
 	/**
@@ -89,7 +95,7 @@ public class ControlUnit extends Chip {
 			status = Status.DECODE;
 			break;
 		case DECODE:
-			switch((int) getInput("opcode").toInteger()) {
+			switch((int) getPort("opcode").toInteger()) {
 			case 0x00: // HLT
 				status = Status.HALT;
 				break;
@@ -109,7 +115,7 @@ public class ControlUnit extends Chip {
 				status = Status.STX_PUT_EA_TO_MAR;
 				break;
 			}
-			System.out.println((int) getInput("opcode").toInteger());
+			System.out.println((int) getPort("opcode").toInteger());
 			break;
 		case LDR_PUT_EA_TO_MAR:
 			status = Status.LDR_MEMORY_ACCESS;
@@ -166,70 +172,70 @@ public class ControlUnit extends Chip {
 		resetOutputs();
 		switch (status){
 		case FETCH_PC_TO_MAR:
-			getOutput("PC_output").putValue(1);
-			getOutput("MAR_write").putValue(1);
+			getPort("PC_output").putValue(1);
+			getPort("MAR_write").putValue(1);
 			break;
 		case FETCH_MEMORY_ACCESS:
-			getOutput("memory_read").putValue(1);
+			getPort("memory_read").putValue(1);
 			break;
 		case FETCH_MBR_TO_IR:
-			getOutput("MBR_output").putValue(1);
-			getOutput("IR_write").putValue(1);
+			getPort("MBR_output").putValue(1);
+			getPort("IR_write").putValue(1);
 			break;
 		case DECODE:
 			break;
 		case LDR_PUT_EA_TO_MAR:
-			getOutput("EA_Gate").putValue(1);
-			getOutput("MAR_write").putValue(1);
+			getPort("EA_Gate").putValue(1);
+			getPort("MAR_write").putValue(1);
 			break;
 		case LDR_MEMORY_ACCESS:
-			getOutput("memory_read").putValue(1);
+			getPort("memory_read").putValue(1);
 			break;
 		case LDR_MBR_TO_REGISTER:
-			getOutput("MBR_output").putValue(1);
-			getOutput("GPRF_write").putValue(1);
+			getPort("MBR_output").putValue(1);
+			getPort("GPRF_write").putValue(1);
 			break;
 		case STR_PUT_EA_TO_MAR:
-			getOutput("EA_Gate").putValue(1);
-			getOutput("MAR_write").putValue(1);
+			getPort("EA_Gate").putValue(1);
+			getPort("MAR_write").putValue(1);
 			break;
 		case STR_REGISTER_TO_MBR:
-			getOutput("memory_read").putValue(1);
-			getOutput("GPRF_output").putValue(1);
-			getOutput("MBR_input_sel").putValue(1);
+			getPort("memory_read").putValue(1);
+			getPort("GPRF_output").putValue(1);
+			getPort("MBR_input_sel").putValue(1);
 			break;
 		case STR_MEMORY_ACCESS:
-			getOutput("memory_write").putValue(1);
+			getPort("memory_write").putValue(1);
 			break;
 		case LDA_PUT_EA_TO_REGISTER:
-			getOutput("EA_Gate").putValue(1);
-			getOutput("GPRF_write").putValue(1);
+			getPort("EA_Gate").putValue(1);
+			getPort("GPRF_write").putValue(1);
 			break;
 		case LDX_PUT_EA_TO_MAR:
-			getOutput("EA_Gate").putValue(1);
-			getOutput("MAR_write").putValue(1);
+			getPort("EA_Gate").putValue(1);
+			getPort("MAR_write").putValue(1);
 			break;
 		case LDX_MEMORY_ACCESS:
-			getOutput("memory_read").putValue(1);
+			getPort("memory_read").putValue(1);
 			break;
 		case LDX_MBR_TO_REGISTER:
-			getOutput("MBR_output").putValue(1);
-			getOutput("IRF_write").putValue(1);
+			getPort("MBR_output").putValue(1);
+			getPort("IRF_write").putValue(1);
 			break;
 		case STX_PUT_EA_TO_MAR:
-			getOutput("EA_Gate").putValue(1);
-			getOutput("MAR_write").putValue(1);
+			getPort("EA_Gate").putValue(1);
+			getPort("MAR_write").putValue(1);
 			break;
 		case STX_REGISTER_TO_MBR:
-			getOutput("memory_read").putValue(1);
-			getOutput("IRF_only").putValue(1);
-			getOutput("MBR_input_sel").putValue(1);
+			getPort("memory_read").putValue(1);
+			getPort("IRF_only").putValue(1);
+			getPort("MBR_input_sel").putValue(1);
 			break;
 		case STX_MEMORY_ACCESS:
-			getOutput("memory_write").putValue(1);
+			getPort("memory_write").putValue(1);
 			break;
 		case UPDATE_PC:
-			getOutput("PC_write").putValue(1);
+			getPort("PC_write").putValue(1);
 			break;
 		}
 		return true;

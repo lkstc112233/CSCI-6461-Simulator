@@ -16,7 +16,7 @@ public class ConstantChip extends Chip {
 	public ConstantChip(int width, long value) {
 		data = new SingleCable(width);
 		data.putValue(value);
-		addOutput("output", width);
+		addPort("output", width);
 	}
 	
 	public ConstantChip(int width) {
@@ -25,7 +25,7 @@ public class ConstantChip extends Chip {
 	
 	@Override
 	public boolean evaluate() {
-		getOutput("output").assign(data);
+		getPort("output").assign(data);
 		return false;
 	}
 }

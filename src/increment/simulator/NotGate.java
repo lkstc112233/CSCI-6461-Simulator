@@ -12,12 +12,12 @@ package increment.simulator;
  */
 public class NotGate extends Chip {
 	public NotGate(int width){
-		addInput("input", width);
-		addOutput("output", width);
+		addPort("input", width);
+		addPort("output", width);
 	}
 	
 	@Override
 	public boolean evaluate() {
-		return getOutput("output").assignReverse(getInput("input"));
+		return getPort("output").assignReverse(getPort("input"));
 	}
 }

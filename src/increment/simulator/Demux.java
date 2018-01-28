@@ -18,22 +18,22 @@ package increment.simulator;
 public class Demux extends Chip {
 	public Demux(int addressWidth, int width){
 		for (int i = 0; i < (1 << addressWidth); ++i) 
-			addOutput("output" + Integer.toString(i), width);
-		addInput("input", width);
-		addInput("sel", addressWidth);
+			addPort("output" + Integer.toString(i), width);
+		addPort("input", width);
+		addPort("sel", addressWidth);
 	}
 	/**
 	 * Moves input to the very output. Set all other outputs to 0.
 	 */
 	public boolean evaluate(){
-		String veryName = "output" + Long.toString(getInput("sel").toInteger());
+		String veryName = "output" + Long.toString(getPort("sel").toInteger());
 		boolean dset = false;
-		for (String name : outputs.keySet()){
+		for (String name : ports.keySet()){
 			if (name.equals(veryName)) {
-				if(getOutput(name).assign(getInput("input")))
+				if(getPort(name).assign(getPort("input")))
 					dset = true;
-			} else
-				getOutput(name).setZero();
+			} else if (name.contains("output"))
+				getPort(name).setZero();
 		}
 		return dset;
 	}
