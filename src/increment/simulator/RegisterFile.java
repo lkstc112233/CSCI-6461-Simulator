@@ -37,18 +37,25 @@ public class RegisterFile extends Chip {
 	 */
 	@Override
 	public void connectPort(String name, Cable cable){
-		if (name.equals("output"))
+		switch(name){
+		case "output":
 			muxForOutput.connectPort(name, cable);
-		else if (name.equals("input"))
+			break;
+		case "input":
 			for (Chip c : data)
 				c.connectPort(name, cable);
-		else if (name.equals("address")) {
+			break;
+		case "address":
 			muxForOutput.connectPort("sel", cable);
 			demuxForWrite.connectPort("sel", cable);
-		}else if (name.equals("write"))
+			break;
+		case "write":
 			demuxForWrite.connectPort("input", cable);
-		else
+			break;
+		default:
 			super.connectPort(name, cable);
+			break;
+		}
 	}
 	/**
 	 * Sets a value for a very register.
@@ -57,6 +64,24 @@ public class RegisterFile extends Chip {
 	 */
 	public void setValue(int index, long value) {
 		data[index].setValue(value);
+	}
+	/**
+	 * @return real width of a given port.
+	 */
+	@Override
+	public int getPortWidth(String name){
+		switch(name){
+		case "output":
+			return muxForOutput.getPortWidth(name);
+		case "input":
+			return data[0].getPortWidth(name);
+		case "address":
+			return muxForOutput.getPortWidth("sel");
+		case "write":
+			return demuxForWrite.getPortWidth("input");
+		default:
+			return super.getPortWidth(name);
+		}
 	}
 	
 	public void tick(){
