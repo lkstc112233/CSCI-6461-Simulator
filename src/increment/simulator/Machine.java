@@ -1,5 +1,9 @@
 package increment.simulator;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.StreamTokenizer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +16,17 @@ public class Machine {
 	public Machine() {
 		chips = new HashMap<>();
 		cables = new HashMap<>();
+		try {
+			loadFile();
+		} catch (IOException e) {
+			System.err.println("Configuration file not found.");
+			System.exit(-1);
+		} catch (IllegalStateException e) {
+			System.err.println("Configuration file format error:");
+			System.err.println(e.getMessage());
+			System.exit(-1);
+		}
+		
 		// Initialize Memory
 		Memory mem;
 		chips.put("memory", mem = new Memory());
@@ -94,6 +109,130 @@ public class Machine {
 		mem.putValue(0x13, 0x0000); // HALT
 		mem.putValue(0x0F, 0x0230); // Data (560) at 0x0F, it's used as an address for IDX
 		mem.putValue(0x244, 0x2134); // Data at 580(0x244)
+	}
+	/**
+	 * Throws an exception when panic.
+	 * @param errmsg
+	 */
+	private void panic(String errmsg) {
+		throw new IllegalStateException(errmsg);
+	}
+	/**
+	 * Loads a configuration file from disk.
+	 * Utilizes @see java.io.StreamTokenizer to tokenize.
+	 * @throws IOException When load file failed.
+	 */
+	private void loadFile() throws IOException {
+		// Configure tokenizer.
+		StreamTokenizer tokens = new StreamTokenizer(new FileReader("chipsDef.ini"));
+		int token = tokens.nextToken();
+		tokens.parseNumbers();
+		tokens.wordChars('_', '_');
+		tokens.ordinaryChars('"' + 1, '0' - 1);
+		tokens.ordinaryChars('9' + 1, 'A' - 1);
+		tokens.ordinaryChars('Z' + 1, '_' - 1);
+		tokens.eolIsSignificant(false);
+		String chipName = null;
+		String chipType = null;
+		String cableChipName = null;
+		String cableChipPort = null;
+		int cableWidth = -1;
+		final int EXPECTING_OPENING_BRACKETS_FOR_CHIPS = 0;
+		final int EXPECTING_CLOSING_BRACKETS_OR_CHIP_NAME = 1;
+		final int EXPECTING_CLOSING_BRACKETS_OR_CHIP_NAME_OR_ARGUMENT = 2;
+		final int EXPECTING_COLON = 3;
+		final int EXPECTING_CHIP_TYPE = 4;
+		final int EXPECTING_ARGUMENT = 5;
+		final int EXPECTING_OPENING_BRACKETS_FOR_CABLES = 6;
+		final int EXPECTING_CLOSING_BRACKETS_OR_CABLE_ELEMENT = 7;
+		int currentStatus = EXPECTING_OPENING_BRACKETS_FOR_CHIPS;
+		ArrayList<Object> args = null;
+		ChipsLoop: while (token != StreamTokenizer.TT_EOF) {
+			switch(currentStatus) {
+			case EXPECTING_OPENING_BRACKETS_FOR_CABLES:
+			case EXPECTING_OPENING_BRACKETS_FOR_CHIPS:
+				if (token != '{')
+					panic("Cannot find openning brackets for chips.");
+				currentStatus += 1;
+				break;
+			case EXPECTING_CLOSING_BRACKETS_OR_CHIP_NAME:
+				if (token == '}') {
+					if (chipName != null && chipType != null) {
+						chips.put(chipName, ChipFactory.makeChip(chipType, args.toArray()));
+					} else if (chipName != null || chipType != null) {
+						panic("Syntax error before } on line " + tokens.lineno());
+					} 
+					currentStatus = EXPECTING_OPENING_BRACKETS_FOR_CABLES;
+				} else if (token == StreamTokenizer.TT_WORD) {
+					chipName = tokens.sval;
+					chipType = null;
+					args = new ArrayList<>();
+					currentStatus = EXPECTING_COLON;
+				} else {
+					panic("Unexpected token at line "+tokens.lineno() +", '" + ((char)token) + "'");
+				}
+				break;
+			case EXPECTING_COLON:
+				if (token != ':') {
+					panic("Expecting ':' on line " + tokens.lineno());
+				}
+				currentStatus = EXPECTING_CHIP_TYPE;
+				break;
+			case EXPECTING_CHIP_TYPE:
+				if (token != StreamTokenizer.TT_WORD) {
+					panic("Expecting chip type on line " + tokens.lineno());
+				}
+				chipType = tokens.sval;
+				currentStatus = EXPECTING_CLOSING_BRACKETS_OR_CHIP_NAME_OR_ARGUMENT;
+				break;
+			case EXPECTING_CLOSING_BRACKETS_OR_CHIP_NAME_OR_ARGUMENT:
+				if (token == ',') {
+					currentStatus = EXPECTING_ARGUMENT;
+				} else if (token == '}') {
+					if (chipName != null && chipType != null) {
+						chips.put(chipName, ChipFactory.makeChip(chipType, args.toArray()));
+					} else if (chipName != null || chipType != null) {
+						panic("Syntax error before } on line " + tokens.lineno());
+					} 
+					currentStatus = EXPECTING_OPENING_BRACKETS_FOR_CABLES;
+				} else if (token == StreamTokenizer.TT_WORD) {
+					chips.put(chipName, ChipFactory.makeChip(chipType, args.toArray()));
+					chipType = null;
+					chipName = tokens.sval;
+					args = new ArrayList<>();
+					currentStatus = EXPECTING_COLON;
+				} else {
+					panic("Unexpected token at line "+tokens.lineno() +", '" + ((char)token) + "'");
+				}
+				break;
+			case EXPECTING_ARGUMENT:
+				if (token == StreamTokenizer.TT_NUMBER){
+					args.add(new Integer((int)tokens.nval));
+				}else if (token == StreamTokenizer.TT_WORD){
+					args.add(tokens.sval);
+				}
+				currentStatus = EXPECTING_CLOSING_BRACKETS_OR_CHIP_NAME_OR_ARGUMENT;
+				break;
+			case EXPECTING_CLOSING_BRACKETS_OR_CABLE_ELEMENT:
+				if (token == '}') {
+					if (chipName != null && chipType != null) {
+						chips.put(chipName, ChipFactory.makeChip(chipType, args.toArray()));
+					} else if (chipName != null || chipType != null) {
+						panic("Syntax error before } on line " + tokens.lineno());
+					} 
+					currentStatus = EXPECTING_OPENING_BRACKETS_FOR_CABLES;
+				} else if (token == StreamTokenizer.TT_WORD) {
+					chipName = tokens.sval;
+					chipType = null;
+					args = new ArrayList<>();
+					currentStatus = EXPECTING_COLON;
+				} else {
+					panic("Unexpected token at line "+tokens.lineno() +", '" + ((char)token) + "'");
+				}
+				break;
+			}
+			token = tokens.nextToken();
+		}
 	}
 	/**
 	 * Connects two ports on two chips, one with an input and the other with an output,
