@@ -135,8 +135,7 @@ public class Machine {
 		String chipName = null;
 		String chipType = null;
 		String cableChipName = null;
-		String cableChipPort = null;
-		int cableWidth = -1;
+		Cable cable = null;
 		final int EXPECTING_OPENING_BRACKETS_FOR_CHIPS = 0;
 		final int EXPECTING_CLOSING_BRACKETS_OR_CHIP_NAME = 1;
 		final int EXPECTING_CLOSING_BRACKETS_OR_CHIP_NAME_OR_ARGUMENT = 2;
@@ -145,9 +144,14 @@ public class Machine {
 		final int EXPECTING_ARGUMENT = 5;
 		final int EXPECTING_OPENING_BRACKETS_FOR_CABLES = 6;
 		final int EXPECTING_CLOSING_BRACKETS_OR_CABLE_ELEMENT = 7;
+		final int EXPECTING_DOT = 8;
+		final int EXPECTING_PORT_NAME = 9;
+		final int EXPECTING_CONNECTION_OR_CLOSING_BRACKETS_OR_COLON_OR_CABLE_ELEMENT = 10;
+		final int EXPECTING_CABLE_ELEMENT = 11;
+		final int EXPECTING_CABLE_NAME = 12;
 		int currentStatus = EXPECTING_OPENING_BRACKETS_FOR_CHIPS;
 		ArrayList<Object> args = null;
-		ChipsLoop: while (token != StreamTokenizer.TT_EOF) {
+		while (token != StreamTokenizer.TT_EOF) {
 			switch(currentStatus) {
 			case EXPECTING_OPENING_BRACKETS_FOR_CABLES:
 			case EXPECTING_OPENING_BRACKETS_FOR_CHIPS:
@@ -215,20 +219,72 @@ public class Machine {
 				break;
 			case EXPECTING_CLOSING_BRACKETS_OR_CABLE_ELEMENT:
 				if (token == '}') {
-					if (chipName != null && chipType != null) {
-						chips.put(chipName, ChipFactory.makeChip(chipType, args.toArray()));
-					} else if (chipName != null || chipType != null) {
-						panic("Syntax error before } on line " + tokens.lineno());
-					} 
-					currentStatus = EXPECTING_OPENING_BRACKETS_FOR_CABLES;
+					return;
 				} else if (token == StreamTokenizer.TT_WORD) {
-					chipName = tokens.sval;
-					chipType = null;
-					args = new ArrayList<>();
-					currentStatus = EXPECTING_COLON;
+					cable = null;
+					cableChipName = tokens.sval;
+					currentStatus = EXPECTING_DOT;
 				} else {
 					panic("Unexpected token at line "+tokens.lineno() +", '" + ((char)token) + "'");
 				}
+				break;
+			case EXPECTING_DOT:
+				if (token != '.') {
+					panic("Expecting '.' on line " + tokens.lineno());
+				}
+				currentStatus = EXPECTING_PORT_NAME;
+				break;
+			case EXPECTING_PORT_NAME:
+				if (token != StreamTokenizer.TT_WORD) {
+					panic("Expecting port name on line " + tokens.lineno());
+				}
+				Chip c = chips.get(cableChipName);
+				if (c == null)
+					panic("Undefined chip name " + cableChipName + " on line " + tokens.lineno());
+				int width = c.getPortWidth(tokens.sval);
+				if (width <= 0)
+					panic("Invalid chip port " + tokens.sval +" for chip " + cableChipName + " on line " + tokens.lineno());
+				if (cable == null) {
+					cable = new SingleCable(width);
+					c.connectPort(tokens.sval, cable);
+				} else {
+					if (width == cable.getWidth())
+						c.connectPort(tokens.sval, cable);
+					else {
+						Cable ca = new CableAdapter(width, cable);
+						c.connectPort(tokens.sval, ca);
+					}
+				}
+				currentStatus = EXPECTING_CONNECTION_OR_CLOSING_BRACKETS_OR_COLON_OR_CABLE_ELEMENT;
+				break;
+			case EXPECTING_CONNECTION_OR_CLOSING_BRACKETS_OR_COLON_OR_CABLE_ELEMENT:
+				if (token == '-'){
+					currentStatus = EXPECTING_CABLE_ELEMENT;
+				}else if (token == ':'){
+					currentStatus = EXPECTING_CABLE_NAME;
+				}else if (token == '}'){
+					return;
+				}else if (token == StreamTokenizer.TT_WORD){
+					cable = null;
+					cableChipName = tokens.sval;
+					currentStatus = EXPECTING_DOT;
+				}else
+					panic("Unexpected token at line "+tokens.lineno() +", '" + ((char)token) + "'");
+				break;
+			case EXPECTING_CABLE_ELEMENT:
+				if (token != StreamTokenizer.TT_WORD) {
+					panic("Expecting port name on line " + tokens.lineno());
+				}
+				cableChipName = tokens.sval;
+				currentStatus = EXPECTING_DOT;
+				break;
+			case EXPECTING_CABLE_NAME:
+				if (token != StreamTokenizer.TT_WORD) {
+					panic("Expecting port name on line " + tokens.lineno());
+				}
+				cables.put(tokens.sval, cable);
+				cable = null;
+				currentStatus = EXPECTING_CLOSING_BRACKETS_OR_CABLE_ELEMENT;
 				break;
 			}
 			token = tokens.nextToken();
