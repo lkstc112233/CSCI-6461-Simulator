@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import increment.simulator.util.ConvenientStreamTokenizer;
@@ -15,11 +16,16 @@ import static increment.simulator.util.ExceptionHandling.panic;
  *
  */
 public class AssemblyCompiler {
-	public static class CompiledProgram {
+	public static class CompiledProgram implements Iterable<Short>{
 		private List<Short> program = new ArrayList<>();
 		public void addInstruction(short inst) {
 			program.add(inst);
 		}
+		@Override
+		public Iterator<Short> iterator() {
+			return program.iterator();
+		}
+		
 	}
 	public static CompiledProgram compile(String fileNameOrSource, boolean isFile) {
 		ConvenientStreamTokenizer tokens = null;

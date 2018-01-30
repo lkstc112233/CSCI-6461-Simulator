@@ -1,4 +1,7 @@
 package increment.simulator;
+
+import increment.simulator.tools.AssemblyCompiler.CompiledProgram;
+
 /**
  * The memory. It's abstracted as a black box that supports read/write by byte.
  * 
@@ -57,5 +60,15 @@ public class Memory extends Chip {
 	}
 	public void putValue(int address, int value) {
 		data[address].putValue(value);
+	}
+	/**
+	 * Load a program into memory.
+	 * @param address The starting address in memory. 
+	 * @param code The compiled program. {@link increment.simulator.tools.AssemblyCompiler}
+	 */
+	public void loadProgram(int address, CompiledProgram code) {
+		for (Short ins : code) {
+			putValue(address++, ins);
+		}
 	}
 }
