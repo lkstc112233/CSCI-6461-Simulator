@@ -45,7 +45,7 @@ public class Machine {
 	}
 	/**
 	 * Loads a configuration file from disk.
-	 * Utilizes @see java.io.StreamTokenizer to tokenize.
+	 * Utilizes {@link java.io.StreamTokenizer} to tokenize.
 	 * @throws IOException When load file failed.
 	 */
 	private void loadFile() throws IOException {
