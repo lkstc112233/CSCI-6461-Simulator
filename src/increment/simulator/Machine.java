@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import increment.simulator.util.ConvenientStreamTokenizer;
+import static increment.simulator.util.ExceptionHandling.panic;
+
 /**
  * A simulated machine.
  * @author Xu Ke
@@ -111,27 +114,13 @@ public class Machine {
 		mem.putValue(0x244, 0x2134); // Data at 580(0x244)
 	}
 	/**
-	 * Throws an exception when panic.
-	 * @param errmsg
-	 */
-	private void panic(String errmsg) {
-		throw new IllegalStateException(errmsg);
-	}
-	/**
 	 * Loads a configuration file from disk.
 	 * Utilizes @see java.io.StreamTokenizer to tokenize.
 	 * @throws IOException When load file failed.
 	 */
 	private void loadFile() throws IOException {
-		// Configure tokenizer.
-		StreamTokenizer tokens = new StreamTokenizer(new FileReader("chipsDef.ini"));
+		StreamTokenizer tokens = new ConvenientStreamTokenizer(new FileReader("chipsDef.ini"));
 		int token = tokens.nextToken();
-		tokens.parseNumbers();
-		tokens.wordChars('_', '_');
-		tokens.ordinaryChars('"' + 1, '0' - 1);
-		tokens.ordinaryChars('9' + 1, 'A' - 1);
-		tokens.ordinaryChars('Z' + 1, '_' - 1);
-		tokens.eolIsSignificant(false);
 		String chipName = null;
 		String chipType = null;
 		String cableChipName = null;
