@@ -1,10 +1,16 @@
 package increment.simulator;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import increment.simulator.util.ConvenientStreamTokenizer;
+import static increment.simulator.util.ExceptionHandling.panic;
 
 /**
  * The control unit. It controls how everything else works, such as write signals, or who is to use the bus.
@@ -49,14 +55,43 @@ public class ControlUnit extends Chip {
 		HALT,
 	}
 	Status status;
+	/**
+	 * A helper class for state switches.
+	 * @author Xu Ke
+	 *
+	 */
+	private class StateConverter {
+		private Map<Integer, String> convertTable = new HashMap<>();
+		private String defaultState = null;
+		public String nextState(int opcode) {
+			if (convertTable.containsKey(opcode))
+				return convertTable.get(opcode);
+			return defaultState;
+		}
+		public void addConvertPlan(int opcode, String targetState) {
+			convertTable.put(opcode, targetState);
+		}
+		public void addDefaultConvertingStatePlan(String defaultState) {
+			this.defaultState = defaultState;
+		}
+	}
+	
+	private String currentState = null;
+	private Map<String, StateConverter> stateConvertations = new HashMap<>();
+	private Map<String, Set<String>> portConvertations = new HashMap<>();
 	
 	private boolean ticked = false;
 	private HashSet<String> inputPortNames;
 	public ControlUnit() {
 		try {
 			loadFile();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Error parsing control unit definition. Please check file existence.");
+			System.exit(-1);
+		} catch (IllegalStateException e) {
+			System.err.println("Configuration file format error:");
+			System.err.println(e.getMessage());
+			System.exit(-1);
 		}
 		
 		inputPortNames = new HashSet<>();
@@ -80,33 +115,227 @@ public class ControlUnit extends Chip {
 	/**
 	 * Loads a configuration file and form all logic needed.
 	 * This takes place of all the mess.
-	 * @throws FileNotFoundException if file not found of course.
+	 * @throws IOException When file error.
+	 * @throws IllegalStateException When file format error.
 	 */
-	private void loadFile() throws FileNotFoundException {
-		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new FileReader(""));
+	private void loadFile() throws IOException {
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new FileReader("controlDef.ini"));
 
-		final int EXPECTING_OPENING_BRACKETS_FOR_PORTS_DEFINITIONS = 0;
-		final int EXPECTING_CLOSING_BRACKETS_OR_PORT_NAME = 1;
-		final int EXPECTING_CLOSING_BRACKETS_OR_ANOTHER_PORT = 2;
-		final int EXPECTING_PORT_NAME = 3;
-		final int EXPECTING_OPENING_BRACKETS_FOR_STATES_DEFINITIONS = 4;
-		final int EXPECTING_CLOSING_BRACKETS_OR_STATE_NAME = 5;
-		final int EXPECTING_CLOSING_BRACKETS_OR_ANOTHER_STATE = 6;
-		final int EXPECTING_STATE_NAME = 7;
-		final int EXPECTING_OPENING_BRACKETS_FOR_STATE_CHANGE_RULES = 8;
-		final int EXPECTING_CLOSING_BRACKETS_OR_BASE_STATE = 9;
-		final int EXPECTING_BASE_STATE_NAME_OR_CLOSING_BRACKETS = 10;
-		final int EXPECTING_CONNECTING_COLON = 11;
-		final int EXPECTING_TARGET_STATE = 12;
-		final int EXPECTING_CLOSING_BRACKETS_STATE_DEFALUT_CASE_STATE_OR_OPCODE_VALUE = 13;
-		final int EXPECTING_TARGET_SPLIT_COLON = 14;
-		final int EXPECTING_TARGET_STATE_FOR_GIVEN_OPCODE = 15;
-		final int EXPECTING_TARGET_STATE_CLOSING_BRACKETS = 16;
-		final int EXPECTING_OPENING_BRACKETS_FOR_STATE_PORT_STATES = 17;
-		final int EXPECTING_CLOSING_BRACKETS_OR_STATE_TO_SPECIFY = 18;
-		final int EXPECTING_COLON = 19;
-		final int EXPECTING_PORT = 20;
-		final int EXPECTING_CLOSING_BRACKETS_OR_PORT_SPLIT_COMMA_OR_STATE_TO_SPECIFY = 21;
+		if (!parsePorts(tokens))
+			panic("Cannot parse ports.\nLine: " + tokens.lineno());
+		if (!parseStatesConversionRules(tokens))
+			panic("Cannot parse state rules.\nLine: " + tokens.lineno());
+		if (!parsePortsOutputRules(tokens))
+			panic("Cannot parse output rules.\nLine: " + tokens.lineno());
+	}
+	/**
+	 * Parses ports.
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	private boolean parsePorts(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() == '{') {
+			while (parsePort(tokens));
+		}
+		return tokens.nextToken() == '}';
+	}
+	/**
+	 * Parses port.
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	private boolean parsePort(ConvenientStreamTokenizer tokens) throws IOException {
+		int token = tokens.nextToken();
+		if (token == ConvenientStreamTokenizer.TT_WORD) {
+			addPort(tokens.sval, 1);
+			return true;
+		}else if (token == '}') {
+			tokens.pushBack();
+			return false;
+		}
+		panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno());
+		return false;
+	}
+	/**
+	 * Parses states and conversion rules.
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	private boolean parseStatesConversionRules(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() == '{') {
+			while (parseStateConversionRule(tokens));
+		}
+		return tokens.nextToken() == '}';
+	}
+	/**
+	 * Parses one single state conversion rule.
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	private boolean parseStateConversionRule(ConvenientStreamTokenizer tokens) throws IOException {
+		List<String> baseStates = parseBaseStates(tokens);
+		if (baseStates == null)
+			return false;
+		int token = tokens.nextToken();
+		if (token != ':')
+			panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno());
+		StateConverter converter = parseTargetStates(tokens);
+		if (converter == null)
+			panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno());
+		for (String base : baseStates) {
+			stateConvertations.put(base, converter);
+		}
+		return true;
+	}
+	/**
+	 * Parses a base state list.
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	private List<String> parseBaseStates(ConvenientStreamTokenizer tokens) throws IOException {
+		List<String> result = null;
+		int token = tokens.nextToken();
+		if (token == '{') {
+			// A base states list.
+			result = new ArrayList<>();
+			String state = null;
+			while ((state = parseWord(tokens)) != null) {
+				result.add(state);
+			}
+			if ((token = tokens.nextToken()) == '}')
+				return result;
+			else
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno());
+		} else if (token == ConvenientStreamTokenizer.TT_WORD) {
+			// A single base state.
+			result = new ArrayList<>();
+			result.add(tokens.sval);
+		}
+		else 
+			tokens.pushBack();
+		return result;
+	}
+	/**
+	 * Parses a single state.
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	private String parseWord(ConvenientStreamTokenizer tokens) throws IOException {
+		int token = tokens.nextToken();
+		if (token == ConvenientStreamTokenizer.TT_WORD) {
+			return tokens.sval;
+		} else {
+			tokens.pushBack();
+			return null;
+		}
+	}
+	/**
+	 * Parses a target state list
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	private StateConverter parseTargetStates(ConvenientStreamTokenizer tokens) throws IOException {
+		StateConverter result = null;
+		int token = tokens.nextToken();
+		if (token == '{') {
+			// A target states list.
+			result = new StateConverter();
+			while (parseTargetPairOrDefaultTarget(tokens, result));
+			if ((token = tokens.nextToken()) == '}')
+				return result;
+			else
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno());
+		} else if (token == ConvenientStreamTokenizer.TT_WORD) {
+			// A single base state.
+			result = new StateConverter();
+			result.addDefaultConvertingStatePlan(tokens.sval);
+		}
+		else 
+			tokens.pushBack();
+		return result;
+	}
+	/**
+	 * Parse a target rule.
+	 * @param tokens
+	 * @param converter
+	 * @return
+	 * @throws IOException
+	 */
+	private boolean parseTargetPairOrDefaultTarget(ConvenientStreamTokenizer tokens, StateConverter converter) throws IOException {
+		int token = tokens.nextToken();
+		if (token == ConvenientStreamTokenizer.TT_NUMBER) {
+			int opcode = (int) tokens.nval;
+			if (tokens.nextToken() != ':')
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ':'.");
+			String target = parseWord(tokens);
+			if (target == null)
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno());
+			converter.addConvertPlan(opcode, target);
+			return true;
+		} else if (token == ConvenientStreamTokenizer.TT_WORD) {
+			converter.addDefaultConvertingStatePlan(tokens.sval);
+			return true;
+		} else {
+			tokens.pushBack();
+			return false;
+		}	
+	}
+	/**
+	 * Parses state port output rules.
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	private boolean parsePortsOutputRules(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() == '{') {
+			while (parsePortsOutputRule(tokens));
+		}
+		return tokens.nextToken() == '}';
+	}
+	/**
+	 * Parses single port output rule.
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	private boolean parsePortsOutputRule(ConvenientStreamTokenizer tokens) throws IOException {
+		String state = parseWord(tokens);
+		if (state == null)
+			return false;
+		portConvertations.put(state, new HashSet<String>());
+		if (tokens.nextToken() != ':')
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno());
+		String targetPort = parseWord(tokens);
+		if (targetPort == null)
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno());
+		do {
+			portConvertations.get(state).add(targetPort);
+			targetPort = parseNextPort(tokens);
+		}while(targetPort != null);
+		return true;
+	}
+	/**
+	 * Parses another port. Skips comma.
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
+	private String parseNextPort(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ',') {
+			tokens.pushBack();
+			return null;
+		}
+		String port = parseWord(tokens);
+		if (port == null)	
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno());
+		return port;
 	}
 	/**
 	 * Resets all outputs to zero.

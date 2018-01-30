@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import increment.simulator.util.ConvenientStreamTokenizer;
+import static increment.simulator.util.ExceptionHandling.panic;
 
 /**
  * A simulated machine.
@@ -111,13 +112,6 @@ public class Machine {
 		mem.putValue(0x13, 0x0000); // HALT
 		mem.putValue(0x0F, 0x0230); // Data (560) at 0x0F, it's used as an address for IDX
 		mem.putValue(0x244, 0x2134); // Data at 580(0x244)
-	}
-	/**
-	 * Throws an exception when panic.
-	 * @param errmsg
-	 */
-	private void panic(String errmsg) {
-		throw new IllegalStateException(errmsg);
 	}
 	/**
 	 * Loads a configuration file from disk.
