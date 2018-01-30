@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import increment.simulator.tools.AssemblyCompiler;
+import increment.simulator.tools.AssemblyCompiler.CompiledProgram;
 import increment.simulator.util.ConvenientStreamTokenizer;
 import static increment.simulator.util.ExceptionHandling.panic;
 
@@ -35,10 +37,9 @@ public class Machine {
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(0x10);
 		((RegisterFile)getChip("IndexRegisterFile")).setValue(0, 0);
-		mem.putValue(0x10, 0x848F); // LDX 2,15		1000 0100 1000 1111
-		mem.putValue(0x11, 0x0494); // LDR 0,2,20,0	0000 0100 1001 0100
-		mem.putValue(0x12, 0x0D86); // LDA 1,2,6,0	0000 1101 1000 0110
-		mem.putValue(0x13, 0x0000); // HALT
+		String program = "LDX 2, 15 LDR 0, 2, 20, 0 LDA 1, 2, 6 HLT";
+		CompiledProgram code = AssemblyCompiler.compile(program);
+		mem.loadProgram(0x10, code);
 		mem.putValue(0x0F, 0x0230); // Data (560) at 0x0F, it's used as an address for IDX
 		mem.putValue(0x244, 0x2134); // Data at 580(0x244)
 	}
