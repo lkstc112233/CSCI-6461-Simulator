@@ -17,8 +17,6 @@ import static increment.simulator.util.ExceptionHandling.panic;
  */
 public class Machine {
 	public Machine() {
-		chips = new HashMap<>();
-		cables = new HashMap<>();
 		try {
 			loadFile();
 		} catch (IOException e) {
@@ -30,76 +28,7 @@ public class Machine {
 			System.exit(-1);
 		}
 		
-		// Initialize Memory
-		Memory mem;
-		chips.put("memory", mem = new Memory());
-		// Initialize Control Unit.
-		chips.put("CU", new ControlUnit());
-		// Make chips.
-		chips.put("decoder", new InstructionDecoder());
-		chips.put("IR", new ClockRegister(16));
-		chips.put("MAR", new ClockRegister(12));
-		chips.put("MBR", new ClockRegister(16));
-		chips.put("MBR_input_mux", new Mux(1, 16));
-		chips.put("MBR_Gate", new Gate(16));
-		chips.put("PC", new ClockRegister(12));
-		chips.put("PC_Gate", new Gate(12));
-		chips.put("EA_Gate", new Gate(16));
-		chips.put("GeneralPurposeRegisterFile", new RegisterFile(2, 16));
-		chips.put("IndexRegisterFile", new RegisterFile(2, 16));
-		chips.put("address_adder", new Adder(16));
-		chips.put("address_adder_operand_1_mux", new Mux(1, 5));
-		chips.put("GPRF_Gate", new Gate(16));
-		chips.put("PC_Adder", new Adder(12));
-		chips.put("Constant 1", new ConstantChip(1, 1));
-		chips.put("Constant 0", new ConstantChip(1));
-		// Make bus.
-		cables.put("bus", new SingleCable(16));
-		// Connect chips.
-		singleConnect("PC", "write", "CU", "PC_write", 1);
-		singleConnect("PC_Gate", "input", "PC", "output", 12);
-		getChip("PC_Adder").connectPort("operand1", getChip("PC").getPort("output"));
-		getChip("PC_Adder").connectPort("operand2", new SingleCable(12));
-		getChip("Constant 1").connectPort("output", new CableAdapter(1, getChip("PC_Adder").getPort("operand2")));
-		singleConnect("PC", "input", "PC_Adder", "result", 12);
-		singleConnect("PC_Gate", "transfer", "CU", "PC_output", 1);
-		Cable foo = new CableAdapter(12, getCable("bus"));
-		getChip("PC_Gate").connectPort("output", foo);
-		foo = new CableAdapter(12, getCable("bus"));
-		getChip("MAR").connectPort("input", foo);
-		singleConnect("MAR", "write", "CU", "MAR_write", 1);
-		singleConnect("memory", "address", "MAR", "output", 12);
-		singleConnect("MBR_input_mux", "input0", "memory", "output", 16);
-		getChip("MBR_input_mux").connectPort("input1", getCable("bus"));
-		singleConnect("MBR_input_mux", "sel", "CU", "MBR_input_sel", 1);
-		singleConnect("MBR", "input", "MBR_input_mux", "output", 16);
-		singleConnect("MBR", "write", "CU", "memory_read", 1);
-		singleConnect("MBR_Gate", "input", "MBR", "output", 16);
-		getChip("memory").connectPort("input", getChip("MBR").getPort("output"));
-		singleConnect("memory", "write", "CU", "memory_write", 1);
-		singleConnect("MBR_Gate", "transfer", "CU", "MBR_output", 1);
-		getChip("MBR_Gate").connectPort("output", getCable("bus"));
-		getChip("IR").connectPort("input", getCable("bus"));
-		singleConnect("decoder", "input", "IR", "output", 16);
-		singleConnect("IR", "write", "CU", "IR_write", 1);
-		singleConnect("CU", "opcode", "decoder", "opcode", 6);
-		singleConnect("EA_Gate", "transfer", "CU", "EA_Gate", 1);
-		singleConnect("GeneralPurposeRegisterFile", "address", "decoder", "R", 2);
-		singleConnect("GeneralPurposeRegisterFile", "write", "CU", "GPRF_write", 1);
-		getChip("GeneralPurposeRegisterFile").connectPort("input", getCable("bus"));
-		singleConnect("GPRF_Gate", "input", "GeneralPurposeRegisterFile", "output", 16);
-		singleConnect("GPRF_Gate", "transfer", "CU", "GPRF_output", 1);
-		getChip("GPRF_Gate").connectPort("output", getCable("bus"));
-		singleConnect("IndexRegisterFile", "address", "decoder", "IX", 2);
-		singleConnect("IndexRegisterFile", "write", "CU", "IRF_write", 1);
-		getChip("IndexRegisterFile").connectPort("input", getCable("bus"));
-		getChip("address_adder").connectPort("operand1", new SingleCable(16));
-		singleConnect("address_adder_operand_1_mux", "input0", "decoder", "address", 5);
-		singleConnect("address_adder_operand_1_mux", "sel", "CU", "IRF_only", 1);
-		getChip("address_adder_operand_1_mux").connectPort("output", new CableAdapter(5, getChip("address_adder").getPort("operand1")));
-		singleConnect("address_adder", "operand2", "IndexRegisterFile", "output", 16);
-		getChip("EA_Gate").connectPort("output", getCable("bus"));
-		singleConnect("EA_Gate", "input", "address_adder", "result", 16);
+		Memory mem = (Memory) getChip("memory");
 		
 		// SIMULATED Boot Loader: 
 		// It loads a testing program into the memory address 0x10, and sets PC to
@@ -279,34 +208,8 @@ public class Machine {
 			token = tokens.nextToken();
 		}
 	}
-	/**
-	 * Connects two ports on two chips, one with an input and the other with an output,
-	 * with a single cable of given width.
-	 * @param inputChipName
-	 * @param inputChipPort
-	 * @param outputChipName
-	 * @param outputChipPort
-	 * @param width
-	 */
-	private void singleConnect(String inputChipName, String inputChipPort,String outputChipName, String outputChipPort, int width){
-		Cable foo = new SingleCable(width);
-		connect(inputChipName, inputChipPort, outputChipName, outputChipPort, foo);
-	}
-	/**
-	 * Connects two ports on two chips, one with an input and the other with an output,
-	 * with a given cable.
-	 * @param inputChipName
-	 * @param inputChipPort
-	 * @param outputChipName
-	 * @param outputChipPort
-	 * @param cable
-	 */
-	private void connect(String inputChipName, String inputChipPort,String outputChipName, String outputChipPort, Cable cable) {
-		getChip(inputChipName).connectPort(inputChipPort, cable);
-		getChip(outputChipName).connectPort(outputChipPort, cable);
-	}
-	private Map<String, Chip> chips;
-	private Map<String, Cable> cables;
+	private Map<String, Chip> chips = new HashMap<>();
+	private Map<String, Cable> cables = new HashMap<>();
 	public Chip getChip(String name) {
 		return chips.get(name);
 	}
