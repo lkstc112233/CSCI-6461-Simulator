@@ -26,36 +26,6 @@ import static increment.simulator.util.ExceptionHandling.panic;
  */
 public class ControlUnit extends Chip {
 	/**
-	 * Indicating the current processor status.
-	 * Member format:
-	 * 		StateNameOrInstructionName_PhaseName, all caps.
-	 * @author Xu Ke
-	 *
-	 */
-	private enum Status{
-		INITIALIZED,
-		FETCH_PC_TO_MAR,
-		FETCH_MEMORY_ACCESS,
-		FETCH_MBR_TO_IR,
-		DECODE,
-		LDR_PUT_EA_TO_MAR,
-		LDR_MEMORY_ACCESS,
-		LDR_MBR_TO_REGISTER,
-		STR_PUT_EA_TO_MAR,
-		STR_REGISTER_TO_MBR,
-		STR_MEMORY_ACCESS,
-		LDA_PUT_EA_TO_REGISTER,
-		LDX_PUT_EA_TO_MAR,
-		LDX_MEMORY_ACCESS,
-		LDX_MBR_TO_REGISTER,
-		STX_PUT_EA_TO_MAR,
-		STX_REGISTER_TO_MBR,
-		STX_MEMORY_ACCESS,
-		UPDATE_PC,
-		HALT,
-	}
-	Status status;
-	/**
 	 * A helper class for state switches.
 	 * @author Xu Ke
 	 *
@@ -83,6 +53,9 @@ public class ControlUnit extends Chip {
 	private boolean ticked = false;
 	private HashSet<String> inputPortNames;
 	public ControlUnit() {
+		inputPortNames = new HashSet<>();
+		addPort("opcode", 6);
+		inputPortNames.add("opcode");
 		try {
 			loadFile();
 		} catch (IOException e) {
@@ -93,24 +66,6 @@ public class ControlUnit extends Chip {
 			System.err.println(e.getMessage());
 			System.exit(-1);
 		}
-		
-		inputPortNames = new HashSet<>();
-		status = Status.INITIALIZED;
-		addPort("opcode", 6);
-		inputPortNames.add("opcode");
-		addPort("PC_write", 1);
-		addPort("PC_output", 1);
-		addPort("MAR_write", 1);
-		addPort("MBR_input_sel", 1);
-		addPort("memory_read", 1);
-		addPort("memory_write", 1);
-		addPort("MBR_output",1);
-		addPort("IR_write", 1);
-		addPort("EA_Gate", 1);
-		addPort("GPRF_write", 1);
-		addPort("GPRF_output", 1);
-		addPort("IRF_write", 1);
-		addPort("IRF_only", 1);
 	}
 	/**
 	 * Loads a configuration file and form all logic needed.
@@ -215,6 +170,8 @@ public class ControlUnit extends Chip {
 			// A single base state.
 			result = new ArrayList<>();
 			result.add(tokens.sval);
+			if (currentState == null)
+				currentState = tokens.sval;
 		}
 		else 
 			tokens.pushBack();
@@ -352,85 +309,9 @@ public class ControlUnit extends Chip {
 	 */
 	public void tick(){
 		ticked = true;
-		switch (status){
-		case INITIALIZED:
-			status = Status.FETCH_PC_TO_MAR;
-			break;
-		case FETCH_PC_TO_MAR:
-			status = Status.FETCH_MEMORY_ACCESS;
-			break;
-		case FETCH_MEMORY_ACCESS:
-			status = Status.FETCH_MBR_TO_IR;
-			break;
-		case FETCH_MBR_TO_IR:
-			status = Status.DECODE;
-			break;
-		case DECODE:
-			switch((int) getPort("opcode").toInteger()) {
-			case 0x00: // HLT
-				status = Status.HALT;
-				break;
-			case 0x01: // LDR
-				status = Status.LDR_PUT_EA_TO_MAR;
-				break;
-			case 0x02: // STR
-				status = Status.STR_PUT_EA_TO_MAR;
-				break;
-			case 0x03: // LDA
-				status = Status.LDA_PUT_EA_TO_REGISTER;
-				break;
-			case 0x21: // LDX
-				status = Status.LDX_PUT_EA_TO_MAR;
-				break;
-			case 0x22: // STX
-				status = Status.STX_PUT_EA_TO_MAR;
-				break;
-			}
-			System.out.println((int) getPort("opcode").toInteger());
-			break;
-		case LDR_PUT_EA_TO_MAR:
-			status = Status.LDR_MEMORY_ACCESS;
-			break;
-		case LDR_MEMORY_ACCESS:
-			status = Status.LDR_MBR_TO_REGISTER;
-			break;
-		case LDR_MBR_TO_REGISTER:
-			status = Status.UPDATE_PC;
-			break;
-		case STR_PUT_EA_TO_MAR:
-			status = Status.STR_REGISTER_TO_MBR;
-			break;
-		case STR_REGISTER_TO_MBR:
-			status = Status.STR_MEMORY_ACCESS;
-			break;
-		case STR_MEMORY_ACCESS:
-			status = Status.UPDATE_PC;
-			break;
-		case LDA_PUT_EA_TO_REGISTER:
-			status = Status.UPDATE_PC;
-			break;
-		case LDX_PUT_EA_TO_MAR:
-			status = Status.LDX_MEMORY_ACCESS;
-			break;
-		case LDX_MEMORY_ACCESS:
-			status = Status.LDX_MBR_TO_REGISTER;
-			break;
-		case LDX_MBR_TO_REGISTER:
-			status = Status.UPDATE_PC;
-			break;
-		case STX_PUT_EA_TO_MAR:
-			status = Status.STX_REGISTER_TO_MBR;
-			break;
-		case STX_REGISTER_TO_MBR:
-			status = Status.STX_MEMORY_ACCESS;
-			break;
-		case STX_MEMORY_ACCESS:
-			status = Status.UPDATE_PC;
-			break;
-		case UPDATE_PC:
-			status = Status.FETCH_PC_TO_MAR;
-			break;
-		}
+		StateConverter converter = stateConvertations.get(currentState);
+		if (converter != null)
+			currentState = converter.nextState((int) getPort("opcode").toInteger());
 	}
 	
 	/**
@@ -441,73 +322,11 @@ public class ControlUnit extends Chip {
 			return false;
 		ticked = false;
 		resetOutputs();
-		switch (status){
-		case FETCH_PC_TO_MAR:
-			getPort("PC_output").putValue(1);
-			getPort("MAR_write").putValue(1);
-			break;
-		case FETCH_MEMORY_ACCESS:
-			getPort("memory_read").putValue(1);
-			break;
-		case FETCH_MBR_TO_IR:
-			getPort("MBR_output").putValue(1);
-			getPort("IR_write").putValue(1);
-			break;
-		case DECODE:
-			break;
-		case LDR_PUT_EA_TO_MAR:
-			getPort("EA_Gate").putValue(1);
-			getPort("MAR_write").putValue(1);
-			break;
-		case LDR_MEMORY_ACCESS:
-			getPort("memory_read").putValue(1);
-			break;
-		case LDR_MBR_TO_REGISTER:
-			getPort("MBR_output").putValue(1);
-			getPort("GPRF_write").putValue(1);
-			break;
-		case STR_PUT_EA_TO_MAR:
-			getPort("EA_Gate").putValue(1);
-			getPort("MAR_write").putValue(1);
-			break;
-		case STR_REGISTER_TO_MBR:
-			getPort("memory_read").putValue(1);
-			getPort("GPRF_output").putValue(1);
-			getPort("MBR_input_sel").putValue(1);
-			break;
-		case STR_MEMORY_ACCESS:
-			getPort("memory_write").putValue(1);
-			break;
-		case LDA_PUT_EA_TO_REGISTER:
-			getPort("EA_Gate").putValue(1);
-			getPort("GPRF_write").putValue(1);
-			break;
-		case LDX_PUT_EA_TO_MAR:
-			getPort("EA_Gate").putValue(1);
-			getPort("MAR_write").putValue(1);
-			break;
-		case LDX_MEMORY_ACCESS:
-			getPort("memory_read").putValue(1);
-			break;
-		case LDX_MBR_TO_REGISTER:
-			getPort("MBR_output").putValue(1);
-			getPort("IRF_write").putValue(1);
-			break;
-		case STX_PUT_EA_TO_MAR:
-			getPort("EA_Gate").putValue(1);
-			getPort("MAR_write").putValue(1);
-			break;
-		case STX_REGISTER_TO_MBR:
-			getPort("memory_read").putValue(1);
-			getPort("IRF_only").putValue(1);
-			getPort("MBR_input_sel").putValue(1);
-			break;
-		case STX_MEMORY_ACCESS:
-			getPort("memory_write").putValue(1);
-			break;
-		case UPDATE_PC:
-			getPort("PC_write").putValue(1);
-			break;
+		Set<String> converter = portConvertations.get(currentState);
+		if (converter != null) {
+			for (String port : converter) {
+				getPort(port).putValue(1);
+			}
 		}
 		return true;
 	}
