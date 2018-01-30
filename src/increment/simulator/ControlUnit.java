@@ -1,9 +1,14 @@
 package increment.simulator;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashSet;
+
+import increment.simulator.util.ConvenientStreamTokenizer;
 
 /**
  * The control unit. It controls how everything else works, such as write signals, or who is to use the bus.
+ * This design reads a script for status changes inside the ControlUnit, so to enable more flexible design.
  * 
  * The controlUnit has one input:
  * 		* opcode[6]
@@ -48,6 +53,12 @@ public class ControlUnit extends Chip {
 	private boolean ticked = false;
 	private HashSet<String> inputPortNames;
 	public ControlUnit() {
+		try {
+			loadFile();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		inputPortNames = new HashSet<>();
 		status = Status.INITIALIZED;
 		addPort("opcode", 6);
@@ -65,6 +76,33 @@ public class ControlUnit extends Chip {
 		addPort("GPRF_output", 1);
 		addPort("IRF_write", 1);
 		addPort("IRF_only", 1);
+	}
+	/**
+	 * Loads a configuration file and form all logic needed.
+	 * This takes place of all the mess.
+	 * @throws FileNotFoundException if file not found of course.
+	 */
+	private void loadFile() throws FileNotFoundException {
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new FileReader(""));
+
+		final int EXPECTING_OPENING_BRACKETS_FOR_PORTS_DEFINITIONS = 0;
+		final int EXPECTING_CLOSING_BRACKETS_OR_PORT_NAME = 1;
+		final int EXPECTING_CLOSING_BRACKETS_OR_ANOTHER_PORT = 2;
+		final int EXPECTING_PORT_NAME = 3;
+		final int EXPECTING_OPENING_BRACKETS_FOR_STATES_DEFINITIONS = 4;
+		final int EXPECTING_CLOSING_BRACKETS_OR_STATE_NAME = 5;
+		final int EXPECTING_CLOSING_BRACKETS_OR_ANOTHER_STATE = 6;
+		final int EXPECTING_STATE_NAME = 7;
+		final int EXPECTING_OPENING_BRACKETS_FOR_STATE_CHANGE_RULES = 8;
+		final int EXPECTING_CLOSING_BRACKETS_OR_BASE_STATE = 9;
+		final int EXPECTING_BASE_STATE_NAME_OR_CLOSING_BRACKETS = 10;
+		final int EXPECTING_CONNECTING_COLON = 11;
+		final int EXPECTING_TARGET_STATE = 12;
+		final int EXPECTING_CLOSING_BRACKETS_STATE_DEFALUT_CASE_STATE_OR_OPCODE_VALUE = 13;
+		final int EXPECTING_TARGET_SPLIT_COLON = 14;
+		final int EXPECTING_TARGET_STATE_FOR_GIVEN_OPCODE = 15;
+		final int EXPECTING_TARGET_STATE_CLOSING_BRACKETS = 16;
+		final int EXPECTING_OPENING_BRACKETS_FOR_STATE_PORT_STATES = 17;
 	}
 	/**
 	 * Resets all outputs to zero.
