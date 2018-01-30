@@ -13,6 +13,15 @@ package increment.simulator;
  */
 public class ConstantChip extends Chip {
 	private Cable data;
+	/**
+	 * This is a wrapper to satisfy reflection.
+	 * @param width
+	 * @param value
+	 */
+	public ConstantChip(int width, int value) {
+		this(width, (long)value);
+	}
+	
 	public ConstantChip(int width, long value) {
 		data = new SingleCable(width);
 		data.putValue(value);
