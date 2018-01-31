@@ -51,6 +51,7 @@ public class Machine {
 	private void loadFile() throws IOException {
 		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new FileReader("chipsDef.ini"));
 		parseChipsDefinition(tokens);
+		parseCablesDefinition(tokens);
 		
 		int token = tokens.nextToken();
 		String chipName = null;
@@ -251,6 +252,62 @@ public class Machine {
 			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be param.");
 		return (int)tokens.nval;
 	}
+	/**
+	 * Parser for chips definition.
+	 * @param tokens
+	 * @throws IOException
+	 */
+	private void parseCablesDefinition(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != '{')
+			panic("Cannot find openning brackets for cables.");
+		while (parseCable(tokens));
+		if (tokens.nextToken() != '}')
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '}'.");
+	}
+	private boolean parseCable(ConvenientStreamTokenizer tokens) throws IOException {
+		Object[] chipPortDef = parseChipPort(tokens);
+		if (chipPortDef == null) 
+			return false;
+		Cable workingCable = new SingleCable(getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]));
+		getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], workingCable);
+		int token = tokens.nextToken();
+		while (token == '-') {
+			chipPortDef = parseChipPort(tokens);
+			if (chipPortDef == null)
+				panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nExpecting: Chip.Port");
+			// TODO: check based on [.
+			if (getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]) == workingCable.getWidth())
+				getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], workingCable);
+			else {
+				Cable adapter = new CableAdapter(getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]), workingCable);
+				getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], adapter);
+			}
+			token = tokens.nextToken();
+		}
+		if (token == ':') {
+			if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD)
+				panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nExpecting: Cable name.");
+			cables.put(tokens.sval, workingCable);
+			return true;
+		}
+		tokens.pushBack();
+		return true;
+	}
+	
+	private Object[] parseChipPort(ConvenientStreamTokenizer tokens) throws IOException{
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD) {
+			tokens.pushBack();
+			return null;
+		}
+		String chipName = tokens.sval;
+		if (tokens.nextToken() != '.')
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '.'.");
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD)
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be port name.");
+		String portName = tokens.sval;
+		return new Object[]{chipName,portName};
+	}
+	
 	private Map<String, Chip> chips = new HashMap<>();
 	private Map<String, Cable> cables = new HashMap<>();
 	public Chip getChip(String name) {
