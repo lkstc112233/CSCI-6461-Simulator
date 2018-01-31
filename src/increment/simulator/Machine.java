@@ -2,9 +2,9 @@ package increment.simulator;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import increment.simulator.tools.AssemblyCompiler;
@@ -49,7 +49,9 @@ public class Machine {
 	 * @throws IOException When load file failed.
 	 */
 	private void loadFile() throws IOException {
-		StreamTokenizer tokens = new ConvenientStreamTokenizer(new FileReader("chipsDef.ini"));
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new FileReader("chipsDef.ini"));
+		parseChipsDefinition(tokens);
+		
 		int token = tokens.nextToken();
 		String chipName = null;
 		String chipType = null;
@@ -70,7 +72,7 @@ public class Machine {
 		final int EXPECTING_CABLE_NAME = 12;
 		int currentStatus = EXPECTING_OPENING_BRACKETS_FOR_CHIPS;
 		ArrayList<Object> args = null;
-		while (token != StreamTokenizer.TT_EOF) {
+		while (token != ConvenientStreamTokenizer.TT_EOF) {
 			switch(currentStatus) {
 			case EXPECTING_OPENING_BRACKETS_FOR_CABLES:
 			case EXPECTING_OPENING_BRACKETS_FOR_CHIPS:
@@ -86,7 +88,7 @@ public class Machine {
 						panic("Syntax error before } on line " + tokens.lineno());
 					} 
 					currentStatus = EXPECTING_OPENING_BRACKETS_FOR_CABLES;
-				} else if (token == StreamTokenizer.TT_WORD) {
+				} else if (token == ConvenientStreamTokenizer.TT_WORD) {
 					chipName = tokens.sval;
 					chipType = null;
 					args = new ArrayList<>();
@@ -102,7 +104,7 @@ public class Machine {
 				currentStatus = EXPECTING_CHIP_TYPE;
 				break;
 			case EXPECTING_CHIP_TYPE:
-				if (token != StreamTokenizer.TT_WORD) {
+				if (token != ConvenientStreamTokenizer.TT_WORD) {
 					panic("Expecting chip type on line " + tokens.lineno());
 				}
 				chipType = tokens.sval;
@@ -118,7 +120,7 @@ public class Machine {
 						panic("Syntax error before } on line " + tokens.lineno());
 					} 
 					currentStatus = EXPECTING_OPENING_BRACKETS_FOR_CABLES;
-				} else if (token == StreamTokenizer.TT_WORD) {
+				} else if (token == ConvenientStreamTokenizer.TT_WORD) {
 					chips.put(chipName, ChipFactory.makeChip(chipType, args.toArray()));
 					chipType = null;
 					chipName = tokens.sval;
@@ -129,9 +131,9 @@ public class Machine {
 				}
 				break;
 			case EXPECTING_ARGUMENT:
-				if (token == StreamTokenizer.TT_NUMBER){
+				if (token == ConvenientStreamTokenizer.TT_NUMBER){
 					args.add(new Integer((int)tokens.nval));
-				}else if (token == StreamTokenizer.TT_WORD){
+				}else if (token == ConvenientStreamTokenizer.TT_WORD){
 					args.add(tokens.sval);
 				}
 				currentStatus = EXPECTING_CLOSING_BRACKETS_OR_CHIP_NAME_OR_ARGUMENT;
@@ -139,7 +141,7 @@ public class Machine {
 			case EXPECTING_CLOSING_BRACKETS_OR_CABLE_ELEMENT:
 				if (token == '}') {
 					return;
-				} else if (token == StreamTokenizer.TT_WORD) {
+				} else if (token == ConvenientStreamTokenizer.TT_WORD) {
 					cable = null;
 					cableChipName = tokens.sval;
 					currentStatus = EXPECTING_DOT;
@@ -154,7 +156,7 @@ public class Machine {
 				currentStatus = EXPECTING_PORT_NAME;
 				break;
 			case EXPECTING_PORT_NAME:
-				if (token != StreamTokenizer.TT_WORD) {
+				if (token != ConvenientStreamTokenizer.TT_WORD) {
 					panic("Expecting port name on line " + tokens.lineno());
 				}
 				Chip c = chips.get(cableChipName);
@@ -183,7 +185,7 @@ public class Machine {
 					currentStatus = EXPECTING_CABLE_NAME;
 				}else if (token == '}'){
 					return;
-				}else if (token == StreamTokenizer.TT_WORD){
+				}else if (token == ConvenientStreamTokenizer.TT_WORD){
 					cable = null;
 					cableChipName = tokens.sval;
 					currentStatus = EXPECTING_DOT;
@@ -191,14 +193,14 @@ public class Machine {
 					panic("Unexpected token at line "+tokens.lineno() +", '" + ((char)token) + "'");
 				break;
 			case EXPECTING_CABLE_ELEMENT:
-				if (token != StreamTokenizer.TT_WORD) {
+				if (token != ConvenientStreamTokenizer.TT_WORD) {
 					panic("Expecting port name on line " + tokens.lineno());
 				}
 				cableChipName = tokens.sval;
 				currentStatus = EXPECTING_DOT;
 				break;
 			case EXPECTING_CABLE_NAME:
-				if (token != StreamTokenizer.TT_WORD) {
+				if (token != ConvenientStreamTokenizer.TT_WORD) {
 					panic("Expecting port name on line " + tokens.lineno());
 				}
 				cables.put(tokens.sval, cable);
@@ -208,6 +210,46 @@ public class Machine {
 			}
 			token = tokens.nextToken();
 		}
+	}
+	/**
+	 * Parser for chips definition.
+	 * @param tokens
+	 * @throws IOException
+	 */
+	private void parseChipsDefinition(ConvenientStreamTokenizer tokens) throws IOException{
+		if (tokens.nextToken() != '{')
+			panic("Cannot find openning brackets for chips.");
+		while (parseChip(tokens));
+		if (tokens.nextToken() != '}')
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '}'.");
+	}
+	private boolean parseChip(ConvenientStreamTokenizer tokens) throws IOException{
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD){
+			tokens.pushBack();
+			return false;
+		}
+		String chipName = tokens.sval;	
+		if (tokens.nextToken() != ':')
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '.'.");
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD)
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be typeName.");
+		String chipType = tokens.sval;
+		List<Object> params = new ArrayList<Object>();
+		Object param = null;
+		while ((param = parseParam(tokens)) != null)
+			params.add(param);
+		// Make chip.
+		chips.put(chipName, ChipFactory.makeChip(chipType, params.toArray()));
+		return true;
+	}
+	private Object parseParam(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ','){
+			tokens.pushBack();
+			return null;
+		}
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be param.");
+		return (int)tokens.nval;
 	}
 	private Map<String, Chip> chips = new HashMap<>();
 	private Map<String, Cable> cables = new HashMap<>();
