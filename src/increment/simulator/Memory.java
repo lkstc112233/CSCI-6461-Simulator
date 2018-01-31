@@ -3,7 +3,7 @@ package increment.simulator;
 import increment.simulator.tools.AssemblyCompiler.CompiledProgram;
 
 /**
- * The memory. It's abstracted as a black box that supports read/write by byte.
+ * The memory. It's abstracted as a black box that supports read/load by byte.
  * 
  * @author Xu Ke
  *
@@ -14,7 +14,7 @@ public class Memory extends Chip {
 	/**
 	 * Constructor. Creating a 16-bit addressed memory.
 	 * A memory will have three inputs:
-	 * 		* write[1]
+	 * 		* load[1]
 	 * 		* address[12]
 	 * 		* input[16] 
 	 * A memory will have one output:
@@ -25,7 +25,7 @@ public class Memory extends Chip {
 		data = new Cable[4096];
 		for (int i = 0; i < data.length; ++i)
 			data[i] = new SingleCable(16);
-		addPort("write", 1);
+		addPort("load", 1);
 		addPort("address", 12);
 		addPort("input", 16);
 		addPort("output", 16);
@@ -34,7 +34,7 @@ public class Memory extends Chip {
 	 * When timer ticks, if input[0] is true, we move data of input to data[address].
 	 */
 	public void tick(){
-		if (getPort("write").getBit(0)) {
+		if (getPort("load").getBit(0)) {
 			data[(int) getPort("address").toInteger()].assign(getPort("input"));
 		}
 	}
