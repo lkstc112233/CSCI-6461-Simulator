@@ -17,20 +17,20 @@ package increment.simulator;
  */
 public class InstructionDecoder extends Chip {
 	public InstructionDecoder() {
-		addInput("input", 16);
-		addOutput("opcode", 6);
-		addOutput("IX", 2);
-		addOutput("R", 2);
-		addOutput("I", 1);
-		addOutput("address", 5);
+		addPort("input", 16);
+		addPort("opcode", 6);
+		addPort("IX", 2);
+		addPort("R", 2);
+		addPort("I", 1);
+		addPort("address", 5);
 	}
 	public boolean evaluate() {
 		boolean vary = false;
-		vary |= getOutput("opcode").partialAssign(0, getInput("input"), 10, 6);
-		vary |= getOutput("R").partialAssign(0, getInput("input"), 8, 2);
-		vary |= getOutput("IX").partialAssign(0, getInput("input"), 6, 2);
-		vary |= getOutput("I").partialAssign(0, getInput("input"), 5, 1);
-		vary |= getOutput("address").partialAssign(0, getInput("input"), 0, 5);
+		vary |= getPort("opcode").partialAssign(0, getPort("input"), 10, 6);
+		vary |= getPort("R").partialAssign(0, getPort("input"), 8, 2);
+		vary |= getPort("IX").partialAssign(0, getPort("input"), 6, 2);
+		vary |= getPort("I").partialAssign(0, getPort("input"), 5, 1);
+		vary |= getPort("address").partialAssign(0, getPort("input"), 0, 5);
 		return vary;
 	}
 }

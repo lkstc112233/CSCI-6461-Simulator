@@ -26,23 +26,23 @@ public class ClockRegister extends Chip {
 	 */
 	public ClockRegister(int width){
 		data = new SingleCable(width);
-		addInput("write", 1);
-		addInput("input", width);
-		addOutput("output", width);
+		addPort("write", 1);
+		addPort("input", width);
+		addPort("output", width);
 	}
 	/**
 	 * When timer ticks, if input[0] is true, we move data of input to data.
 	 */
 	public void tick(){
-		if (getInput("write").getBit(0)) {
-			data.assign(getInput("input"));
+		if (getPort("write").getBit(0)) {
+			data.assign(getPort("input"));
 		}
 	}
 	/**
 	 * When evaluates, we move data to output.
 	 */
 	public boolean evaluate(){
-		if (getOutput("output").assign(data))
+		if (getPort("output").assign(data))
 			return true;
 		return false;
 	}

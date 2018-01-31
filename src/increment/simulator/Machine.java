@@ -1,7 +1,16 @@
 package increment.simulator;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import increment.simulator.tools.AssemblyCompiler;
+import increment.simulator.tools.AssemblyCompiler.CompiledProgram;
+import increment.simulator.util.ConvenientStreamTokenizer;
+import static increment.simulator.util.ExceptionHandling.panic;
 
 /**
  * A simulated machine.
@@ -10,119 +19,138 @@ import java.util.Map;
  */
 public class Machine {
 	public Machine() {
-		chips = new HashMap<>();
-		cables = new HashMap<>();
-		// Initialize Memory
-		Memory mem;
-		chips.put("memory", mem = new Memory());
-		// Initialize Control Unit.
-		chips.put("CU", new ControlUnit());
-		// Make chips.
-		chips.put("decoder", new InstructionDecoder());
-		chips.put("IR", new ClockRegister(16));
-		chips.put("MAR", new ClockRegister(12));
-		chips.put("MBR", new ClockRegister(16));
-		chips.put("MBR_input_mux", new Mux(1, 16));
-		chips.put("MBR_Gate", new Gate(16));
-		chips.put("PC", new ClockRegister(12));
-		chips.put("PC_Gate", new Gate(12));
-		chips.put("EA_Gate", new Gate(16));
-		chips.put("GeneralPurposeRegisterFile", new RegisterFile(2, 16));
-		chips.put("IndexRegisterFile", new RegisterFile(2, 16));
-		chips.put("address_adder", new Adder(16));
-		chips.put("address_adder_operand_1_mux", new Mux(1, 5));
-		chips.put("GPRF_Gate", new Gate(16));
-		chips.put("PC_Adder", new Adder(12));
-		chips.put("Constant 1", new ConstantChip(1, 1));
-		chips.put("Constant 0", new ConstantChip(1));
-		// Make bus.
-		cables.put("bus", new SingleCable(16));
-		// Connect chips.
-		singleConnect("PC", "write", "CU", "PC_write", 1);
-		singleConnect("PC_Gate", "input", "PC", "output", 12);
-		getChip("PC_Adder").connectInput("operand1", getChip("PC").getOutput("output"));
-		getChip("PC_Adder").connectInput("operand2", new SingleCable(12));
-		getChip("Constant 1").connectOutput("output", new CableAdapter(1, getChip("PC_Adder").getInput("operand2")));
-		singleConnect("PC", "input", "PC_Adder", "result", 12);
-		singleConnect("PC_Gate", "transfer", "CU", "PC_output", 1);
-		Cable foo = new CableAdapter(12, getCable("bus"));
-		getChip("PC_Gate").connectOutput("output", foo);
-		foo = new CableAdapter(12, getCable("bus"));
-		getChip("MAR").connectInput("input", foo);
-		singleConnect("MAR", "write", "CU", "MAR_write", 1);
-		singleConnect("memory", "address", "MAR", "output", 12);
-		singleConnect("MBR_input_mux", "input0", "memory", "output", 16);
-		getChip("MBR_input_mux").connectInput("input1", getCable("bus"));
-		singleConnect("MBR_input_mux", "sel", "CU", "MBR_input_sel", 1);
-		singleConnect("MBR", "input", "MBR_input_mux", "output", 16);
-		singleConnect("MBR", "write", "CU", "memory_read", 1);
-		singleConnect("MBR_Gate", "input", "MBR", "output", 16);
-		getChip("memory").connectInput("input", getChip("MBR").getOutput("output"));
-		singleConnect("memory", "write", "CU", "memory_write", 1);
-		singleConnect("MBR_Gate", "transfer", "CU", "MBR_output", 1);
-		getChip("MBR_Gate").connectOutput("output", getCable("bus"));
-		getChip("IR").connectInput("input", getCable("bus"));
-		singleConnect("decoder", "input", "IR", "output", 16);
-		singleConnect("IR", "write", "CU", "IR_write", 1);
-		singleConnect("CU", "opcode", "decoder", "opcode", 6);
-		singleConnect("EA_Gate", "transfer", "CU", "EA_Gate", 1);
-		singleConnect("GeneralPurposeRegisterFile", "address", "decoder", "R", 2);
-		singleConnect("GeneralPurposeRegisterFile", "write", "CU", "GPRF_write", 1);
-		getChip("GeneralPurposeRegisterFile").connectInput("input", getCable("bus"));
-		singleConnect("GPRF_Gate", "input", "GeneralPurposeRegisterFile", "output", 16);
-		singleConnect("GPRF_Gate", "transfer", "CU", "GPRF_output", 1);
-		getChip("GPRF_Gate").connectOutput("output", getCable("bus"));
-		singleConnect("IndexRegisterFile", "address", "decoder", "IX", 2);
-		singleConnect("IndexRegisterFile", "write", "CU", "IRF_write", 1);
-		getChip("IndexRegisterFile").connectInput("input", getCable("bus"));
-		getChip("address_adder").connectInput("operand1", new SingleCable(16));
-		singleConnect("address_adder_operand_1_mux", "input0", "decoder", "address", 5);
-		singleConnect("address_adder_operand_1_mux", "sel", "CU", "IRF_only", 1);
-		getChip("address_adder_operand_1_mux").connectOutput("output", new CableAdapter(5, getChip("address_adder").getInput("operand1")));
-		singleConnect("address_adder", "operand2", "IndexRegisterFile", "output", 16);
-		getChip("EA_Gate").connectOutput("output", getCable("bus"));
-		singleConnect("EA_Gate", "input", "address_adder", "result", 16);
+		try {
+			loadFile();
+		} catch (IOException e) {
+			System.err.println("Configuration file not found.");
+			System.exit(-1);
+		} catch (IllegalStateException e) {
+			System.err.println("Configuration file format error:");
+			System.err.println(e.getMessage());
+			System.exit(-1);
+		}
+		
+		Memory mem = (Memory) getChip("memory");
 		
 		// SIMULATED Boot Loader: 
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(0x10);
 		((RegisterFile)getChip("IndexRegisterFile")).setValue(0, 0);
-		mem.putValue(0x10, 0x848F); // LDX 2,15		1000 0100 1000 1111
-		mem.putValue(0x11, 0x0494); // LDR 0,2,20,0	0000 0100 1001 0100
-		mem.putValue(0x12, 0x0D06); // LDA 1,2,6,0	0000 1101 0000 0110
-		mem.putValue(0x13, 0x0000); // HALT
+		String program = "LDX 2, 15 LDR 0, 2, 20, 0 LDA 1, 2, 6 HLT";
+		CompiledProgram code = AssemblyCompiler.compile(program);
+		mem.loadProgram(0x10, code);
 		mem.putValue(0x0F, 0x0230); // Data (560) at 0x0F, it's used as an address for IDX
 		mem.putValue(0x244, 0x2134); // Data at 580(0x244)
 	}
 	/**
-	 * Connects two ports on two chips, one with an input and the other with an output,
-	 * with a single cable of given width.
-	 * @param inputChipName
-	 * @param inputChipPort
-	 * @param outputChipName
-	 * @param outputChipPort
-	 * @param width
+	 * Loads a configuration file from disk.
+	 * Utilizes {@link java.io.StreamTokenizer} to tokenize.
+	 * @throws IOException When load file failed.
 	 */
-	private void singleConnect(String inputChipName, String inputChipPort,String outputChipName, String outputChipPort, int width){
-		Cable foo = new SingleCable(width);
-		connect(inputChipName, inputChipPort, outputChipName, outputChipPort, foo);
+	private void loadFile() throws IOException {
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new FileReader("chipsDef.ini"));
+		parseChipsDefinition(tokens);
+		parseCablesDefinition(tokens);
 	}
 	/**
-	 * Connects two ports on two chips, one with an input and the other with an output,
-	 * with a given cable.
-	 * @param inputChipName
-	 * @param inputChipPort
-	 * @param outputChipName
-	 * @param outputChipPort
-	 * @param cable
+	 * Parser for chips definition.
+	 * @param tokens
+	 * @throws IOException
 	 */
-	private void connect(String inputChipName, String inputChipPort,String outputChipName, String outputChipPort, Cable cable) {
-		getChip(inputChipName).connectInput(inputChipPort, cable);
-		getChip(outputChipName).connectOutput(outputChipPort, cable);
+	private void parseChipsDefinition(ConvenientStreamTokenizer tokens) throws IOException{
+		if (tokens.nextToken() != '{')
+			panic("Cannot find openning brackets for chips.");
+		while (parseChip(tokens));
+		if (tokens.nextToken() != '}')
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '}'.");
 	}
-	private Map<String, Chip> chips;
-	private Map<String, Cable> cables;
+	private boolean parseChip(ConvenientStreamTokenizer tokens) throws IOException{
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD){
+			tokens.pushBack();
+			return false;
+		}
+		String chipName = tokens.sval;	
+		if (tokens.nextToken() != ':')
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '.'.");
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD)
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be typeName.");
+		String chipType = tokens.sval;
+		List<Object> params = new ArrayList<Object>();
+		Object param = null;
+		while ((param = parseParam(tokens)) != null)
+			params.add(param);
+		// Make chip.
+		chips.put(chipName, ChipFactory.makeChip(chipType, params.toArray()));
+		return true;
+	}
+	private Object parseParam(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ','){
+			tokens.pushBack();
+			return null;
+		}
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be param.");
+		return (int)tokens.nval;
+	}
+	/**
+	 * Parser for chips definition.
+	 * @param tokens
+	 * @throws IOException
+	 */
+	private void parseCablesDefinition(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != '{')
+			panic("Cannot find openning brackets for cables.");
+		while (parseCable(tokens));
+		if (tokens.nextToken() != '}')
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '}'.");
+	}
+	private boolean parseCable(ConvenientStreamTokenizer tokens) throws IOException {
+		Object[] chipPortDef = parseChipPort(tokens);
+		if (chipPortDef == null) 
+			return false;
+		Cable workingCable = new SingleCable(getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]));
+		getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], workingCable);
+		int token = tokens.nextToken();
+		while (token == '-') {
+			chipPortDef = parseChipPort(tokens);
+			if (chipPortDef == null)
+				panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nExpecting: Chip.Port");
+			// TODO: check based on [.
+			if (getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]) == workingCable.getWidth())
+				getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], workingCable);
+			else {
+				Cable adapter = new CableAdapter(getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]), workingCable);
+				getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], adapter);
+			}
+			token = tokens.nextToken();
+		}
+		if (token == ':') {
+			if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD)
+				panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nExpecting: Cable name.");
+			cables.put(tokens.sval, workingCable);
+			return true;
+		}
+		tokens.pushBack();
+		return true;
+	}
+	
+	private Object[] parseChipPort(ConvenientStreamTokenizer tokens) throws IOException{
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD) {
+			tokens.pushBack();
+			return null;
+		}
+		String chipName = tokens.sval;
+		if (tokens.nextToken() != '.')
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '.'.");
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD)
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be port name.");
+		String portName = tokens.sval;
+		return new Object[]{chipName,portName};
+	}
+	
+	private Map<String, Chip> chips = new HashMap<>();
+	private Map<String, Cable> cables = new HashMap<>();
 	public Chip getChip(String name) {
 		return chips.get(name);
 	}
