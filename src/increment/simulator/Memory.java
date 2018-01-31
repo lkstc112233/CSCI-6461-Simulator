@@ -1,4 +1,7 @@
 package increment.simulator;
+
+import increment.simulator.tools.AssemblyCompiler.CompiledProgram;
+
 /**
  * The memory. It's abstracted as a black box that supports read/write by byte.
  * 
@@ -22,24 +25,24 @@ public class Memory extends Chip {
 		data = new Cable[4096];
 		for (int i = 0; i < data.length; ++i)
 			data[i] = new SingleCable(16);
-		addInput("write", 1);
-		addInput("address", 12);
-		addInput("input", 16);
-		addOutput("output", 16);
+		addPort("write", 1);
+		addPort("address", 12);
+		addPort("input", 16);
+		addPort("output", 16);
 	}
 	/**
 	 * When timer ticks, if input[0] is true, we move data of input to data[address].
 	 */
 	public void tick(){
-		if (getInput("write").getBit(0)) {
-			data[(int) getInput("address").toInteger()].assign(getInput("input"));
+		if (getPort("write").getBit(0)) {
+			data[(int) getPort("address").toInteger()].assign(getPort("input"));
 		}
 	}
 	/**
 	 * When evaluates, we move specified data to output.
 	 */
 	public boolean evaluate(){
-		return getOutput("output").assign(data[(int) getInput("address").toInteger()]);
+		return getPort("output").assign(data[(int) getPort("address").toInteger()]);
 	}
 	/**
 	 * Turns chip value into a readable way.
@@ -57,5 +60,15 @@ public class Memory extends Chip {
 	}
 	public void putValue(int address, int value) {
 		data[address].putValue(value);
+	}
+	/**
+	 * Load a program into memory.
+	 * @param address The starting address in memory. 
+	 * @param code The compiled program. {@link increment.simulator.tools.AssemblyCompiler}
+	 */
+	public void loadProgram(int address, CompiledProgram code) {
+		for (Short ins : code) {
+			putValue(address++, ins);
+		}
 	}
 }

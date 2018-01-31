@@ -21,14 +21,14 @@ package increment.simulator;
 public class Mux extends Chip {
 	public Mux(int addressWidth, int width){
 		for (int i = 0; i < (1 << addressWidth); ++i) 
-			addInput("input" + Integer.toString(i), width);
-		addInput("sel", addressWidth);
-		addOutput("output", width);
+			addPort("input" + Integer.toString(i), width);
+		addPort("sel", addressWidth);
+		addPort("output", width);
 	}
 	/**
 	 * Moves the very input to output.
 	 */
 	public boolean evaluate(){
-		return getOutput("output").assign(getInput("input" + Long.toString(getInput("sel").toInteger())));
+		return getPort("output").assign(getPort("input" + Long.toString(getPort("sel").toInteger())));
 	}
 }

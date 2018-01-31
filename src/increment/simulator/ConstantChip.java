@@ -13,10 +13,19 @@ package increment.simulator;
  */
 public class ConstantChip extends Chip {
 	private Cable data;
+	/**
+	 * This is a wrapper to satisfy reflection.
+	 * @param width
+	 * @param value
+	 */
+	public ConstantChip(int width, int value) {
+		this(width, (long)value);
+	}
+	
 	public ConstantChip(int width, long value) {
 		data = new SingleCable(width);
 		data.putValue(value);
-		addOutput("output", width);
+		addPort("output", width);
 	}
 	
 	public ConstantChip(int width) {
@@ -25,7 +34,7 @@ public class ConstantChip extends Chip {
 	
 	@Override
 	public boolean evaluate() {
-		getOutput("output").assign(data);
+		getPort("output").assign(data);
 		return false;
 	}
 }
