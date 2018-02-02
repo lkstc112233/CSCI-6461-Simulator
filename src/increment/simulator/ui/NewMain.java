@@ -5,13 +5,16 @@ import java.util.Map;
 
 import increment.simulator.Machine;
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -40,31 +43,8 @@ public class NewMain extends Application {
 		Scene scene = new Scene(grid, 500, 400);
 		primaryStage.setScene(scene);
 		
-		HBox box = new HBox();
-		box.getChildren().add(new Text("Tick: "));
-		Text textBox = new Text();
-		textBox.textProperty().bind(machine.getTickProperty().asString());
-		box.getChildren().add(textBox);
-		grid.add(box, 0, 0);
-
-		box = new HBox();
-		box.getChildren().add(new Text("PC: "));
-		textBox = new Text();
-		textBox.textProperty().bind(machine.getProgramCounterProperty());
-		box.getChildren().add(textBox);
-		grid.add(box, 0, 1);
-
-//		Label userName = new Label("User Name:");
-//		grid.add(userName, 0, 1);
-//
-//		TextField userTextField = new TextField();
-//		grid.add(userTextField, 1, 1);
-//
-//		Label pw = new Label("Password:");
-//		grid.add(pw, 0, 2);
-//
-//		PasswordField pwBox = new PasswordField();
-//		grid.add(pwBox, 1, 2);
+		grid.add(getBox(grid, "Tick: ", machine.getTickProperty().asString()), 0, 0);
+		grid.add(getBox(grid, "PC: ", machine.getProgramCounterProperty()), 0, 1);
 		
 		Button btn = new Button("Tick");
 		btn.setOnAction(new EventHandler<ActionEvent>(){
@@ -74,6 +54,15 @@ public class NewMain extends Application {
 			}});
 		grid.add(btn, 0, 2);
 		primaryStage.show();
+	}
+
+	private Node getBox(GridPane grid, String hint, ObservableValue<? extends String> binding) {
+		VBox box = new VBox();
+		box.getChildren().add(new Text(hint));
+		Text textBox = new Text();
+		textBox.textProperty().bind(binding);
+		box.getChildren().add(textBox);
+		return box;
 	}
 
 	public static void main(String[] args) {
