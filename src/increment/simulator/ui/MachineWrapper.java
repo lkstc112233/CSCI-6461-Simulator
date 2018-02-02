@@ -2,19 +2,10 @@ package increment.simulator.ui;
 
 import increment.simulator.ClockRegister;
 import increment.simulator.Machine;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongPropertyBase;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.adapter.ReadOnlyJavaBeanLongProperty;
-import javafx.beans.property.adapter.ReadOnlyJavaBeanLongPropertyBuilder;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanStringProperty;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanStringPropertyBuilder;
-import javafx.beans.property.LongProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 /**
  * A wrapper class for machine intended to support features from data binding.
