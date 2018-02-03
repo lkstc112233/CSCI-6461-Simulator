@@ -4,7 +4,7 @@ package increment.simulator;
  * A clock register.
  * 
  * A clock register will have two inputs:
- * 		* write[1]
+ * 		* load[1]
  * 		* input[width]
  * A clock register will have one output:
  * 		* output[width]
@@ -18,7 +18,7 @@ public class ClockRegister extends Chip {
 	/**
 	 * Constructor. Creating a register of width of ```width```.
 	 * A clock register will have two inputs:
-	 * 		* write[1]
+	 * 		* load[1]
 	 * 		* input[width]
 	 * A clock register will have one output:
 	 * 		* output[width]
@@ -26,7 +26,7 @@ public class ClockRegister extends Chip {
 	 */
 	public ClockRegister(int width){
 		data = new SingleCable(width);
-		addPort("write", 1);
+		addPort("load", 1);
 		addPort("input", width);
 		addPort("output", width);
 	}
@@ -34,7 +34,7 @@ public class ClockRegister extends Chip {
 	 * When timer ticks, if input[0] is true, we move data of input to data.
 	 */
 	public void tick(){
-		if (getPort("write").getBit(0)) {
+		if (getPort("load").getBit(0)) {
 			data.assign(getPort("input"));
 		}
 	}

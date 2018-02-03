@@ -2,7 +2,7 @@ This file contains how we arrange chips and wires, maybe also how they works.
 
 Currently we have something like below:
 
-0			-> PC.write
+0			-> PC.load
 null		-> PC.input
 PC.output	-> null
 

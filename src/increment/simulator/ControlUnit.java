@@ -13,7 +13,7 @@ import increment.simulator.util.ConvenientStreamTokenizer;
 import static increment.simulator.util.ExceptionHandling.panic;
 
 /**
- * The control unit. It controls how everything else works, such as write signals, or who is to use the bus.
+ * The control unit. It controls how everything else works, such as load signals, or who is to use the bus.
  * This design reads a script for status changes inside the ControlUnit, so to enable more flexible design.
  * 
  * The controlUnit has one input:
@@ -329,5 +329,15 @@ public class ControlUnit extends Chip {
 			}
 		}
 		return true;
+	}
+	/**
+	 * Shows current control unit status.
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Current Status:\n\t");
+		sb.append(currentState);
+		return sb.toString();
 	}
 }
