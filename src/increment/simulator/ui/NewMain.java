@@ -65,6 +65,7 @@ public class NewMain extends Application {
 		grid.add(getBox(grid, "IR: ", machine.getInstructionRegisterProperty()), 0, 5);
 		grid.add(getBox(grid, "GPRF: ", machine.getGeneralPurposeRegisterFileProperty()), 1, 0, 1, 2);
 		grid.add(getBox(grid, "IRF: ", machine.getIndexRegisterFileProperty()), 1, 2, 1, 2);
+		grid.add(getBox(grid, "Control Unit: ", machine.getControlUnitProperty()), 1, 4);
 		grid.add(getScrollBox(grid, "Memory: ", machine.getMemoryProperty()), 2, 0, 1, 6);
 
 		Button btn = new Button("Tick");

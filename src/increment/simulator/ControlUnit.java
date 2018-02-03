@@ -330,4 +330,14 @@ public class ControlUnit extends Chip {
 		}
 		return true;
 	}
+	/**
+	 * Shows current control unit status.
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Current Status:\n\t");
+		sb.append(currentState);
+		return sb.toString();
+	}
 }

@@ -37,6 +37,8 @@ public class MachineWrapper {
 	public ReadOnlyJavaBeanStringProperty getIndexRegisterFileProperty() { return indexRegisterFileProperty; }
 	private ReadOnlyJavaBeanStringProperty memoryProperty;
 	public ReadOnlyJavaBeanStringProperty getMemoryProperty() { return memoryProperty; }
+	private ReadOnlyJavaBeanStringProperty controlUnitProperty;
+	public ReadOnlyJavaBeanStringProperty getControlUnitProperty() { return controlUnitProperty; }
 	
 	public MachineWrapper(Machine machine) {
     	this.machine = machine;
@@ -51,7 +53,8 @@ public class MachineWrapper {
     		properties.add(generalPurposeRegisterFileProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("generalPurposeRegisterFile").build());
     		properties.add(indexRegisterFileProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("indexRegisterFile").build());
     		properties.add(memoryProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("memory").build());
-		} catch (NoSuchMethodException e) {
+    		properties.add(controlUnitProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("controlUnit").build());
+    	} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
@@ -68,6 +71,7 @@ public class MachineWrapper {
     public final String getGeneralPurposeRegisterFile(){ return machine.getChip("GeneralPurposeRegisterFile").toString(); }
     public final String getIndexRegisterFile(){ return machine.getChip("IndexRegisterFile").toString(); }
     public final String getMemory(){ return machine.getChip("memory").toString(); }
+    public final String getControlUnit(){ return machine.getChip("CU").toString(); }
     private List<ReadOnlyJavaBeanProperty<?>> properties;
     
 	private boolean toTick = true;
