@@ -1,5 +1,6 @@
 package increment.simulator.testing;
 
+import increment.simulator.*;
 
 /** 
  * This class is intended to handle unit testing for chip (somehow). 
