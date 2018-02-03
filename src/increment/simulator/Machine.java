@@ -107,8 +107,11 @@ public class Machine {
 	}
 	private boolean parseCable(ConvenientStreamTokenizer tokens) throws IOException {
 		Object[] chipPortDef = parseChipPort(tokens);
-		if (chipPortDef == null) 
+		if (chipPortDef == null)
 			return false;
+		if (chipPortDef.length != 2) {
+			// handle partial in first element.
+		}
 		Cable workingCable = new SingleCable(getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]));
 		getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], workingCable);
 		int token = tokens.nextToken();
@@ -116,12 +119,28 @@ public class Machine {
 			chipPortDef = parseChipPort(tokens);
 			if (chipPortDef == null)
 				panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nExpecting: Chip.Port");
-			// TODO: check based on [.
-			if (getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]) == workingCable.getWidth())
-				getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], workingCable);
-			else {
-				Cable adapter = new CableAdapter(getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]), workingCable);
-				getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], adapter);
+			// check if it's a definition containing [.
+			if (chipPortDef.length == 2) {
+				if (getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]) == workingCable.getWidth())
+					getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], workingCable);
+				else {
+					Cable adapter = new CableAdapter(getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]), workingCable);
+					getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], adapter);
+				}
+			} else {
+				int width = ((Integer) chipPortDef[3]) - ((Integer) chipPortDef[2]) + 1;
+				Cable adapter;
+				if (chipPortDef.length < 5)
+					adapter = new CableAdapter(width, workingCable);
+				else
+					adapter = new CableAdapter(width, workingCable, (Integer)chipPortDef[4]);
+				if (width != workingCable.getWidth()) {
+					// Need a new adapter for chip.
+					Cable adapter2 = new CableAdapter(getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]), adapter);
+					getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], adapter2);
+				} else {
+					getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], adapter);
+				}
 			}
 			token = tokens.nextToken();
 		}
@@ -146,7 +165,49 @@ public class Machine {
 		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD)
 			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be port name.");
 		String portName = tokens.sval;
-		return new Object[]{chipName,portName};
+		if (tokens.nextToken() != '[') {
+			tokens.pushBack();
+			return new Object[]{chipName,portName};
+		}
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be pinStart.");
+		int startingPort = (int) tokens.nval;
+		int token = tokens.nextToken();
+		int endingPort = -1;
+		switch(token){
+		case ':':
+			if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+				panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be pinEnd.");
+			endingPort = (int) tokens.nval;
+			break;
+		case ',':
+			if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+				panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be offset.");
+			endingPort = (int) tokens.nval;
+			if (tokens.nextToken() != ']')
+				panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ']'.");
+			return new Object[]{chipName, portName, startingPort, startingPort, endingPort};
+		case ']':
+			return new Object[]{chipName, portName, startingPort, startingPort};
+		default:
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ':' or ']' or ','.");
+		}
+		token = tokens.nextToken();
+		int offset = -1;
+		switch(token){
+		case ',':
+			if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+				panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be offset.");
+			offset = (int) tokens.nval;
+			if (tokens.nextToken() != ']')
+				panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ']'.");
+			return new Object[]{chipName, portName, startingPort, endingPort, offset};
+		case ']':
+			return new Object[]{chipName, portName, startingPort, endingPort};
+		default:
+			panic("Unexpected token: \n\t" + (tokens.ttype > 0 ? ((char)tokens.ttype) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ':' or ']' or ','.");
+		}
+		return null; // Won't reach here.
 	}
 	
 	private Map<String, Chip> chips = new HashMap<>();
