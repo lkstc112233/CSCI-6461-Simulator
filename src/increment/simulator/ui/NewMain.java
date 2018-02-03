@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -36,15 +37,23 @@ public class NewMain extends Application {
 		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
-		grid.setHgap(10);
+		grid.setHgap(50);
+		grid.setMinWidth(200);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Scene scene = new Scene(grid, 500, 400);
+		Scene scene = new Scene(grid, 800, 600);
 		primaryStage.setScene(scene);
 		
 		grid.add(getBox(grid, "Tick: ", machine.getTickProperty().asString()), 0, 0);
 		grid.add(getBox(grid, "PC: ", machine.getProgramCounterProperty()), 0, 1);
+		grid.add(getBox(grid, "BUS: ", machine.getBusProperty()), 0, 2);
+		grid.add(getBox(grid, "MAR: ", machine.getMemoryAddressRegisterProperty()), 0, 3);
+		grid.add(getBox(grid, "MBR: ", machine.getMemoryBufferRegisterProperty()), 0, 4);
+		grid.add(getBox(grid, "IR: ", machine.getInstructionRegisterProperty()), 0, 5);
+		grid.add(getBox(grid, "GPRF: ", machine.getGeneralPurposeRegisterFileProperty()), 1, 0, 1, 2);
+		grid.add(getBox(grid, "IRF: ", machine.getIndexRegisterFileProperty()), 1, 2, 1, 2);
+		grid.add(getScrollBox(grid, "Memory: ", machine.getMemoryProperty()), 2, 0, 1, 6);
 		
 		Button btn = new Button("Tick");
 		btn.setOnAction(new EventHandler<ActionEvent>(){
@@ -52,7 +61,7 @@ public class NewMain extends Application {
 			public void handle(ActionEvent event) {
 				machine.tick();
 			}});
-		grid.add(btn, 0, 2);
+		grid.add(btn, 0, 6);
 		primaryStage.show();
 	}
 
@@ -62,6 +71,16 @@ public class NewMain extends Application {
 		Text textBox = new Text();
 		textBox.textProperty().bind(binding);
 		box.getChildren().add(textBox);
+		return box;
+	}
+	
+	private Node getScrollBox(GridPane grid, String hint, ObservableValue<? extends String> binding) {
+		VBox box = new VBox();
+		box.getChildren().add(new Text(hint));
+		Text textBox = new Text();
+		textBox.textProperty().bind(binding);
+		ScrollPane scp = new ScrollPane(textBox);
+		box.getChildren().add(scp);
 		return box;
 	}
 
