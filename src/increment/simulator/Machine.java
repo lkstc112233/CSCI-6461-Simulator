@@ -37,7 +37,7 @@ public class Machine {
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(0x10);
 		((RegisterFile)getChip("IndexRegisterFile")).setValue(0, 0);
-		String program = "LDX 2, 15 LDR 0, 2, 20, 0 LDA 1, 2, 6 HLT";
+		String program = "LDX 2, 15 LDR 0, 2, 20, 0 STR 0, 2, 6 HLT";
 		CompiledProgram code = AssemblyCompiler.compile(program);
 		mem.loadProgram(0x10, code);
 		mem.putValue(0x0F, 0x0230); // Data (560) at 0x0F, it's used as an address for IDX
