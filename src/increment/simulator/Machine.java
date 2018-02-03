@@ -136,7 +136,7 @@ public class Machine {
 					adapter = new CableAdapter(width, workingCable, (Integer)chipPortDef[4]);
 				if (width != workingCable.getWidth()) {
 					// Need a new adapter for chip.
-					Cable adapter2 = new CableAdapter(getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]), adapter);
+					Cable adapter2 = new CableAdapter(getChip((String)chipPortDef[0]).getPortWidth((String)chipPortDef[1]), adapter, - ((Integer) chipPortDef[2]));
 					getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], adapter2);
 				} else {
 					getChip((String)chipPortDef[0]).connectPort((String)chipPortDef[1], adapter);

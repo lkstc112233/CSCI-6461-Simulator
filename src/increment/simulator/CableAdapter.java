@@ -41,18 +41,14 @@ public class CableAdapter extends Cable {
 	 */
 	@Override
 	public boolean getBit(int bitPos) {
-		if (bitPos < getWidth())
-			return motherCable.getBit(bitPos + offset);
-		else
-			return false;
+		return motherCable.getBit(bitPos + offset);
 	}
 	/**
 	 * Sets the bit.
 	 */
 	@Override
 	public void putBit(int bitPos, boolean val) {
-		if (bitPos < getWidth())
-			motherCable.putBit(bitPos + offset, val);
+		motherCable.putBit(bitPos + offset, val);
 	}
 
 }
