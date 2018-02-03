@@ -54,7 +54,7 @@ public class AssemblyCompiler {
 	private static CompiledProgram compile(ConvenientStreamTokenizer tokens) throws IOException{
 		CompiledProgram program = new CompiledProgram();
 		int instruction;
-		while ((instruction = phaseInstruction(tokens)) > 0)
+		while ((instruction = phaseInstruction(tokens)) >= 0)
 				program.addInstruction((short) instruction);;
 		return program;
 	}

@@ -23,6 +23,7 @@ public class Memory extends Chip {
 	 */
 	public Memory(){
 		data = new Cable[4096];
+		changed = new boolean[4096];
 		for (int i = 0; i < data.length; ++i)
 			data[i] = new SingleCable(16);
 		addPort("load", 1);
@@ -35,7 +36,9 @@ public class Memory extends Chip {
 	 */
 	public void tick(){
 		if (getPort("load").getBit(0)) {
-			data[(int) getPort("address").toInteger()].assign(getPort("input"));
+			int address = (int) getPort("address").toInteger();
+			data[address].assign(getPort("input"));
+			changed[address] = true;
 		}
 	}
 	/**
@@ -44,6 +47,9 @@ public class Memory extends Chip {
 	public boolean evaluate(){
 		return getPort("output").assign(data[(int) getPort("address").toInteger()]);
 	}
+	
+	// Only those data assigned (we pay attention on) will be output during toString.
+	protected boolean[] changed;
 	/**
 	 * Turns chip value into a readable way.
 	 */
@@ -51,6 +57,7 @@ public class Memory extends Chip {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Memory chip data:\n");
 		for (int i = 0; i < 4096; ++i) {
+			if (!changed[i]) continue;
 			sb.append(i);
 			sb.append(": ");
 			sb.append(data[i].toInteger());
@@ -58,8 +65,14 @@ public class Memory extends Chip {
 		}
 		return sb.toString();
 	}
+	/**
+	 * Put value to desired address.
+	 * @param address
+	 * @param value
+	 */
 	public void putValue(int address, int value) {
 		data[address].putValue(value);
+		changed[address] = true;
 	}
 	/**
 	 * Load a program into memory.
