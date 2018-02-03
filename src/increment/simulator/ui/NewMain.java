@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -43,6 +44,11 @@ public class NewMain extends Application {
 			ColumnConstraints cc = new ColumnConstraints();
 			cc.setPercentWidth(100 / 3.);
 			grid.getColumnConstraints().add(cc);
+		}
+		for (int j = 0; j < 6; ++j) {
+			RowConstraints cc = new RowConstraints();
+			cc.setPercentHeight(100 / 6.);
+			grid.getRowConstraints().add(cc);
 		}
 		grid.setHgap(50);
 		grid.setVgap(10);
