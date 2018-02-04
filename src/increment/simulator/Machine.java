@@ -37,12 +37,12 @@ public class Machine {
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(0x10);
 		((RegisterFile)getChip("IndexRegisterFile")).setValue(0, 0);
-		String program = "LDX 2, 15 LDR 0, 2, 20, 0 STR 0, 2, 6 LDR 1, 0, 14, 1 STR 1, 0, 5 HLT";
+		String program = "LDX 2, 15 LDR 0, 2, 20, 0 STR 0, 2, 6 LDR 1, 0, 14, 1 STR 1, 0, 15, 1 HLT";
 		CompiledProgram code = AssemblyCompiler.compile(program);
 		mem.loadProgram(0x10, code);
 		mem.putValue(0x0F, 0x0230); // Data (560) at 0x0F, it's used as an address for IDX
 		mem.putValue(0x244, 0x2134); // Data at 580(0x244)
-		mem.putValue(0x244, 0x0474); // Data (1140) at 0x0E, it's used for indirect accessing.
+		mem.putValue(0x0E, 0x0474); // Data (1140) at 0x0E, it's used for indirect accessing.
 		mem.putValue(0x474, 0xB23A); // Data at 1140(0x474)
 	}
 	/**
