@@ -228,7 +228,22 @@ public class ControlUnit extends Chip {
 	 */
 	private boolean parseTargetPairOrDefaultTarget(ConvenientStreamTokenizer tokens, StateConverter converter) throws IOException {
 		int token = tokens.nextToken();
-		if (token == ConvenientStreamTokenizer.TT_NUMBER) {
+		if (token == '{') {
+			// TODO: change these two cases so they share more code.
+			List<Integer> opcodes = new ArrayList<>();
+			while(tokens.nextToken() == ConvenientStreamTokenizer.TT_NUMBER)
+				opcodes.add((int) tokens.nval);
+			if (tokens.ttype != '}')
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '}'.");
+			if (tokens.nextToken() != ':')
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ':'.");
+			String target = parseWord(tokens);
+			if (target == null)
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno());
+			for (Integer i : opcodes)
+				converter.addConvertPlan(i, target);
+			return true;
+		} else if (token == ConvenientStreamTokenizer.TT_NUMBER) {
 			int opcode = (int) tokens.nval;
 			if (tokens.nextToken() != ':')
 				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ':'.");
