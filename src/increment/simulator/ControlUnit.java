@@ -16,9 +16,10 @@ import static increment.simulator.util.ExceptionHandling.panic;
  * The control unit. It controls how everything else works, such as load signals, or who is to use the bus.
  * This design reads a script for status changes inside the ControlUnit, so to enable more flexible design.
  * 
- * The controlUnit has one input:
- * 		* opcode[6]
- * 
+ * The controlUnit has one input: <br>
+ * 		* opcode[7], 0:5 is opcode, and 6 is I bit. So, all opcode greater than 64 is the same one with 
+ * 					the value 32 lesser.
+ * <br>
  * And it has several outputs connecting to every part in the CPU chip.
  * 
  * @author Xu Ke
@@ -54,7 +55,7 @@ public class ControlUnit extends Chip {
 	private HashSet<String> inputPortNames;
 	public ControlUnit() {
 		inputPortNames = new HashSet<>();
-		addPort("opcode", 6);
+		addPort("opcode", 7);
 		inputPortNames.add("opcode");
 		try {
 			loadFile();
