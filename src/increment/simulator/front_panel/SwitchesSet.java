@@ -44,4 +44,12 @@ public class SwitchesSet extends Chip {
 		if (i >= 0  && i < switches.length)
 			switches[i].flip(b);
 	}
+	@Override
+	public boolean evaluate() {
+		boolean changed = false;
+		for (Switch s : switches) {
+			changed |= s.evaluate();
+		}
+		return changed;
+	}
 }

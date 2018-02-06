@@ -41,4 +41,11 @@ public class BulbSet extends Chip {
 			return bulbs[i].isOn();
 		return false;
 	}
+	
+	@Override
+	public boolean evaluate() {
+		for (IndicatorBulb b : bulbs)
+			b.evaluate();
+		return false;
+	}
 }
