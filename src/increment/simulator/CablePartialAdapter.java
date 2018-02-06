@@ -13,10 +13,16 @@ public class CablePartialAdapter extends Cable {
 		this.width = width;
 		this.offset = offset;
 		this.motherCable = cableInput;
-	} 
-	
+	}
 	public CablePartialAdapter(int width, Cable cableInput){
 		this(width, cableInput, 0);
+	}
+	/**
+	 * Moves the adapter to another mother. 
+	 * @param newMother
+	 */
+	public void reMother(Cable newMother) {
+		motherCable = newMother;
 	}
 	
 	/**
@@ -50,5 +56,4 @@ public class CablePartialAdapter extends Cable {
 	public void putBit(int bitPos, boolean val) {
 		motherCable.putBit(bitPos + offset, val);
 	}
-
 }
