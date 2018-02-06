@@ -5,8 +5,8 @@ import increment.simulator.Chip;
  * A simulated bulb, which can be on and off, indicating its input. It's going to take a bit input that is
  * either true or false, indicating whether it is to be turned to on or off.
  * 
- * A switch has one input: <br>
- * 		* input[1] indicating whether it's on or off.
+ * A bulb has one input: <br>
+ * 		* input[1] indicating whether it's to be on or off.
  * @author Xu Ke
  *
  */
