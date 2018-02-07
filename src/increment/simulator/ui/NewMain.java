@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import increment.simulator.Machine;
+import javafx.animation.Animation.Status;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -20,6 +23,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * The main frame. Using javafx techs.
@@ -30,7 +34,8 @@ import javafx.stage.Stage;
 public class NewMain extends Application {
 	MachineWrapper machine;
 	Map<String, Text> mapping;
-
+	Timeline automaticTick;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Virtual Machine");
@@ -68,6 +73,14 @@ public class NewMain extends Application {
 		grid.add(getBox(grid, "Control Unit: ", machine.getControlUnitProperty()), 1, 4);
 		grid.add(getScrollBox(grid, "Memory: ", machine.getMemoryProperty()), 2, 0, 1, 6);
 
+		automaticTick = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent event) {
+				machine.tick();
+		    }
+		}));
+		automaticTick.setCycleCount(Timeline.INDEFINITE);
+		
 		Button btn = new Button("Tick");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -76,6 +89,17 @@ public class NewMain extends Application {
 			}
 		});
 		grid.add(btn, 0, 6);
+		btn = new Button("Auto tick on/off");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (Status.RUNNING == automaticTick.getStatus())
+					automaticTick.pause();
+				else
+					automaticTick.play();				
+			}
+		});
+		grid.add(btn, 1, 6);
 		primaryStage.show();
 	}
 
