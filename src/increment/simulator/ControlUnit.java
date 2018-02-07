@@ -13,12 +13,13 @@ import increment.simulator.util.ConvenientStreamTokenizer;
 import static increment.simulator.util.ExceptionHandling.panic;
 
 /**
- * The control unit. It controls how everything else works, such as write signals, or who is to use the bus.
+ * The control unit. It controls how everything else works, such as load signals, or who is to use the bus.
  * This design reads a script for status changes inside the ControlUnit, so to enable more flexible design.
  * 
- * The controlUnit has one input:
- * 		* opcode[6]
- * 
+ * The controlUnit has one input: <br>
+ * 		* opcode[7], 0:5 is opcode, and 6 is I bit. So, all opcode greater than 64 is the same one with 
+ * 					the value 32 lesser.
+ * <br>
  * And it has several outputs connecting to every part in the CPU chip.
  * 
  * @author Xu Ke
@@ -54,7 +55,7 @@ public class ControlUnit extends Chip {
 	private HashSet<String> inputPortNames;
 	public ControlUnit() {
 		inputPortNames = new HashSet<>();
-		addPort("opcode", 6);
+		addPort("opcode", 7);
 		inputPortNames.add("opcode");
 		try {
 			loadFile();
@@ -227,7 +228,22 @@ public class ControlUnit extends Chip {
 	 */
 	private boolean parseTargetPairOrDefaultTarget(ConvenientStreamTokenizer tokens, StateConverter converter) throws IOException {
 		int token = tokens.nextToken();
-		if (token == ConvenientStreamTokenizer.TT_NUMBER) {
+		if (token == '{') {
+			// TODO: change these two cases so they share more code.
+			List<Integer> opcodes = new ArrayList<>();
+			while(tokens.nextToken() == ConvenientStreamTokenizer.TT_NUMBER)
+				opcodes.add((int) tokens.nval);
+			if (tokens.ttype != '}')
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '}'.");
+			if (tokens.nextToken() != ':')
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ':'.");
+			String target = parseWord(tokens);
+			if (target == null)
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno());
+			for (Integer i : opcodes)
+				converter.addConvertPlan(i, target);
+			return true;
+		} else if (token == ConvenientStreamTokenizer.TT_NUMBER) {
 			int opcode = (int) tokens.nval;
 			if (tokens.nextToken() != ':')
 				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ':'.");
@@ -329,5 +345,15 @@ public class ControlUnit extends Chip {
 			}
 		}
 		return true;
+	}
+	/**
+	 * Shows current control unit status.
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Current Status:\n\t");
+		sb.append(currentState);
+		return sb.toString();
 	}
 }
