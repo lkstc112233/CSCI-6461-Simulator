@@ -1,8 +1,5 @@
-package increment.simulator.front_panel;
+package increment.simulator;
 
-import increment.simulator.Cable;
-import increment.simulator.Chip;
-import increment.simulator.SingleCable;
 /**
  * A simulated switch, which can be on and off. It's going to output either true or false, depending 
  * on whether it is turned to on or off.

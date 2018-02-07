@@ -1,6 +1,5 @@
-package increment.simulator.front_panel;
+package increment.simulator;
 
-import increment.simulator.Chip;
 /**
  * A simulated bulb, which can be on and off, indicating its input. It's going to take a bit input that is
  * either true or false, indicating whether it is to be turned to on or off.

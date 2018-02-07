@@ -1,8 +1,8 @@
 package increment.simulator.testing;
 
+import increment.simulator.BulbSet;
 import increment.simulator.SingleCable;
-import increment.simulator.front_panel.BulbSet;
-import increment.simulator.front_panel.SwitchesSet;
+import increment.simulator.SwitchesSet;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

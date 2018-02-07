@@ -1,8 +1,4 @@
-package increment.simulator.front_panel;
-
-import increment.simulator.Cable;
-import increment.simulator.CablePartialAdapter;
-import increment.simulator.Chip;
+package increment.simulator;
 
 /**
  * A set of switches, which all can separately be on and off. It's going to output either true or false, depending 
