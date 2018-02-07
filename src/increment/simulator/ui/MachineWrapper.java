@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import increment.simulator.Machine;
+import increment.simulator.Memory;
+import increment.simulator.tools.AssemblyCompiler;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanProperty;
@@ -89,4 +91,9 @@ public class MachineWrapper {
     	toTick = !toTick;
     	updateEvent();
     }
+	public void putProgram(String address, String program) throws IllegalStateException, NumberFormatException{
+		int intAddress = Integer.decode(address);
+		((Memory)machine.getChip("memory")).loadProgram(intAddress, AssemblyCompiler.compile(program));
+    	updateEvent();
+	}
 }
