@@ -144,6 +144,8 @@ public class NewMain extends Application {
 			return controlPanel;
 		controlPanel = new Stage();
 
+		controlPanel.setTitle("Control Panel");
+		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		ColumnConstraints cc = new ColumnConstraints();
