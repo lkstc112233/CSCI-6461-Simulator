@@ -6,6 +6,8 @@ import java.util.List;
 import increment.simulator.BulbSet;
 import increment.simulator.Machine;
 import increment.simulator.Memory;
+import increment.simulator.NumberedSwitch;
+import increment.simulator.Switch;
 import increment.simulator.SwitchesSet;
 import increment.simulator.tools.AssemblyCompiler;
 import javafx.beans.property.IntegerProperty;
@@ -123,9 +125,30 @@ public class MachineWrapper {
     	toTick = !toTick;
     	updateEvent();
     }
+    public void forceTick() {
+    	machine.evaluate();
+    	machine.tick();
+    	toTick = false;
+    	setTick(getTick() + 1);
+    	updateEvent();
+    }
 	public void putProgram(String address, String program) throws IllegalStateException, NumberFormatException{
 		int intAddress = Integer.decode(address);
 		((Memory)machine.getChip("memory")).loadProgram(intAddress, AssemblyCompiler.compile(program));
     	updateEvent();
+	}
+	public void resetCUStatus() {
+		((Switch) machine.getChip("panelResetCUSwitch")).flip(true);
+		forceTick();
+		((Switch) machine.getChip("panelResetCUSwitch")).flip(false);
+	}
+	public void forceLoadPC() {
+		((Switch) machine.getChip("panelPauseCUSwitch")).flip(true);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
+		// TODO: Move out onto panel in next stage.
+		((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).setValue(0);
+		forceTick();
+		((Switch) machine.getChip("panelPauseCUSwitch")).flip(false);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
 	}
 }
