@@ -22,16 +22,21 @@ public class FrontPanel extends Stage {
 			grid.getColumnConstraints().add(cc);
 		}
 		RowConstraints rc = new RowConstraints();
+		for (int j = 0; j < 3; ++j) {
+			rc = new RowConstraints();
+			rc.setPercentHeight(30 / 3.);
+			grid.getRowConstraints().add(rc);
+		}
 		for (int j = 0; j < 5; ++j) {
 			rc = new RowConstraints();
-			rc.setPercentHeight(100 / 5.);
+			rc.setPercentHeight(70 / 5.);
 			grid.getRowConstraints().add(rc);
 		}
 		grid.setHgap(50);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Scene scene = new Scene(grid, 1200, 500);
+		Scene scene = new Scene(grid, 900, 300);
 		setScene(scene);
 		
 		for (int i = 0; i < 16; ++i) {

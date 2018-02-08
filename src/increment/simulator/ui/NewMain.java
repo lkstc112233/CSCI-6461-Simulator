@@ -83,6 +83,7 @@ public class NewMain extends Application {
 		automaticTick.setCycleCount(Timeline.INDEFINITE);
 		
 		HBox buttons = new HBox();
+		buttons.setSpacing(10);
 		grid.add(buttons, 0, 6, 3, 1);
 		
 		Button btn = new Button("Tick");
@@ -112,7 +113,7 @@ public class NewMain extends Application {
 			}
 		});
 		buttons.getChildren().add(btn);
-		btn = new Button("Show control panel");
+		btn = new Button("Show front panel");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
