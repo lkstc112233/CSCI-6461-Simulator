@@ -1,8 +1,13 @@
-package sample;
+
+package increment.simulator.ui;
 
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
-
+/** 
+ * This Button class is intended to create a better UI . 
+ * @author Bowen Shi
+ *
+ */
 public class Switch {
 
   Image image1 = new Image("increment/simulator/close2.png");
