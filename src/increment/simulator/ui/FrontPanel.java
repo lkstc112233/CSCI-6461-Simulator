@@ -76,5 +76,13 @@ public class FrontPanel extends Stage {
 			}
 		});
 		grid.add(button, 2, 4, 3, 1);
+		button = new Button("Load PC");
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.forceLoadPC();
+			}
+		});
+		grid.add(button, 5, 4, 3, 1);
 	}
 }

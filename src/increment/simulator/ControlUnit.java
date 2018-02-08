@@ -19,7 +19,7 @@ import static increment.simulator.util.ExceptionHandling.panic;
  * The controlUnit has three inputs: <br>
  * 		* opcode[7], 0:5 is opcode, and 6 is I bit. So, all opcode greater than 64 is the same one with 
  * 					the value 32 lesser.<br>
- * 		* pause[1], if set to true while tick, the control unit will not change its status.
+ * 		* pause[1], if set to true while tick, the control unit will not change its status, and all output will be set to 0.
  * 		* reset[1], if set to true while tick, the control unit will always change its status to 
  * <br>
  * And it has several outputs connecting to every part in the CPU chip.
@@ -55,6 +55,7 @@ public class ControlUnit extends Chip {
 	private Map<String, Set<String>> portConvertations = new HashMap<>();
 	
 	private boolean ticked = false;
+	private boolean paused = false;
 	private HashSet<String> inputPortNames;
 	public ControlUnit() {
 		inputPortNames = new HashSet<>();
@@ -332,8 +333,10 @@ public class ControlUnit extends Chip {
 	 */
 	public void tick() {
 		ticked = true;
-		if (getPort("pause").getBit(0))
+		paused = false;
+		if (getPort("pause").getBit(0)) {
 			return;
+		}
 		if (getPort("reset").getBit(0)) {
 			currentState = defaultState;
 			return;
@@ -347,6 +350,13 @@ public class ControlUnit extends Chip {
 	 * The control Unit will perform an action based on current status every tick.
 	 */
 	public boolean evaluate(){
+		if (paused)
+			return false;
+		if (getPort("pause").getBit(0)) {
+			paused = true;
+			resetOutputs();
+			return true;
+		}
 		if (!ticked)
 			return false;
 		ticked = false;
@@ -364,6 +374,8 @@ public class ControlUnit extends Chip {
 	 */
 	@Override
 	public String toString() {
+		if (paused)
+			return "PAUSED";
 		StringBuilder sb = new StringBuilder();
 		sb.append("Current Status:\n\t");
 		sb.append(currentState);
