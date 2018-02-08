@@ -344,6 +344,8 @@ public class ControlUnit extends Chip {
 		StateConverter converter = stateConvertations.get(currentState);
 		if (converter != null)
 			currentState = converter.nextState((int) getPort("opcode").toInteger());
+		if (currentState == null)
+			currentState = "INVALID_INSTRUCTION";
 	}
 	
 	/**
