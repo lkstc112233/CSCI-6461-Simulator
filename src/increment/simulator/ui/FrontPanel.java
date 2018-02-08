@@ -31,19 +31,19 @@ public class FrontPanel extends Stage {
 		RowConstraints rc = new RowConstraints();
 		for (int j = 0; j < 5; ++j) {
 			rc = new RowConstraints();
-			rc.setPercentHeight(40 / 5.);
+			rc.setPercentHeight(57 / 5.);
 			grid.getRowConstraints().add(rc);
 		}
-		for (int j = 0; j < 4; ++j) {
+		for (int j = 0; j < 2; ++j) {
 			rc = new RowConstraints();
-			rc.setPercentHeight(60 / 4.);
+			rc.setPercentHeight(43 / 2.);
 			grid.getRowConstraints().add(rc);
 		}
 		grid.setHgap(50);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Scene scene = new Scene(grid, 900, 300);
+		Scene scene = new Scene(grid, 600, 210);
 		setScene(scene);
 		
 		for (int i = 0; i < 16; ++i) {
