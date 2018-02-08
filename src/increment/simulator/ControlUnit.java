@@ -16,9 +16,10 @@ import static increment.simulator.util.ExceptionHandling.panic;
  * The control unit. It controls how everything else works, such as load signals, or who is to use the bus.
  * This design reads a script for status changes inside the ControlUnit, so to enable more flexible design.
  * 
- * The controlUnit has one input: <br>
+ * The controlUnit has two input: <br>
  * 		* opcode[7], 0:5 is opcode, and 6 is I bit. So, all opcode greater than 64 is the same one with 
- * 					the value 32 lesser.
+ * 					the value 32 lesser.<br>
+ * 		* pause[1], if set to true while tick, the control unit will not change its status.
  * <br>
  * And it has several outputs connecting to every part in the CPU chip.
  * 
@@ -57,6 +58,8 @@ public class ControlUnit extends Chip {
 		inputPortNames = new HashSet<>();
 		addPort("opcode", 7);
 		inputPortNames.add("opcode");
+		addPort("pause", 1);
+		inputPortNames.add("pause");
 		try {
 			loadFile();
 		} catch (IOException e) {
@@ -323,8 +326,10 @@ public class ControlUnit extends Chip {
 	/**
 	 * This is when the status changes.
 	 */
-	public void tick(){
+	public void tick() {
 		ticked = true;
+		if (getPort("pause").getBit(0))
+			return;
 		StateConverter converter = stateConvertations.get(currentState);
 		if (converter != null)
 			currentState = converter.nextState((int) getPort("opcode").toInteger());
