@@ -1,8 +1,11 @@
 package increment.simulator.ui;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.ColumnConstraints;
@@ -11,7 +14,9 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
 public class FrontPanel extends Stage {
-	public FrontPanel(MachineWrapper machine) {
+	MachineWrapper machine;
+	public FrontPanel(MachineWrapper machineInput) {
+		this.machine = machineInput;
 		setTitle("Front Panel");
 
 		GridPane grid = new GridPane();
@@ -55,5 +60,13 @@ public class FrontPanel extends Stage {
 			grid.add(check, i, 2);
 		}
 		
+		Button button = new Button("Reset CU Status");
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.resetCUStatus();
+			}
+		});
+		grid.add(button, 0, 4, 3, 1);
 	}
 }

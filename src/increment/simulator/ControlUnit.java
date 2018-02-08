@@ -16,10 +16,11 @@ import static increment.simulator.util.ExceptionHandling.panic;
  * The control unit. It controls how everything else works, such as load signals, or who is to use the bus.
  * This design reads a script for status changes inside the ControlUnit, so to enable more flexible design.
  * 
- * The controlUnit has two input: <br>
+ * The controlUnit has three inputs: <br>
  * 		* opcode[7], 0:5 is opcode, and 6 is I bit. So, all opcode greater than 64 is the same one with 
  * 					the value 32 lesser.<br>
  * 		* pause[1], if set to true while tick, the control unit will not change its status.
+ * 		* reset[1], if set to true while tick, the control unit will always change its status to 
  * <br>
  * And it has several outputs connecting to every part in the CPU chip.
  * 
@@ -49,6 +50,7 @@ public class ControlUnit extends Chip {
 	}
 	
 	private String currentState = null;
+	private String defaultState = null;
 	private Map<String, StateConverter> stateConvertations = new HashMap<>();
 	private Map<String, Set<String>> portConvertations = new HashMap<>();
 	
@@ -60,6 +62,8 @@ public class ControlUnit extends Chip {
 		inputPortNames.add("opcode");
 		addPort("pause", 1);
 		inputPortNames.add("pause");
+		addPort("reset", 1);
+		inputPortNames.add("reset");
 		try {
 			loadFile();
 		} catch (IOException e) {
@@ -175,7 +179,7 @@ public class ControlUnit extends Chip {
 			result = new ArrayList<>();
 			result.add(tokens.sval);
 			if (currentState == null)
-				currentState = tokens.sval;
+				currentState = defaultState = tokens.sval;
 		}
 		else 
 			tokens.pushBack();
@@ -330,6 +334,10 @@ public class ControlUnit extends Chip {
 		ticked = true;
 		if (getPort("pause").getBit(0))
 			return;
+		if (getPort("reset").getBit(0)) {
+			currentState = defaultState;
+			return;
+		}
 		StateConverter converter = stateConvertations.get(currentState);
 		if (converter != null)
 			currentState = converter.nextState((int) getPort("opcode").toInteger());
