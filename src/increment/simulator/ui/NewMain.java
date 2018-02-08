@@ -8,8 +8,6 @@ import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,10 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -41,8 +36,6 @@ public class NewMain extends Application {
 	MachineWrapper machine;
 	Map<String, Text> mapping;
 	Timeline automaticTick;
-	StringProperty programProperty;
-	StringProperty programAddressProperty;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -50,9 +43,6 @@ public class NewMain extends Application {
 
 		machine = new MachineWrapper(new Machine());
 		mapping = new HashMap<>();
-
-		programProperty = new SimpleStringProperty();
-		programAddressProperty = new SimpleStringProperty();
 
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
@@ -154,105 +144,16 @@ public class NewMain extends Application {
 	
 	Stage controlPanel;
 	private Stage getControlPanel() {
-		if (controlPanel != null)
-			return controlPanel;
-		controlPanel = new Stage();
-
-		controlPanel.setTitle("Control Panel");
-		
-		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
-		ColumnConstraints cc = new ColumnConstraints();
-		cc.setPercentWidth(10.);
-		grid.getColumnConstraints().add(cc);
-		cc = new ColumnConstraints();
-		cc.setPercentWidth(90.);
-		grid.getColumnConstraints().add(cc);
-		
-		RowConstraints rc = new RowConstraints();
-		rc.setPercentHeight(10.);
-		grid.getRowConstraints().add(rc);
-		for (int j = 0; j < 6; ++j) {
-			rc = new RowConstraints();
-			rc.setPercentHeight(90 / 6.);
-			grid.getRowConstraints().add(rc);
-		}
-		grid.setHgap(50);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(25, 25, 25, 25));
-
-		Scene scene = new Scene(grid, 600, 450);
-		controlPanel.setScene(scene);
-		
-		grid.add(new Text("To Address\nbeginning at:"), 0, 0);
-		TextArea textArea = new TextArea();
-		textArea.setWrapText(false);
-		textArea.textProperty().bindBidirectional(programAddressProperty);
-		grid.add(textArea, 1, 0);
-		
-		grid.add(new Text("Program:"), 0, 1);
-		textArea = new TextArea();
-		textArea.setWrapText(true);
-		textArea.textProperty().bindBidirectional(programProperty);
-		grid.add(textArea, 1, 1, 1, 5);
-		
-		Button button = new Button("Load Program");
-		button.setOnAction(new EventHandler<ActionEvent>(){
-			@Override
-			public void handle(ActionEvent event) {
-				machine.putProgram(programAddressProperty.get(), programProperty.get());
-			}
-		});
-		grid.add(button, 0, 6, 2, 1);
-		
+		if (controlPanel == null)
+			controlPanel = new ControlPanel(machine);
 		return controlPanel;
 	}
 	
 
 	Stage frontPanel;
 	private Stage getFrontPanel() {
-		if (frontPanel != null)
-			return frontPanel;
-		frontPanel = new Stage();
-		
-		frontPanel.setTitle("Front Panel");
-
-		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
-		for (int j = 0; j < 17; ++j) {
-			ColumnConstraints cc = new ColumnConstraints();
-			cc.setPercentWidth(100 / 17.);
-			grid.getColumnConstraints().add(cc);
-		}
-		RowConstraints rc = new RowConstraints();
-		for (int j = 0; j < 5; ++j) {
-			rc = new RowConstraints();
-			rc.setPercentHeight(100 / 5.);
-			grid.getRowConstraints().add(rc);
-		}
-		grid.setHgap(50);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(25, 25, 25, 25));
-
-		Scene scene = new Scene(grid, 1200, 500);
-		frontPanel.setScene(scene);
-		
-		for (int i = 0; i < 16; ++i) {
-			RadioButton radio = new RadioButton();
-			if (i < 12) {
-				radio.setDisable(true);
-				radio.selectedProperty().bind(machine.getAddressBulbsProperty(i));
-				grid.add(radio, i, 0);
-			}
-			radio = new RadioButton();
-			radio.setDisable(true);
-			radio.selectedProperty().bind(machine.getValueBulbsProperty(i));
-			grid.add(radio, i, 1);
-			CheckBox check = new CheckBox();
-			machine.getSwitchesProperty(i).bind(check.selectedProperty());
-			grid.add(check, i, 2);
-		}
-		
+		if (frontPanel == null)
+			frontPanel = new FrontPanel(machine);
 		return frontPanel;
 	}
 
