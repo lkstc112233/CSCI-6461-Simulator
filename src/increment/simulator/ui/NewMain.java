@@ -18,10 +18,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -89,6 +92,9 @@ public class NewMain extends Application {
 		}));
 		automaticTick.setCycleCount(Timeline.INDEFINITE);
 		
+		HBox buttons = new HBox();
+		grid.add(buttons, 0, 6, 3, 1);
+		
 		Button btn = new Button("Tick");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -96,7 +102,7 @@ public class NewMain extends Application {
 				machine.tick();
 			}
 		});
-		grid.add(btn, 0, 6);
+		buttons.getChildren().add(btn);
 		btn = new Button("Auto tick on/off");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -107,7 +113,7 @@ public class NewMain extends Application {
 					automaticTick.play();				
 			}
 		});
-		grid.add(btn, 1, 6);
+		buttons.getChildren().add(btn);
 		btn = new Button("Show control panel");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -115,7 +121,15 @@ public class NewMain extends Application {
 				getControlPanel().show();
 			}
 		});
-		grid.add(btn, 2, 6);
+		buttons.getChildren().add(btn);
+		btn = new Button("Show control panel");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				getFrontPanel().show();
+			}
+		});
+		buttons.getChildren().add(btn);
 		primaryStage.show();
 	}
 
@@ -192,6 +206,54 @@ public class NewMain extends Application {
 		grid.add(button, 0, 6, 2, 1);
 		
 		return controlPanel;
+	}
+	
+
+	Stage frontPanel;
+	private Stage getFrontPanel() {
+		if (frontPanel != null)
+			return frontPanel;
+		frontPanel = new Stage();
+		
+		frontPanel.setTitle("Front Panel");
+
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		for (int j = 0; j < 17; ++j) {
+			ColumnConstraints cc = new ColumnConstraints();
+			cc.setPercentWidth(100 / 17.);
+			grid.getColumnConstraints().add(cc);
+		}
+		RowConstraints rc = new RowConstraints();
+		for (int j = 0; j < 5; ++j) {
+			rc = new RowConstraints();
+			rc.setPercentHeight(100 / 5.);
+			grid.getRowConstraints().add(rc);
+		}
+		grid.setHgap(50);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(25, 25, 25, 25));
+
+		Scene scene = new Scene(grid, 1200, 500);
+		frontPanel.setScene(scene);
+		
+		for (int i = 0; i < 16; ++i) {
+			RadioButton radio = new RadioButton();
+			if (i < 12) {
+				radio.setDisable(true);
+				radio.selectedProperty().bind(machine.getAddressBulbsProperty(i));
+				grid.add(radio, i, 0);
+			}
+			radio = new RadioButton();
+			radio.setDisable(true);
+			radio.selectedProperty().bind(machine.getValueBulbsProperty(i));
+			grid.add(radio, i, 1);
+			CheckBox check = new CheckBox();
+			machine.getSwitchesProperty(i).bind(check.selectedProperty());
+			grid.add(check, i, 2);
+		}
+		
+		return frontPanel;
 	}
 
 	public static void main(String[] args) {

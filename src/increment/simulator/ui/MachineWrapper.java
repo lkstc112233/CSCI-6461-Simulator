@@ -3,11 +3,17 @@ package increment.simulator.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import increment.simulator.BulbSet;
 import increment.simulator.Machine;
 import increment.simulator.Memory;
+import increment.simulator.SwitchesSet;
 import increment.simulator.tools.AssemblyCompiler;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.adapter.JavaBeanBooleanProperty;
+import javafx.beans.property.adapter.JavaBeanBooleanPropertyBuilder;
+import javafx.beans.property.adapter.ReadOnlyJavaBeanBooleanProperty;
+import javafx.beans.property.adapter.ReadOnlyJavaBeanBooleanPropertyBuilder;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanProperty;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanStringProperty;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanStringPropertyBuilder;
@@ -41,6 +47,24 @@ public class MachineWrapper {
 	public ReadOnlyJavaBeanStringProperty getMemoryProperty() { return memoryProperty; }
 	private ReadOnlyJavaBeanStringProperty controlUnitProperty;
 	public ReadOnlyJavaBeanStringProperty getControlUnitProperty() { return controlUnitProperty; }
+	private ReadOnlyJavaBeanBooleanProperty[] valueBulbsProperty;
+	public ReadOnlyJavaBeanBooleanProperty getValueBulbsProperty(int i) { return valueBulbsProperty[i]; }
+	private ReadOnlyJavaBeanBooleanProperty[] addressBulbsProperty;
+	public ReadOnlyJavaBeanBooleanProperty getAddressBulbsProperty(int i) { return addressBulbsProperty[i]; }
+	private JavaBeanBooleanProperty[] switchesProperty;
+	public JavaBeanBooleanProperty getSwitchesProperty(int i) { return switchesProperty[i]; }
+
+	@SuppressWarnings("unused")
+	public class MachineStatusPropertyGetterOrSetter {
+		int index;
+		public MachineStatusPropertyGetterOrSetter(int i) {
+			index = i;
+		}
+		public final Boolean getValueBulbs(){ return ((BulbSet)machine.getChip("panelValueBulbSet")).getBit(index);}
+	    public final Boolean getAddressBulbs(){ return ((BulbSet)machine.getChip("panelAddressBulbSet")).getBit(index); }
+	    public final Boolean getSwitches(){ return false; }
+	    public final void setSwitches(Boolean value){ ((SwitchesSet)machine.getChip("panelSwitchSet")).flipBit(index, value); }
+	}
 	
 	public MachineWrapper(Machine machine) {
     	this.machine = machine;
@@ -56,6 +80,14 @@ public class MachineWrapper {
     		properties.add(indexRegisterFileProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("indexRegisterFile").build());
     		properties.add(memoryProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("memory").build());
     		properties.add(controlUnitProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("controlUnit").build());
+    		valueBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
+    		addressBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
+    		switchesProperty = new JavaBeanBooleanProperty[16];
+    		for (int i = 0; i < 16; ++i) {
+	    		properties.add(valueBulbsProperty[i] = new ReadOnlyJavaBeanBooleanPropertyBuilder().bean(new MachineStatusPropertyGetterOrSetter(i)).name("valueBulbs").build());
+	    		properties.add(addressBulbsProperty[i] = new ReadOnlyJavaBeanBooleanPropertyBuilder().bean(new MachineStatusPropertyGetterOrSetter(i)).name("addressBulbs").build());
+	    		switchesProperty[i] = new JavaBeanBooleanPropertyBuilder().bean(new MachineStatusPropertyGetterOrSetter(i)).name("switches").build();
+    		}
     	} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 			System.exit(-1);

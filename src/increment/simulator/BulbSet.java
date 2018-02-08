@@ -37,7 +37,21 @@ public class BulbSet extends Chip {
 			return bulbs[i].isOn();
 		return false;
 	}
-	
+
+	/**
+	 * Wrap value for convenient pass.
+	 * @return
+	 */
+	public long getValue() {
+		long result = 0;
+		for (int i = bulbs.length; i > 0; --i)
+		{
+			result <<= 1;
+			if (getBit(i - 1))
+				result += 1;
+		}
+		return result;
+	}
 	@Override
 	public boolean evaluate() {
 		for (IndicatorBulb b : bulbs)
