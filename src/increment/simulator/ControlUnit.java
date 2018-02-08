@@ -16,9 +16,12 @@ import static increment.simulator.util.ExceptionHandling.panic;
  * The control unit. It controls how everything else works, such as load signals, or who is to use the bus.
  * This design reads a script for status changes inside the ControlUnit, so to enable more flexible design.
  * 
- * The controlUnit has one input:
- * 		* opcode[6]
- * 
+ * The controlUnit has three inputs: <br>
+ * 		* opcode[7], 0:5 is opcode, and 6 is I bit. So, all opcode greater than 64 is the same one with 
+ * 					the value 32 lesser.<br>
+ * 		* pause[1], if set to true while tick, the control unit will not change its status, and all output will be set to 0.
+ * 		* reset[1], if set to true while tick, the control unit will always change its status to 
+ * <br>
  * And it has several outputs connecting to every part in the CPU chip.
  * 
  * @author Xu Ke
@@ -47,15 +50,21 @@ public class ControlUnit extends Chip {
 	}
 	
 	private String currentState = null;
+	private String defaultState = null;
 	private Map<String, StateConverter> stateConvertations = new HashMap<>();
 	private Map<String, Set<String>> portConvertations = new HashMap<>();
 	
 	private boolean ticked = false;
+	private boolean paused = false;
 	private HashSet<String> inputPortNames;
 	public ControlUnit() {
 		inputPortNames = new HashSet<>();
-		addPort("opcode", 6);
+		addPort("opcode", 7);
 		inputPortNames.add("opcode");
+		addPort("pause", 1);
+		inputPortNames.add("pause");
+		addPort("reset", 1);
+		inputPortNames.add("reset");
 		try {
 			loadFile();
 		} catch (IOException e) {
@@ -171,7 +180,7 @@ public class ControlUnit extends Chip {
 			result = new ArrayList<>();
 			result.add(tokens.sval);
 			if (currentState == null)
-				currentState = tokens.sval;
+				currentState = defaultState = tokens.sval;
 		}
 		else 
 			tokens.pushBack();
@@ -227,7 +236,22 @@ public class ControlUnit extends Chip {
 	 */
 	private boolean parseTargetPairOrDefaultTarget(ConvenientStreamTokenizer tokens, StateConverter converter) throws IOException {
 		int token = tokens.nextToken();
-		if (token == ConvenientStreamTokenizer.TT_NUMBER) {
+		if (token == '{') {
+			// TODO: change these two cases so they share more code.
+			List<Integer> opcodes = new ArrayList<>();
+			while(tokens.nextToken() == ConvenientStreamTokenizer.TT_NUMBER)
+				opcodes.add((int) tokens.nval);
+			if (tokens.ttype != '}')
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be '}'.");
+			if (tokens.nextToken() != ':')
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ':'.");
+			String target = parseWord(tokens);
+			if (target == null)
+				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno());
+			for (Integer i : opcodes)
+				converter.addConvertPlan(i, target);
+			return true;
+		} else if (token == ConvenientStreamTokenizer.TT_NUMBER) {
 			int opcode = (int) tokens.nval;
 			if (tokens.nextToken() != ':')
 				panic("Unexpected token: \n\t" + (token > 0 ? ((char)token) : tokens.sval) + "\n\tat line " + tokens.lineno()+"\nShould be ':'.");
@@ -307,17 +331,34 @@ public class ControlUnit extends Chip {
 	/**
 	 * This is when the status changes.
 	 */
-	public void tick(){
+	public void tick() {
 		ticked = true;
+		paused = false;
+		if (getPort("pause").getBit(0)) {
+			return;
+		}
+		if (getPort("reset").getBit(0)) {
+			currentState = defaultState;
+			return;
+		}
 		StateConverter converter = stateConvertations.get(currentState);
 		if (converter != null)
 			currentState = converter.nextState((int) getPort("opcode").toInteger());
+		if (currentState == null)
+			currentState = "INVALID_INSTRUCTION";
 	}
 	
 	/**
 	 * The control Unit will perform an action based on current status every tick.
 	 */
 	public boolean evaluate(){
+		if (paused)
+			return false;
+		if (getPort("pause").getBit(0)) {
+			paused = true;
+			resetOutputs();
+			return true;
+		}
 		if (!ticked)
 			return false;
 		ticked = false;
@@ -335,6 +376,8 @@ public class ControlUnit extends Chip {
 	 */
 	@Override
 	public String toString() {
+		if (paused)
+			return "PAUSED";
 		StringBuilder sb = new StringBuilder();
 		sb.append("Current Status:\n\t");
 		sb.append(currentState);

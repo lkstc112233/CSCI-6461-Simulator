@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import increment.simulator.Machine;
+import javafx.animation.Animation.Status;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -16,10 +19,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * The main frame. Using javafx techs.
@@ -30,7 +35,8 @@ import javafx.stage.Stage;
 public class NewMain extends Application {
 	MachineWrapper machine;
 	Map<String, Text> mapping;
-
+	Timeline automaticTick;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Virtual Machine");
@@ -68,6 +74,18 @@ public class NewMain extends Application {
 		grid.add(getBox(grid, "Control Unit: ", machine.getControlUnitProperty()), 1, 4);
 		grid.add(getScrollBox(grid, "Memory: ", machine.getMemoryProperty()), 2, 0, 1, 6);
 
+		automaticTick = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent event) {
+				machine.tick();
+		    }
+		}));
+		automaticTick.setCycleCount(Timeline.INDEFINITE);
+		
+		HBox buttons = new HBox();
+		buttons.setSpacing(10);
+		grid.add(buttons, 0, 6, 3, 1);
+		
 		Button btn = new Button("Tick");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -75,7 +93,34 @@ public class NewMain extends Application {
 				machine.tick();
 			}
 		});
-		grid.add(btn, 0, 6);
+		buttons.getChildren().add(btn);
+		btn = new Button("Auto tick on/off");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (Status.RUNNING == automaticTick.getStatus())
+					automaticTick.pause();
+				else
+					automaticTick.play();				
+			}
+		});
+		buttons.getChildren().add(btn);
+		btn = new Button("Show control panel");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				getControlPanel().show();
+			}
+		});
+		buttons.getChildren().add(btn);
+		btn = new Button("Show front panel");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				getFrontPanel().show();
+			}
+		});
+		buttons.getChildren().add(btn);
 		primaryStage.show();
 	}
 
@@ -96,6 +141,21 @@ public class NewMain extends Application {
 		ScrollPane scp = new ScrollPane(textBox);
 		box.getChildren().add(scp);
 		return box;
+	}
+	
+	Stage controlPanel;
+	private Stage getControlPanel() {
+		if (controlPanel == null)
+			controlPanel = new ControlPanel(machine);
+		return controlPanel;
+	}
+	
+
+	Stage frontPanel;
+	private Stage getFrontPanel() {
+		if (frontPanel == null)
+			frontPanel = new FrontPanel(machine);
+		return frontPanel;
 	}
 
 	public static void main(String[] args) {
