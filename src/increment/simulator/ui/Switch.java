@@ -1,4 +1,4 @@
-package sample;
+package increment.simulator.ui;
 
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
