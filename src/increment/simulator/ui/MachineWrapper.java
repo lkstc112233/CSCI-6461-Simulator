@@ -151,4 +151,22 @@ public class MachineWrapper {
 		((Switch) machine.getChip("panelPauseCUSwitch")).flip(false);
 		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
 	}
+	public void forceLoadMAR() {
+		((Switch) machine.getChip("panelPauseCUSwitch")).flip(true);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
+		// TODO: Move out onto panel in next stage.
+		((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).setValue(1);
+		forceTick();
+		((Switch) machine.getChip("panelPauseCUSwitch")).flip(false);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
+	}
+	public void loadDataIntoMemory() {
+		((Switch) machine.getChip("panelPauseCUSwitch")).flip(true);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
+		// TODO: Move out onto panel in next stage.
+		((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).setValue(2);
+		forceTick();
+		((Switch) machine.getChip("panelPauseCUSwitch")).flip(false);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
+	}
 }
