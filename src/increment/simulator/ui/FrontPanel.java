@@ -59,14 +59,22 @@ public class FrontPanel extends Stage {
 			machine.getSwitchesProperty(i).bind(check.selectedProperty());
 			grid.add(check, i, 2);
 		}
-		
-		Button button = new Button("Reset CU Status");
+
+		Button button = new Button("Tick");
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.forceTick();
+			}
+		});
+		grid.add(button, 0, 4, 2, 1);
+		button = new Button("Reset CU Status");
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				machine.resetCUStatus();
 			}
 		});
-		grid.add(button, 0, 4, 3, 1);
+		grid.add(button, 2, 4, 3, 1);
 	}
 }
