@@ -353,7 +353,12 @@ public class ControlUnit extends Chip {
 	 */
 	public boolean evaluate(){
 		if (paused)
-			return false;
+			if(getPort("pause").getBit(0))
+				return false;
+			else {
+				ticked = true;
+				paused = false;
+			}
 		if (getPort("pause").getBit(0)) {
 			paused = true;
 			resetOutputs();
