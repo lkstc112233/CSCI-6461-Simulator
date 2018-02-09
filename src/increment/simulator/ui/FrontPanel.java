@@ -178,6 +178,18 @@ public class FrontPanel extends Stage {
 			}
 		});
 		box.getChildren().add(button);
+		RadioButton indicator = new RadioButton();
+		indicator.setDisable(true);
+		indicator.selectedProperty().bind(machine.getPausedProperty());
+		box.getChildren().add(indicator);
+		button = new Button("Pause");
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.pauseOrRestore();
+			}
+		});
+		box.getChildren().add(button);
 		button = new Button("Reset CU Status");
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override

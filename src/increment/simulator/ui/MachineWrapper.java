@@ -61,6 +61,8 @@ public class MachineWrapper {
 	public JavaBeanIntegerProperty getRadioSwitchProperty() { return radioSwitchProperty; }
 	private JavaBeanIntegerProperty registerRadioSwitchProperty;
 	public JavaBeanIntegerProperty getRegisterRadioSwitchProperty() { return registerRadioSwitchProperty; }
+	private ReadOnlyJavaBeanBooleanProperty pausedProperty;
+	public ReadOnlyJavaBeanBooleanProperty getPausedProperty() { return pausedProperty; }
 
 	public class MachineStatusPropertyGetterOrSetter {
 		int index;
@@ -89,6 +91,7 @@ public class MachineWrapper {
     		properties.add(controlUnitProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("controlUnit").build());
     		properties.add(radioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("radioSwitch").build());
     		properties.add(registerRadioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("registerRadioSwitch").build());
+    		properties.add(pausedProperty = new ReadOnlyJavaBeanBooleanPropertyBuilder().bean(this).name("paused").build());
     		valueBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
     		addressBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
     		switchesProperty = new JavaBeanBooleanProperty[16];
@@ -117,9 +120,11 @@ public class MachineWrapper {
     public final String getControlUnit(){ return machine.getChip("CU").toString(); }
     public final Integer getRadioSwitch(){ return ((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).getValue(); }
     public final void setRadioSwitch(Integer value){ ((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).setValue(value); }
-    public final Integer getRegisterRadioSwitch(){ return ((NumberedSwitch) machine.getChip("panelRegisterSelectSwitch")).getValue(); }
-	public final void setRegisterRadioSwitch(Integer value) { ((NumberedSwitch) machine.getChip("panelRegisterSelectSwitch")).setValue(value); }
-    private List<ReadOnlyJavaBeanProperty<?>> properties;
+    public final Integer getRegisterRadioSwitch(){ return ((NumberedSwitch) machine.getChip("panelRegisterSelectionSwitch")).getValue(); }
+	public final void setRegisterRadioSwitch(Integer value) { ((NumberedSwitch) machine.getChip("panelRegisterSelectionSwitch")).setValue(value); }
+	public final Boolean getPaused(){ return machine.getCable("paused").getBit(0); }
+	   
+	private List<ReadOnlyJavaBeanProperty<?>> properties;
     
 	private boolean toTick = true;
 	private void updateEvent() {
@@ -157,20 +162,14 @@ public class MachineWrapper {
 		forceTick();
 		((Switch) machine.getChip("panelResetCUSwitch")).flip(false);
 	}
-	public void forceLoadPC() {
-		loadSomething(0);
-	}
 	public void forceLoadMAR() {
 		loadSomething(1);
-	}
-	public void loadDataIntoMemory() {
-		loadSomething(2);
 	}
 	public void forceLoad() {
 		((Switch) machine.getChip("panelPauseCUSwitch")).flip(true);
 		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
 		forceTick();
-		((Switch) machine.getChip("panelPauseCUSwitch")).flip(false);
+		((Switch) machine.getChip("panelPauseCUSwitch")).flip(paused);
 		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
 	}
 	private void loadSomething(int id) {
@@ -180,9 +179,15 @@ public class MachineWrapper {
 		int oldValue = getRadioSwitch();
 		setRadioSwitch(id);
 		forceTick();
-		((Switch) machine.getChip("panelPauseCUSwitch")).flip(false);
+		((Switch) machine.getChip("panelPauseCUSwitch")).flip(paused);
 		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
 		setRadioSwitch(oldValue);
+		forceUpdate();
+	}
+	private boolean paused = false;
+	public void pauseOrRestore() {
+		paused = !paused;
+		((Switch) machine.getChip("panelPauseCUSwitch")).flip(paused);
 		forceUpdate();
 	}
 }

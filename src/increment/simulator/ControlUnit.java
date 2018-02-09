@@ -376,7 +376,7 @@ public class ControlUnit extends Chip {
 	 */
 	@Override
 	public String toString() {
-		if (paused)
+		if (getPort("pause").getBit(0))
 			return "PAUSED";
 		StringBuilder sb = new StringBuilder();
 		sb.append("Current Status:\n\t");
