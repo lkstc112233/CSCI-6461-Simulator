@@ -171,6 +171,7 @@ public class MachineWrapper {
 		forceTick();
 		((Switch) machine.getChip("panelPauseCUSwitch")).flip(paused);
 		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
+		forceUpdate();
 	}
 	private void loadSomething(int id) {
 		((Switch) machine.getChip("panelPauseCUSwitch")).flip(true);
