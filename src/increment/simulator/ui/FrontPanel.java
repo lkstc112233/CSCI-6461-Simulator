@@ -44,6 +44,7 @@ public class FrontPanel extends Stage {
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		Scene scene = new Scene(grid, 600, 210);
+		scene.getStylesheets().add("increment/simulator/testing/buttonstyle.css");
 		setScene(scene);
 		
 		for (int i = 0; i < 16; ++i) {
