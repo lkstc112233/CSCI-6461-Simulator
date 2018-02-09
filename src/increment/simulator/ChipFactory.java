@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  */
 public class ChipFactory {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Chip makeChip(String chipName, Object[] args) {
 		if (!chipName.contains("."))
 			chipName = ChipFactory.class.getPackage().getName() + "." + chipName;

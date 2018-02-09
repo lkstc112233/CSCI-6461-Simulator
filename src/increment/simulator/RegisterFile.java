@@ -4,7 +4,7 @@ package increment.simulator;
  * the number will be 4), each of width ```width```(which will be specified as 16).
  * 
  * A register file will have three inputs:
- * 		* write[1]
+ * 		* load[1]
  * 		* address[addressWidth]
  * 		* input[width]
  * A register file will have one output:
@@ -16,17 +16,17 @@ package increment.simulator;
 public class RegisterFile extends Chip {
 	protected Mux muxForOutput;
 	protected ClockRegister[] data;
-	protected Demux demuxForWrite;
+	protected Demux demuxForLoad;
 	public RegisterFile(int addressWidth, int width){
 		data = new ClockRegister[1 << addressWidth];
 		muxForOutput = new Mux(addressWidth, width);
-		demuxForWrite = new Demux(addressWidth, 1);
+		demuxForLoad = new Demux(addressWidth, 1);
 		// Connect merged chips.
 		for (int i = 0; i < data.length; ++i) {
 			data[i] = new ClockRegister(width);
 			Cable cable = new SingleCable(1);
-			demuxForWrite.connectPort("output" + Integer.toString(i), cable);
-			data[i].connectPort("write", cable);
+			demuxForLoad.connectPort("output" + Integer.toString(i), cable);
+			data[i].connectPort("load", cable);
 			cable = new SingleCable(width);
 			muxForOutput.connectPort("input" + Integer.toString(i), cable);
 			data[i].connectPort("output", cable);
@@ -47,10 +47,10 @@ public class RegisterFile extends Chip {
 			break;
 		case "address":
 			muxForOutput.connectPort("sel", cable);
-			demuxForWrite.connectPort("sel", cable);
+			demuxForLoad.connectPort("sel", cable);
 			break;
-		case "write":
-			demuxForWrite.connectPort("input", cable);
+		case "load":
+			demuxForLoad.connectPort("input", cable);
 			break;
 		default:
 			super.connectPort(name, cable);
@@ -77,8 +77,8 @@ public class RegisterFile extends Chip {
 			return data[0].getPortWidth(name);
 		case "address":
 			return muxForOutput.getPortWidth("sel");
-		case "write":
-			return demuxForWrite.getPortWidth("input");
+		case "load":
+			return demuxForLoad.getPortWidth("input");
 		default:
 			return super.getPortWidth(name);
 		}
@@ -91,7 +91,7 @@ public class RegisterFile extends Chip {
 	
 	public boolean evaluate(){
 		boolean vary = false;
-		vary |= demuxForWrite.evaluate();
+		vary |= demuxForLoad.evaluate();
 		for (Chip c : data)
 			vary |= c.evaluate();
 		vary |= muxForOutput.evaluate();

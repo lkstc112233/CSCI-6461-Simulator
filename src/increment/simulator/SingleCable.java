@@ -33,13 +33,17 @@ public class SingleCable extends Cable {
 	 * @return
 	 */
 	public boolean getBit(int bitPos) {
-		return bits.get(bitPos).get();
+		if (bitPos < getWidth() && bitPos >= 0)
+			return bits.get(bitPos).get();
+		else
+			return false;
 	}
 	/**
 	 * Sets a bit to a specific value
 	 * @param bitPos
 	 */
 	public void putBit(int bitPos, boolean val) {
-		bits.get(bitPos).put(val);
+		if (bitPos < getWidth() && bitPos >= 0)
+			bits.get(bitPos).put(val);
 	}
 }
