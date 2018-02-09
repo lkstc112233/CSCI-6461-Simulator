@@ -8,10 +8,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -25,9 +27,12 @@ public class FrontPanel extends Stage {
 		grid.setAlignment(Pos.CENTER);
 		for (int j = 0; j < 17; ++j) {
 			ColumnConstraints cc = new ColumnConstraints();
-			cc.setPercentWidth(100 / 17.);
+			cc.setPercentWidth(75 / 17.);
 			grid.getColumnConstraints().add(cc);
 		}
+		ColumnConstraints cc = new ColumnConstraints();
+		cc.setPercentWidth(25.);
+		grid.getColumnConstraints().add(cc);
 		RowConstraints rc = new RowConstraints();
 		for (int j = 0; j < 5; ++j) {
 			rc = new RowConstraints();
@@ -39,11 +44,11 @@ public class FrontPanel extends Stage {
 			rc.setPercentHeight(43 / 2.);
 			grid.getRowConstraints().add(rc);
 		}
-		grid.setHgap(50);
+		grid.setHgap(20);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Scene scene = new Scene(grid, 600, 210);
+		Scene scene = new Scene(grid, 800, 210);
 		setScene(scene);
 		
 		for (int i = 0; i < 16; ++i) {
@@ -63,6 +68,31 @@ public class FrontPanel extends Stage {
 			grid.add(new Text(Integer.toString(i)), i, 0);
 			grid.add(new Text(Integer.toString(i)), i, 4);
 		}
+		VBox groupBox = new VBox();
+		grid.add(groupBox, 16, 0, 2, 7);
+		groupBox.setSpacing(5);
+		ToggleGroup group = new ToggleGroup();
+		RadioButton selection = new RadioButton("PC");
+		selection.setToggleGroup(group);
+		selection.setSelected(true);
+		groupBox.getChildren().add(selection);
+		selection.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.setRadioSwitch(0);
+				machine.forceUpdate();
+			}
+		});
+		selection = new RadioButton("Memory");
+		selection.setToggleGroup(group);
+		groupBox.getChildren().add(selection);
+		selection.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.setRadioSwitch(2);
+				machine.forceUpdate();
+			}
+		});
 
 		HBox box = new HBox();
 		box.setSpacing(10);
@@ -84,11 +114,11 @@ public class FrontPanel extends Stage {
 			}
 		});
 		box.getChildren().add(button);
-		button = new Button("Load PC");
+		button = new Button("Load");
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				machine.forceLoadPC();
+				machine.forceLoad();
 			}
 		});
 		box.getChildren().add(button);
@@ -97,14 +127,6 @@ public class FrontPanel extends Stage {
 			@Override
 			public void handle(ActionEvent arg0) {
 				machine.forceLoadMAR();
-			}
-		});
-		box.getChildren().add(button);
-		button = new Button("Load Data into Memory");
-		button.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent arg0) {
-				machine.loadDataIntoMemory();
 			}
 		});
 		box.getChildren().add(button);
