@@ -3,13 +3,13 @@ package increment.simulator;
 /**
  * An And gate of X inputs, each of N bits width.
  * 
- * The or gate has X inputs:
+ * The And gate has X inputs:
  * 		* input0[width]
  * 		* input1[width]
  * 		...
  * 		* inputX[width]
  * where X = 2 ^ addressWidth.
- * The or gate has 1 output:
+ * The And gate has 1 output:
  * 		* output[width]
  * Each bit in the output will be the <B> and </B> result of the same bit in all the inputs.
  * 
