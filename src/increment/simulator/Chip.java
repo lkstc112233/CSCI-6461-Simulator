@@ -16,9 +16,15 @@ import java.util.Map;
  */
 public abstract class Chip {
 	public Chip(){
+		/*
+		portFormat: port name to width 
+		ports : define different port in the chip
+		
+		
+		*/
 		portsFormat = new HashMap<>();
 		ports = new HashMap<>();
-	}
+	}   
 	/**
 	 * We are using tick here to indicate a clock tick, so we don't have to simulate a 
 	 * wiring between clock and each chip.
@@ -36,11 +42,11 @@ public abstract class Chip {
 	 */
 	public boolean evaluate(){ return false; }
 	/**
-	 * All ports width.
+	 *  ports‘ width （ALL ports in the Chip）.
 	 */
 	protected Map<String, Integer> portsFormat;
 	/**
-	 * All ports cable.
+	 *  ports' cable （ALL port in the Chip）.
 	 */
 	protected Map<String, Cable> ports;
 	/**
