@@ -27,11 +27,14 @@ public class FrontPanel extends Stage {
 		grid.setAlignment(Pos.CENTER);
 		for (int j = 0; j < 17; ++j) {
 			ColumnConstraints cc = new ColumnConstraints();
-			cc.setPercentWidth(75 / 17.);
+			cc.setPercentWidth(75. / 17.);
 			grid.getColumnConstraints().add(cc);
 		}
 		ColumnConstraints cc = new ColumnConstraints();
-		cc.setPercentWidth(25.);
+		cc.setPercentWidth(12.5);
+		grid.getColumnConstraints().add(cc);
+		cc = new ColumnConstraints();
+		cc.setPercentWidth(12.5);
 		grid.getColumnConstraints().add(cc);
 		RowConstraints rc = new RowConstraints();
 		for (int j = 0; j < 5; ++j) {
@@ -93,6 +96,75 @@ public class FrontPanel extends Stage {
 				machine.forceUpdate();
 			}
 		});
+		selection = new RadioButton("GPRF");
+		selection.setToggleGroup(group);
+		groupBox.getChildren().add(selection);
+		selection.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.setRadioSwitch(5);
+				machine.forceUpdate();
+			}
+		});
+		selection = new RadioButton("IRF");
+		selection.setToggleGroup(group);
+		groupBox.getChildren().add(selection);
+		selection.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.setRadioSwitch(4);
+				machine.forceUpdate();
+			}
+		});
+		
+		// New group for register selection.
+		groupBox = new VBox();
+		group = new ToggleGroup();
+		selection = new RadioButton("0");
+		groupBox.setSpacing(5);
+		selection.setSelected(true);
+		selection.setToggleGroup(group);
+		groupBox.getChildren().add(selection);
+		selection.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.setRegisterRadioSwitch(0);
+				machine.forceUpdate();
+			}
+		});
+		selection = new RadioButton("1");
+		selection.setToggleGroup(group);
+		groupBox.getChildren().add(selection);
+		selection.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.setRegisterRadioSwitch(1);
+				machine.forceUpdate();
+			}
+		});
+		selection = new RadioButton("2");
+		selection.setToggleGroup(group);
+		groupBox.getChildren().add(selection);
+		selection.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.setRegisterRadioSwitch(2);
+				machine.forceUpdate();
+			}
+		});
+		selection = new RadioButton("3");
+		selection.setToggleGroup(group);
+		groupBox.getChildren().add(selection);
+		selection.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.setRegisterRadioSwitch(3);
+				machine.forceUpdate();
+			}
+		});
+		grid.add(groupBox, 18, 0, 1, 7);
+		
+		
 
 		HBox box = new HBox();
 		box.setSpacing(10);

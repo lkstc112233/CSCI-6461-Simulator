@@ -59,8 +59,9 @@ public class MachineWrapper {
 	public JavaBeanBooleanProperty getSwitchesProperty(int i) { return switchesProperty[i]; }
 	private JavaBeanIntegerProperty radioSwitchProperty;
 	public JavaBeanIntegerProperty getRadioSwitchProperty() { return radioSwitchProperty; }
+	private JavaBeanIntegerProperty registerRadioSwitchProperty;
+	public JavaBeanIntegerProperty getRegisterRadioSwitchProperty() { return registerRadioSwitchProperty; }
 
-	@SuppressWarnings("unused")
 	public class MachineStatusPropertyGetterOrSetter {
 		int index;
 		public MachineStatusPropertyGetterOrSetter(int i) {
@@ -87,6 +88,7 @@ public class MachineWrapper {
     		properties.add(memoryProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("memory").build());
     		properties.add(controlUnitProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("controlUnit").build());
     		properties.add(radioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("radioSwitch").build());
+    		properties.add(registerRadioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("registerRadioSwitch").build());
     		valueBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
     		addressBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
     		switchesProperty = new JavaBeanBooleanProperty[16];
@@ -115,6 +117,8 @@ public class MachineWrapper {
     public final String getControlUnit(){ return machine.getChip("CU").toString(); }
     public final Integer getRadioSwitch(){ return ((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).getValue(); }
     public final void setRadioSwitch(Integer value){ ((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).setValue(value); }
+    public final Integer getRegisterRadioSwitch(){ return ((NumberedSwitch) machine.getChip("panelRegisterSelectSwitch")).getValue(); }
+	public final void setRegisterRadioSwitch(Integer value) { ((NumberedSwitch) machine.getChip("panelRegisterSelectSwitch")).setValue(value); }
     private List<ReadOnlyJavaBeanProperty<?>> properties;
     
 	private boolean toTick = true;
