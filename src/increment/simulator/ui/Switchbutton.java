@@ -1,4 +1,4 @@
-ackage increment.simulator.ui;
+package increment.simulator.ui;
 
 
 import com.sun.javafx.geom.BaseBounds;
