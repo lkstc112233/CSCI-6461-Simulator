@@ -66,7 +66,7 @@ public abstract class Chip {
 			ports.put(name, cable);
 		}
 		else
-			throw new IllegalStateException("Connecting failed when trying to connect port " + name);
+			throw new IllegalStateException("Connecting failed when trying to connect port '" + name +"', whose width is " + portsFormat.get(name) + ", with a cable of width " + cable.getWidth());
 	}
 	/**
 	 * Returns an cable connecting to the port of the given name.
