@@ -68,15 +68,38 @@ public class ControlUnit extends Chip {
 			this.defaultState = defaultState;
 		}
 	}
-	
+	/**
+	 * Stores current control unit state.
+	 */
 	private String currentState = null;
+	/**
+	 * Stores default control unit state.
+	 */
 	private String defaultState = null;
+	/**
+	 * Stores convert rules.
+	 */
 	private Map<String, StateConverter> stateConvertations = new HashMap<>();
+	/**
+	 * Stores port rules.
+	 */
 	private Map<String, Set<String>> portConvertations = new HashMap<>();
 	
+	/**
+	 * Stores if the control unit has ticked. Since the control unit is the most confident unit, it knows what to do and only evaluate once.
+	 */
 	private boolean ticked = false;
+	/**
+	 * If control unit is paused, it records this status.
+	 */
 	private boolean paused = false;
+	/**
+	 * Records input ports to get a better practice.
+	 */
 	private HashSet<String> inputPortNames;
+	/**
+	 * Constructor. Loads file<i> controlDef.ini</i>.
+	 */
 	public ControlUnit() {
 		inputPortNames = new HashSet<>();
 		addPort("opcode", 7);
