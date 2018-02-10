@@ -19,9 +19,15 @@ public abstract class Chip {
 	 * Constructor. Initializes ports tables.
 	 */
 	public Chip(){
+		/*
+		portFormat: port name to width 
+		ports : define different port in the chip
+		
+		
+		*/
 		portsFormat = new HashMap<>();
 		ports = new HashMap<>();
-	}
+	}   
 	/**
 	 * We are using tick here to indicate a <b>clock tick</b>, so we don't have to simulate a 
 	 * wiring between clock and each chip.<br>

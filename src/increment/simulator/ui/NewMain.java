@@ -58,7 +58,7 @@ public class NewMain extends Application {
 		}
 		grid.setHgap(50);
 		grid.setVgap(10);
-		grid.setPadding(new Insets(25, 25, 25, 25));
+		grid.setPadding(new Insets(50, 50, 50, 50));
 
 		Scene scene = new Scene(grid, 800, 600);
 		primaryStage.setScene(scene);
