@@ -37,4 +37,8 @@ public class OrGate extends LogicGateBase {
 	protected long process(long base, long operand) {
 		return base | operand;
 	}
+	@Override
+	protected long getBase() {
+		return 0;
+	}
 }
