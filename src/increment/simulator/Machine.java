@@ -29,7 +29,11 @@ public class Machine {
 			System.err.println(e.getMessage());
 			System.exit(-1);
 		}
-		
+	}
+	/**
+	 * Load a testing program by MAGIC!
+	 */ 
+	public void IPLMagic() {
 		Memory mem = (Memory) getChip("memory");
 		
 		// SIMULATED Boot Loader: 
@@ -44,7 +48,9 @@ public class Machine {
 		mem.putValue(0x244, 0x2134); // Data at 580(0x244)
 		mem.putValue(0x0E, 0x0474); // Data (1140) at 0x0E, it's used for indirect accessing.
 		mem.putValue(0x474, 0xB23A); // Data at 1140(0x474)
+		
 	}
+	
 	/**
 	 * Loads a configuration file from disk.
 	 * Utilizes {@link java.io.StreamTokenizer} to tokenize.
@@ -220,11 +226,17 @@ public class Machine {
 	public Cable getCable(String name) {
 		return cables.get(name);
 	}
+	/**
+	 * Tick each chip.
+	 */
 	public void tick(){
 		for (Map.Entry<String, Chip> e : chips.entrySet()) {
 			e.getValue().tick();
 		}
 	}
+	/**
+	 * Evaluates until all values are stabilized.
+	 */
 	public void evaluate(){
 		boolean change = true;
 		while (change) {

@@ -5,10 +5,20 @@ package increment.simulator;
  *
  */
 public class CableAdapter extends CablePartialAdapter {
+	/**
+	 * Constructor.
+	 * @param width - Bit width.
+	 * @param cableInput - Mother cable
+	 * @param offset - default 0.
+	 */
 	public CableAdapter(int width, Cable cableInput, int offset) {
 		super(width, cableInput, offset);
 	} 
-	
+	/**
+	 * Constructor. Assigning offset to 0.
+	 * @param width - Bit width.
+	 * @param cableInput - Mother cable
+	 */
 	public CableAdapter(int width, Cable cableInput){
 		super(width, cableInput, 0);
 	}
