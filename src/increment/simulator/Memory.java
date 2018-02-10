@@ -60,7 +60,7 @@ public class Memory extends Chip {
 	private boolean outofRange(int address) {
 		if (address < 0)
 			return true;
-		return address < data.length;
+		return address >= data.length;
 	}
 	/**
 	 * When evaluates, we move specified data to output.
