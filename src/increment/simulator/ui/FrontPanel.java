@@ -49,7 +49,7 @@ public class FrontPanel extends Stage {
 	     *
 	     *
 	     */
-		grid.setGridLinesVisible(true);
+		grid.setGridLinesVisible(false);
 		Scene scene = new Scene(grid, 600, 400);
 		scene.getStylesheets().add("increment/simulator/ui/buttonstyle.css");
 		setScene(scene);
@@ -73,6 +73,8 @@ public class FrontPanel extends Stage {
 			grid.add(radio, i, 2);
 			grid.setHalignment(radio, HPos.CENTER);
 			CheckBox check = new CheckBox();
+			grid.add(check, i, 3);
+			grid.setConstraints(check,i,3,1,1,HPos.CENTER,VPos.CENTER);
 			machine.getSwitchesProperty(i).bind(check.selectedProperty());
 			Text text1 = new Text(Integer.toString(i));
 			Text text2 = new Text(Integer.toString(i));
@@ -88,10 +90,7 @@ public class FrontPanel extends Stage {
 		
 		Button button = new Button("Tick");
 		/*test for single button work */
-		button.setStyle("  -fx-background-color:\n" +
-				"        #3c7fb1,\n" +
-				"        linear-gradient(#fafdfe, #e8f5fc),\n" +
-				"        linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);");
+
 		//grid.halignmentProperty();
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
