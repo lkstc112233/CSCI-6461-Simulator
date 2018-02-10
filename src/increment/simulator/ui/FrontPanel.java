@@ -190,10 +190,12 @@ public class FrontPanel extends Stage {
 		box.setSpacing(10);
 		grid.add(box, 0, 5, 17, 1);
 		
+
 		Button button = new Button("Tick");
 		/*test for single button work */
 
 		//grid.halignmentProperty();
+
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
