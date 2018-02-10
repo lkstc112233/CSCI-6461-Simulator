@@ -2,6 +2,8 @@ package increment.simulator;
 /**
  * A bit. A bit is the most elemental unit of the simulated system. A bit can be put or get.
  * A bit holds a value of 0 or 1.
+ * <br>
+ * <I>However the whole Bit structure can be replaced by {@link Boolean}...</I>
  * 
  * @author Xu Ke
  *

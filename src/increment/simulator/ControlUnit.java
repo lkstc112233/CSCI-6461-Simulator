@@ -13,37 +13,57 @@ import increment.simulator.util.ConvenientStreamTokenizer;
 import static increment.simulator.util.ExceptionHandling.panic;
 
 /**
- * The control unit. It controls how everything else works, such as load signals, or who is to use the bus.
- * This design reads a script for status changes inside the ControlUnit, so to enable more flexible design.
+ * The control unit. It controls how everything else works, such as load signals, or who is to use the bus.<br>
+ * This design reads a script for status changes inside the ControlUnit, so to enable more flexible design.<br>
  * 
  * The controlUnit has three inputs: <br>
  * 		* opcode[7], 0:5 is opcode, and 6 is I bit. So, all opcode greater than 64 is the same one with 
  * 					the value 32 lesser.<br>
- * 		* pause[1], if set to true while tick, the control unit will not change its status, and all output will be set to 0.
- * 		* reset[1], if set to true while tick, the control unit will always change its status to 
- * <br>
- * And it has several outputs connecting to every part in the CPU chip.
+ * 		* pause[1], if set to true while tick, the control unit will not change its status, and all output will be set to 0.<br>
+ * 		* reset[1], if set to true while tick, the control unit will always change its status to the default state.<br>
+ * 
+ * And it has several outputs connecting to every part in the CPU chip. These outputs are defined in the <i>controlDef.ini</i>.
  * 
  * @author Xu Ke
  *
  */
 public class ControlUnit extends Chip {
 	/**
-	 * A helper class for state switches.
+	 * A helper class for state switches. It can provide instruction on how to switch state regarding to current <b>opcode</b>.
 	 * @author Xu Ke
 	 *
 	 */
 	private class StateConverter {
+		/**
+		 * The convert table.
+		 */
 		private Map<Integer, String> convertTable = new HashMap<>();
+		/**
+		 * One optional default branch.
+		 */
 		private String defaultState = null;
+		/**
+		 * Provide instruction on how to switch state regarding to current <b>opcode</b>.
+		 * @param opcode
+		 * @return
+		 */
 		public String nextState(int opcode) {
 			if (convertTable.containsKey(opcode))
 				return convertTable.get(opcode);
 			return defaultState;
 		}
+		/**
+		 * Adds a convert plan with given opcode and targetState.
+		 * @param opcode
+		 * @param targetState
+		 */
 		public void addConvertPlan(int opcode, String targetState) {
 			convertTable.put(opcode, targetState);
 		}
+		/**
+		 * Sets a default state. It's used when all opcode match fail.
+		 * @param defaultState
+		 */
 		public void addDefaultConvertingStatePlan(String defaultState) {
 			this.defaultState = defaultState;
 		}
@@ -331,6 +351,7 @@ public class ControlUnit extends Chip {
 	/**
 	 * This is when the status changes.
 	 */
+	@Override
 	public void tick() {
 		ticked = true;
 		paused = false;
@@ -351,6 +372,7 @@ public class ControlUnit extends Chip {
 	/**
 	 * The control Unit will perform an action based on current status every tick.
 	 */
+	@Override
 	public boolean evaluate(){
 		if (paused)
 			if(getPort("pause").getBit(0))

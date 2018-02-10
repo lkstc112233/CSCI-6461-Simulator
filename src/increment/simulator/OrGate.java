@@ -18,9 +18,9 @@ package increment.simulator;
  */
 public class OrGate extends LogicGateBase {
 	/**
-	 * 
-	 * @param width
-	 * @param addressWidth
+	 * Constructor. 
+	 * @param width The width of input and output.
+	 * @param addressWidth The width of address. 
 	 */
 	public OrGate(int width, int addressWidth) {
 		super(width, addressWidth);
@@ -32,11 +32,18 @@ public class OrGate extends LogicGateBase {
 	public OrGate(int width) {
 		this(width, 1);
 	}
-	
+
+
+	/**
+	 * Perform OR operation.
+	 */
 	@Override
 	protected long process(long base, long operand) {
 		return base | operand;
 	}
+	/**
+	 * The base of an AND operation should be all 1s.
+	 */
 	@Override
 	protected long getBase() {
 		return 0;

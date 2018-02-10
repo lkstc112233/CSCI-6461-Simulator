@@ -19,8 +19,8 @@ public abstract class Cable {
 	/**
 	 * replace cable value with another. Note that the input should share the same 
 	 * width with this one.
-	 * @param input
-	 * @return true if the value has been changed by the method.
+	 * @param input - Input cable. Its value won't be changed. 
+	 * @return <b>true</b> if the value has been changed by the method.
 	 */
 	public boolean assign(Cable input) {
 		// Calling real assign.
@@ -29,7 +29,7 @@ public abstract class Cable {
 	/**
 	 * replace cable value with another, but reversed. Note that the input should share the same 
 	 * width with this one.
-	 * @param input
+	 * @param input - Input cable. Its value won't be changed. 
 	 * @return true if the value has been changed by the method.
 	 */
 	public boolean assignReverse(Cable input) {
@@ -95,8 +95,7 @@ public abstract class Cable {
 	 */
 	public long toInteger() {
 		long result = 0;
-		for (int i = getWidth(); i > 0; --i)
-		{
+		for (int i = getWidth(); i > 0; --i) {
 			result <<= 1;
 			if (getBit(i - 1))
 				result += 1;
@@ -105,12 +104,11 @@ public abstract class Cable {
 	}
 	/**
 	 * Put an integer into the cable.
-	 * Uses only low ```width``` bits.
+	 * Uses only low width bits.
 	 * @param value
 	 */
 	public void putValue(long value) {
-		for (int i = 0; i < getWidth(); ++i)
-		{
+		for (int i = 0; i < getWidth(); ++i) {
 			putBit(i, (value & 1) == 1);
 			value >>= 1;
 		}
@@ -126,7 +124,7 @@ public abstract class Cable {
 		return wasNotZero;
 	}
 	/**
-	 * Gets a readable form
+	 * Gets a readable form.
 	 */
 	public String toString(){
 		StringBuilder sb = new StringBuilder();

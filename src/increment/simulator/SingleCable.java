@@ -10,6 +10,9 @@ import java.util.ArrayList;
  *
  */
 public class SingleCable extends Cable {
+	/**
+	 * Bits storage.
+	 */
 	private ArrayList<Bit> bits;
 	/**
 	 * Constructor.
@@ -24,14 +27,16 @@ public class SingleCable extends Cable {
 	 * Returns cable width.
 	 * @return cable width
 	 */
+	@Override
 	public int getWidth() {
 		return bits.size();
 	}
 	/**
 	 * Returns value at a specific bit
 	 * @param bitPos Position of the bit (0 based)
-	 * @return
+	 * @return Bit value if bitPos is valid.<br>false otherwise.
 	 */
+	@Override
 	public boolean getBit(int bitPos) {
 		if (bitPos < getWidth() && bitPos >= 0)
 			return bits.get(bitPos).get();
@@ -42,6 +47,7 @@ public class SingleCable extends Cable {
 	 * Sets a bit to a specific value
 	 * @param bitPos
 	 */
+	@Override
 	public void putBit(int bitPos, boolean val) {
 		if (bitPos < getWidth() && bitPos >= 0)
 			bits.get(bitPos).put(val);
