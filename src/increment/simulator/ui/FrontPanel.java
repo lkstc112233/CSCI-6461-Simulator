@@ -2,11 +2,14 @@ package increment.simulator.ui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
@@ -50,26 +53,43 @@ public class FrontPanel extends Stage {
 		grid.setHgap(20);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-
-		Scene scene = new Scene(grid, 800, 210);
+	    /*  this instruction is used to adjust the place of the children of grid, delimited when not need
+	     *
+	     *
+	     */
+		grid.setGridLinesVisible(false);
+		Scene scene = new Scene(grid, 800, 400);
+		scene.getStylesheets().add("increment/simulator/ui/buttonstyle.css");
 		setScene(scene);
-		
+		/* centerlize  the node */
+		grid.setAlignment(Pos.CENTER);
+
+
+
 		for (int i = 0; i < 16; ++i) {
 			RadioButton radio = new RadioButton();
+
 			if (i < 12) {
 				radio.setDisable(true);
 				radio.selectedProperty().bind(machine.getAddressBulbsProperty(i));
 				grid.add(radio, i, 1);
+				grid.setHalignment(radio, HPos.CENTER);
 			}
 			radio = new RadioButton();
 			radio.setDisable(true);
 			radio.selectedProperty().bind(machine.getValueBulbsProperty(i));
 			grid.add(radio, i, 2);
+			grid.setHalignment(radio, HPos.CENTER);
 			CheckBox check = new CheckBox();
-			machine.getSwitchesProperty(i).bind(check.selectedProperty());
 			grid.add(check, i, 3);
-			grid.add(new Text(Integer.toString(i)), i, 0);
-			grid.add(new Text(Integer.toString(i)), i, 4);
+			grid.setConstraints(check,i,3,1,1,HPos.CENTER,VPos.CENTER);
+			machine.getSwitchesProperty(i).bind(check.selectedProperty());
+			Text text1 = new Text(Integer.toString(i));
+			Text text2 = new Text(Integer.toString(i));
+			grid.setHalignment(text1, HPos.CENTER);
+			grid.add(text1, i, 0);
+			grid.setConstraints(text2,i,4,1,1, HPos.CENTER, VPos.CENTER);
+			grid.add(text2, i, 4);
 		}
 		VBox groupBox = new VBox();
 		grid.add(groupBox, 16, 0, 2, 7);
@@ -170,7 +190,12 @@ public class FrontPanel extends Stage {
 		box.setSpacing(10);
 		grid.add(box, 0, 5, 17, 1);
 		
+
 		Button button = new Button("Circle");
+		/*test for single button work */
+
+		//grid.halignmentProperty();
+
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
@@ -179,6 +204,7 @@ public class FrontPanel extends Stage {
 		});
 		box.getChildren().add(button);
 		RadioButton indicator = new RadioButton();
+		
 		indicator.setDisable(true);
 		indicator.selectedProperty().bind(machine.getPausedProperty());
 		box.getChildren().add(indicator);

@@ -11,23 +11,44 @@ import java.util.List;
 import increment.simulator.util.ConvenientStreamTokenizer;
 import static increment.simulator.util.ExceptionHandling.panic;
 /**
- * A program that compiles a testing program.
+ * A program that compiles a program for this architecture.
  * @author Xu Ke
  *
  */
 public class AssemblyCompiler {
+	/**
+	 * A compiled, append only program. Basically it's a Short array. You can iterate through it by using for-each loop. 
+	 * @author Xu Ke
+	 *
+	 */
 	public static class CompiledProgram implements Iterable<Short>{
+		/**
+		 * Storage.
+		 */
 		private List<Short> program = new ArrayList<>();
+		/**
+		 * Adds a new instruction.
+		 * @param inst
+		 */
 		public void addInstruction(short inst) {
 			program.add(inst);
 		}
+		/**
+		 * Provides support for <b>for-each</b> loop.
+		 */
 		@Override
 		public Iterator<Short> iterator() {
 			return program.iterator();
-		}
-		
+		}	
 	}
+	/**
+	 * Compiles a text-written source program.
+	 * @param fileNameOrSource
+	 * @param isFile
+	 * @return
+	 */
 	public static CompiledProgram compile(String fileNameOrSource, boolean isFile) {
+		// Create a tokenizer, either by file or by text.
 		ConvenientStreamTokenizer tokens = null;
 		if (isFile) {
 			try {
@@ -39,6 +60,7 @@ public class AssemblyCompiler {
 		}
 		else
 			tokens = new ConvenientStreamTokenizer(new StringReader(fileNameOrSource));
+		// Compile the program and return.
 		CompiledProgram program = null;
 		try {
 			program = compile(tokens);
@@ -48,16 +70,33 @@ public class AssemblyCompiler {
 		}
 		return program;
 	}
+	/**
+	 * Alias for text source.
+	 * @param source
+	 * @return
+	 */
 	public static CompiledProgram compile(String source) {
 		return compile(source, false);
 	}
+	/**
+	 * Compile!
+	 * @param tokens
+	 * @return
+	 * @throws IOException
+	 */
 	private static CompiledProgram compile(ConvenientStreamTokenizer tokens) throws IOException{
 		CompiledProgram program = new CompiledProgram();
 		int instruction;
 		while ((instruction = phaseInstruction(tokens)) >= 0)
-				program.addInstruction((short) instruction);;
+				program.addInstruction((short) instruction);
 		return program;
 	}
+	/**
+	 * Parse instruction.
+	 * @param tokens
+	 * @return parsed instruction. <br>-1 when unrecognized.
+	 * @throws IOException When needed.
+	 */
 	private static int phaseInstruction(ConvenientStreamTokenizer tokens) throws IOException {
 		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD)
 			return -1;
@@ -78,6 +117,13 @@ public class AssemblyCompiler {
 		panic("Unrecognized instruction");
 		return -1;
 	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
 	private static short parseRAndIXAndAddressAndOptionalI(ConvenientStreamTokenizer tokens) throws IOException {
 		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
 			panic("Unexpected token at line " + tokens.lineno());
@@ -88,6 +134,13 @@ public class AssemblyCompiler {
 		i |= parseIXAndAddressAndOptionalI(tokens);
 		return i;
 	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
 	private static short parseIXAndAddressAndOptionalI(ConvenientStreamTokenizer tokens) throws IOException {
 		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
 			panic("Unexpected token at line " + tokens.lineno());
@@ -98,6 +151,13 @@ public class AssemblyCompiler {
 		i |= parseAddressAndOptionalI(tokens);
 		return i;
 	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
 	private static short parseAddressAndOptionalI(ConvenientStreamTokenizer tokens) throws IOException {
 		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
 			panic("Unexpected token at line " + tokens.lineno());
@@ -122,6 +182,10 @@ public class AssemblyCompiler {
 			return 1 << 5;
 		return 0;
 	}
+	/**
+	 * Main function for testing.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		CompiledProgram cpm = compile("LDX 2,15	LDR 0,2,20,0 LDA 1,2,6,0");
 		for (short s : cpm.program)

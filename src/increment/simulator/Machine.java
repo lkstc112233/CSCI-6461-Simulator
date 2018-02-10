@@ -226,11 +226,17 @@ public class Machine {
 	public Cable getCable(String name) {
 		return cables.get(name);
 	}
+	/**
+	 * Tick each chip.
+	 */
 	public void tick(){
 		for (Map.Entry<String, Chip> e : chips.entrySet()) {
 			e.getValue().tick();
 		}
 	}
+	/**
+	 * Evaluates until all values are stabilized.
+	 */
 	public void evaluate(){
 		boolean change = true;
 		while (change) {

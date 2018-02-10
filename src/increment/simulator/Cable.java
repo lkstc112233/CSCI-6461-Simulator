@@ -9,37 +9,50 @@ package increment.simulator;
  */
 public abstract class Cable {
 	/**
+	 * An interface for extracting common ways in 
+	 * @author Xu Ke
+	 */
+	private interface AssignMappingMethod<T> {
+		public T map(T input);
+	}
+	
+	/**
 	 * replace cable value with another. Note that the input should share the same 
 	 * width with this one.
-	 * @param input
-	 * @return true if the value has been changed by the method.
+	 * @param input - Input cable. Its value won't be changed. 
+	 * @return <b>true</b> if the value has been changed by the method.
 	 */
 	public boolean assign(Cable input) {
-		if (input == null) return false;
-		if (getWidth() < input.getWidth())
-			throw new IllegalStateException("Connecting wrong cables together.");
-		long initialValue = toInteger();
-		for (int i = 0; i < getWidth(); ++i) {
-			putBit(i, input.getBit(i));
-		}
-		return toInteger() != initialValue;
+		// Calling real assign.
+		return realAssign(input, (c)->c);
 	}
 	/**
 	 * replace cable value with another, but reversed. Note that the input should share the same 
 	 * width with this one.
-	 * @param input
+	 * @param input - Input cable. Its value won't be changed. 
 	 * @return true if the value has been changed by the method.
 	 */
 	public boolean assignReverse(Cable input) {
+		// Calling real assign.
+		return realAssign(input, (c)->!c);
+	}
+	/**
+	 * The function really does the assign job. Since there is assign and reversed assign, we extract the same part out.
+	 * @param input - Input cable.
+	 * @param mapping - Method used to map bit.
+	 * @return
+	 */
+	private boolean realAssign(Cable input, AssignMappingMethod<Boolean> mapping) {
 		if (input == null) return false;
 		if (getWidth() < input.getWidth())
 			throw new IllegalStateException("Connecting wrong cables together.");
 		long initialValue = toInteger();
 		for (int i = 0; i < getWidth(); ++i) {
-			putBit(i, !input.getBit(i));
+			putBit(i, mapping.map(input.getBit(i)));
 		}
 		return toInteger() != initialValue;
 	}
+	
 	/**
 	 * replace part of cable value with another. 
 	 * @param offset
@@ -82,8 +95,7 @@ public abstract class Cable {
 	 */
 	public long toInteger() {
 		long result = 0;
-		for (int i = getWidth(); i > 0; --i)
-		{
+		for (int i = getWidth(); i > 0; --i) {
 			result <<= 1;
 			if (getBit(i - 1))
 				result += 1;
@@ -92,25 +104,27 @@ public abstract class Cable {
 	}
 	/**
 	 * Put an integer into the cable.
-	 * Uses only low ```width``` bits.
+	 * Uses only low width bits.
 	 * @param value
 	 */
 	public void putValue(long value) {
-		for (int i = 0; i < getWidth(); ++i)
-		{
+		for (int i = 0; i < getWidth(); ++i) {
 			putBit(i, (value & 1) == 1);
 			value >>= 1;
 		}
 	}
 	/**
 	 * Sets all bits in cable to 0.
+	 * @return true if value was changed.
 	 */
-	public void setZero(){
+	public boolean setZero(){
+		boolean wasNotZero = (toInteger() != 0);
 		for (int i = 0; i < getWidth(); ++i)
 			putBit(i, false);
+		return wasNotZero;
 	}
 	/**
-	 * Gets a readable form
+	 * Gets a readable form.
 	 */
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
