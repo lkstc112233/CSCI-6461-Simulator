@@ -191,7 +191,7 @@ public class FrontPanel extends Stage {
 		grid.add(box, 0, 5, 17, 1);
 		
 
-		Button button = new Button("Tick");
+		Button button = new Button("Circle");
 		/*test for single button work */
 
 		//grid.halignmentProperty();
