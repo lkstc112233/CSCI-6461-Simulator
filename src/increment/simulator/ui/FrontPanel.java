@@ -198,6 +198,14 @@ public class FrontPanel extends Stage {
 			}
 		});
 		box.getChildren().add(button);
+		button = new Button("IPL");
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				machine.IPLButton();
+			}
+		});
+		box.getChildren().add(button);
 		button = new Button("Load");
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override

@@ -191,4 +191,8 @@ public class MachineWrapper {
 		((Switch) machine.getChip("panelPauseCUSwitch")).flip(paused);
 		forceUpdate();
 	}
+	public void IPLButton() {
+		machine.IPLMagic();
+    	updateEvent();
+	}
 }
