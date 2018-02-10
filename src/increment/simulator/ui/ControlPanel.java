@@ -27,7 +27,7 @@ public class ControlPanel extends Stage {
 		programProperty = new SimpleStringProperty();
 		programAddressProperty = new SimpleStringProperty();
 		
-		setTitle("Control Panel");
+		setTitle("Magic Panel");
 		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);

@@ -34,9 +34,15 @@ public abstract class LogicGateBase extends Chip {
 	 */
 	protected abstract long process(long base, long operand);
 	
+	/**
+	 * Provides a operand base.
+	 * @return
+	 */
+	protected abstract long getBase();
+	
 	@Override
 	public boolean evaluate() {
-		long result = 0;
+		long result = getBase();
 		for (Entry<String, Cable> name : ports.entrySet()) {
 			if (name.getKey().contains("input")) {
 				result = process(result, name.getValue().toInteger());
