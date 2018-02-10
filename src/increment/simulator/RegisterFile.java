@@ -1,22 +1,36 @@
 package increment.simulator;
 /**
  * Register file. It contains several registers(And according to the documentation, 
- * the number will be 4), each of width ```width```(which will be specified as 16).
+ * the number will be 4), each has a same bit width (which will be specified as 16).<br>
  * 
- * A register file will have three inputs:
- * 		* load[1]
- * 		* address[addressWidth]
- * 		* input[width]
- * A register file will have one output:
+ * A register file will have three inputs:<br>
+ * 		* load[1]<br>
+ * 		* address[addressWidth]<br>
+ * 		* input[width]<br>
+ * A register file will have one output:<br>
  * 		* output[width]
  * 
  * @author Xu Ke
  *
  */
 public class RegisterFile extends Chip {
+	/**
+	 * A mux for selecting output of the registers.
+	 */
 	protected Mux muxForOutput;
+	/**
+	 * The working registers.
+	 */
 	protected ClockRegister[] data;
+	/**
+	 * A demux for the load bit.
+	 */
 	protected Demux demuxForLoad;
+	/**
+	 * Constructor. It connects the registers by built in cable.
+	 * @param addressWidth
+	 * @param width
+	 */
 	public RegisterFile(int addressWidth, int width){
 		data = new ClockRegister[1 << addressWidth];
 		muxForOutput = new Mux(addressWidth, width);
@@ -33,7 +47,7 @@ public class RegisterFile extends Chip {
 		}
 	}
 	/**
-	 * Since this is a merged chip, we connect ports manually.
+	 * Since this is a merged chip, we should connect ports manually to the right position.
 	 */
 	@Override
 	public void connectPort(String name, Cable cable){
@@ -58,14 +72,15 @@ public class RegisterFile extends Chip {
 		}
 	}
 	/**
-	 * Sets a value for a very register.
-	 * @param index
-	 * @param value
+	 * Sets a value for a selected register.
+	 * @param index - To select the register.
+	 * @param value - To put in the register.
 	 */
 	public void setValue(int index, long value) {
 		data[index].setValue(value);
 	}
 	/**
+	 * Distributes this function to the right chip.
 	 * @return real width of a given port.
 	 */
 	@Override
@@ -83,12 +98,19 @@ public class RegisterFile extends Chip {
 			return super.getPortWidth(name);
 		}
 	}
-	
+	/**
+	 * Ticks every memory chip.
+	 */
+	@Override
 	public void tick(){
 		for (Chip c : data)
 			c.tick();
 	}
-	
+	/**
+	 * Puts selected register value to the output.
+	 * @return true if any value changed.
+	 */
+	@Override
 	public boolean evaluate(){
 		boolean vary = false;
 		vary |= demuxForLoad.evaluate();
@@ -97,7 +119,9 @@ public class RegisterFile extends Chip {
 		vary |= muxForOutput.evaluate();
 		return vary;
 	}
-	
+	/**
+	 * Provide a nice readable text.
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

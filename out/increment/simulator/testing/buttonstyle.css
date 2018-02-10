@@ -1,0 +1,60 @@
+.check-box>.box {
+
+
+
+}
+
+.check-box{
+
+  -fx-background-color: transparent;
+ -fx-background-insets: 0;
+  -fx-background-radius: 0;
+-fx-background-position: left;
+-fx-background-repeat: no-repeat;
+  -fx-background-size:50;
+  -fx-padding:50;
+  -fx-background-image: url("file:res/close2.png");
+
+}
+
+.check-box:no-selected {
+  -fx-background-color: transparent;
+  -fx-padding:20;
+  -fx-background-size:20;
+  -fx-shape: none;
+
+-fx-background-repeat: no-repeat;
+
+-fx-background-image: url("file:res/close2.png");
+
+
+}
+
+.check-box>.box{
+
+-fx-background-color: transparent;
+}
+
+.check-box>.box>.mark{
+
+
+-fx-background-color: transparent;
+}
+
+
+.check-box:selected{
+
+
+  -fx-background-color: transparent;
+  -fx-background-size:100;
+ -fx-padding:100;
+ -fx-shape: none;
+ -fx-background-position: center;
+
+     -fx-background-repeat: no-repeat;
+
+
+-fx-background-image: url("file:res/open.png");
+
+
+}

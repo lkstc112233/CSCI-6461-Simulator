@@ -15,13 +15,15 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.scene.*;
+import increment.simulator.ui.Switchbutton;
 
 public class UiFrameTesting extends Application {
 	RadioButton[] bulbs;
 	CheckBox[] switches;
 	SwitchesSet setSwitch;
 	BulbSet setBulb;
-
+    Switchbutton [] switchbuttons ;
 	@Override
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Virtual Machine Test");
@@ -33,16 +35,22 @@ public class UiFrameTesting extends Application {
 			cc.setPercentWidth(100 / 20.);
 			grid.getColumnConstraints().add(cc);
 		}
-		grid.setHgap(50);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(25, 25, 25, 25));
+		//grid.setHgrow(0);
+		grid.setVgap(0);
+		grid.setPadding(new Insets(0, 0, 0, 0));
+
+
 
 		Scene scene = new Scene(grid, 800, 600);
+		scene.getStylesheets().add("increment/simulator/testing/buttonstyle.css");
 		primaryStage.setScene(scene);
 
 		bulbs = new RadioButton[20];
 		switches = new CheckBox[20];
-				
+		//switches[1].;
+		Switchbutton switchbuttons = new Switchbutton(20,20);
+
+
 		setSwitch = new SwitchesSet(20);
 		setBulb = new BulbSet(20);
 		
@@ -50,10 +58,12 @@ public class UiFrameTesting extends Application {
 		
 		setSwitch.connectPort("output", connection);
 		setBulb.connectPort("input", connection);
+        grid.setGridLinesVisible(true);
 		
 		for (int i = 0; i < 20; ++i) {
 			grid.add(bulbs[i] = new RadioButton(), i, 0);
 			grid.add(switches[i] = new CheckBox(), i, 1);
+		//	grid.add(switchbuttons[i]= new Switchbutton(10,10) ,i,3,center);
 			bulbs[i].setDisable(true);
 			final int k = i;
 			switches[i].setOnAction(new EventHandler<ActionEvent>(){
@@ -83,8 +93,10 @@ public class UiFrameTesting extends Application {
 				updateUi();
 			}
 		});
-		grid.add(btn, 0, 2, 4, 1);
+		grid.add(btn, 0, 2, 1, 1);
+		grid.add(switchbuttons.imageView,0,3,1,1);
 		updateUi();
+
 		primaryStage.show();
 	}
 
