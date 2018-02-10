@@ -1,3 +1,6 @@
+Feb 10, 2018:
+	Memory access checks range and will not cause exception now.
+
 Feb 9, 2018:
 	Now panel has a pause button.
 	Now only loads when paused.
