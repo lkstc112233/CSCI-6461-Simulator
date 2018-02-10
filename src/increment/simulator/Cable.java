@@ -9,20 +9,22 @@ package increment.simulator;
  */
 public abstract class Cable {
 	/**
+	 * An interface for extracting common ways in 
+	 * @author Xu Ke
+	 */
+	private interface AssignMappingMethod<T> {
+		public T map(T input);
+	}
+	
+	/**
 	 * replace cable value with another. Note that the input should share the same 
 	 * width with this one.
 	 * @param input
 	 * @return true if the value has been changed by the method.
 	 */
 	public boolean assign(Cable input) {
-		if (input == null) return false;
-		if (getWidth() < input.getWidth())
-			throw new IllegalStateException("Connecting wrong cables together.");
-		long initialValue = toInteger();
-		for (int i = 0; i < getWidth(); ++i) {
-			putBit(i, input.getBit(i));
-		}
-		return toInteger() != initialValue;
+		// Calling real assign.
+		return realAssign(input, (c)->c);
 	}
 	/**
 	 * replace cable value with another, but reversed. Note that the input should share the same 
@@ -31,15 +33,26 @@ public abstract class Cable {
 	 * @return true if the value has been changed by the method.
 	 */
 	public boolean assignReverse(Cable input) {
+		// Calling real assign.
+		return realAssign(input, (c)->!c);
+	}
+	/**
+	 * The function really does the assign job. Since there is assign and reversed assign, we extract the same part out.
+	 * @param input - Input cable.
+	 * @param mapping - Method used to map bit.
+	 * @return
+	 */
+	private boolean realAssign(Cable input, AssignMappingMethod<Boolean> mapping) {
 		if (input == null) return false;
 		if (getWidth() < input.getWidth())
 			throw new IllegalStateException("Connecting wrong cables together.");
 		long initialValue = toInteger();
 		for (int i = 0; i < getWidth(); ++i) {
-			putBit(i, !input.getBit(i));
+			putBit(i, mapping.map(input.getBit(i)));
 		}
 		return toInteger() != initialValue;
 	}
+	
 	/**
 	 * replace part of cable value with another. 
 	 * @param offset
