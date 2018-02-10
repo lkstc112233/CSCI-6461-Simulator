@@ -22,13 +22,6 @@ public class Bit {
 	}
 	/**
 	 * 
-	 * @return value of this bit as integer
-	 */
-	public int getAsInteger() {
-		return value ? 1 : 0;
-	}
-	/**
-	 * 
 	 * @param v : value to put
 	 */
 	public void put(boolean v){
