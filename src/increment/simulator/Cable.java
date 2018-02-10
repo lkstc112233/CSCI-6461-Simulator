@@ -117,10 +117,13 @@ public abstract class Cable {
 	}
 	/**
 	 * Sets all bits in cable to 0.
+	 * @return true if value was changed.
 	 */
-	public void setZero(){
+	public boolean setZero(){
+		boolean wasNotZero = (toInteger() != 0);
 		for (int i = 0; i < getWidth(); ++i)
 			putBit(i, false);
+		return wasNotZero;
 	}
 	/**
 	 * Gets a readable form

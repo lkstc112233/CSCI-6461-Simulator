@@ -23,18 +23,18 @@ public class Demux extends Chip {
 		addPort("sel", addressWidth);
 	}
 	/**
-	 * Moves input to the very output. Set all other outputs to 0.
+	 * Moves input to the selected output. Set all other outputs to 0.
 	 */
 	public boolean evaluate(){
 		String veryName = "output" + Long.toString(getPort("sel").toInteger());
-		boolean dset = false;
+		boolean dest = false;
 		for (String name : ports.keySet()){
 			if (name.equals(veryName)) {
-				if(getPort(name).assign(getPort("input")))
-					dset = true;
+				dest |= getPort(name).assign(getPort("input"));
 			} else if (name.contains("output"))
-				getPort(name).setZero();
+				dest |= getPort(name).setZero();
 		}
-		return dset;
+		// Only when the output changed, 
+		return dest;
 	}
 }
