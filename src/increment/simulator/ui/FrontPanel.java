@@ -50,7 +50,7 @@ public class FrontPanel extends Stage {
 	     *
 	     */
 		grid.setGridLinesVisible(false);
-		Scene scene = new Scene(grid, 600, 400);
+		Scene scene = new Scene(grid, 800, 400);
 		scene.getStylesheets().add("increment/simulator/ui/buttonstyle.css");
 		setScene(scene);
 		/* centerlize  the node */
