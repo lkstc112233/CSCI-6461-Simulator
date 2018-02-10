@@ -40,18 +40,6 @@ public class SwitchesSet extends Chip {
 		if (i >= 0  && i < switches.length)
 			switches[i].flip(b);
 	}
-	/**
-	 * Decode value into the set.
-	 * Uses only low ```width``` bits.
-	 * @param value
-	 */
-	public void putValue(long value) {
-		for (int i = 0; i < switches.length; ++i)
-		{
-			flipBit(i, (value & 1) == 1);
-			value >>= 1;
-		}
-	}
 	
 	@Override
 	public boolean evaluate() {
