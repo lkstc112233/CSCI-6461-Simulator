@@ -14,6 +14,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanBooleanProperty;
 import javafx.beans.property.adapter.JavaBeanBooleanPropertyBuilder;
+import javafx.beans.property.adapter.JavaBeanIntegerProperty;
+import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanBooleanProperty;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanBooleanPropertyBuilder;
 import javafx.beans.property.adapter.ReadOnlyJavaBeanProperty;
@@ -55,8 +57,13 @@ public class MachineWrapper {
 	public ReadOnlyJavaBeanBooleanProperty getAddressBulbsProperty(int i) { return addressBulbsProperty[i]; }
 	private JavaBeanBooleanProperty[] switchesProperty;
 	public JavaBeanBooleanProperty getSwitchesProperty(int i) { return switchesProperty[i]; }
+	private JavaBeanIntegerProperty radioSwitchProperty;
+	public JavaBeanIntegerProperty getRadioSwitchProperty() { return radioSwitchProperty; }
+	private JavaBeanIntegerProperty registerRadioSwitchProperty;
+	public JavaBeanIntegerProperty getRegisterRadioSwitchProperty() { return registerRadioSwitchProperty; }
+	private ReadOnlyJavaBeanBooleanProperty pausedProperty;
+	public ReadOnlyJavaBeanBooleanProperty getPausedProperty() { return pausedProperty; }
 
-	@SuppressWarnings("unused")
 	public class MachineStatusPropertyGetterOrSetter {
 		int index;
 		public MachineStatusPropertyGetterOrSetter(int i) {
@@ -82,6 +89,9 @@ public class MachineWrapper {
     		properties.add(indexRegisterFileProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("indexRegisterFile").build());
     		properties.add(memoryProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("memory").build());
     		properties.add(controlUnitProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("controlUnit").build());
+    		properties.add(radioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("radioSwitch").build());
+    		properties.add(registerRadioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("registerRadioSwitch").build());
+    		properties.add(pausedProperty = new ReadOnlyJavaBeanBooleanPropertyBuilder().bean(this).name("paused").build());
     		valueBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
     		addressBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
     		switchesProperty = new JavaBeanBooleanProperty[16];
@@ -108,7 +118,13 @@ public class MachineWrapper {
     public final String getIndexRegisterFile(){ return machine.getChip("IndexRegisterFile").toString(); }
     public final String getMemory(){ return machine.getChip("memory").toString(); }
     public final String getControlUnit(){ return machine.getChip("CU").toString(); }
-    private List<ReadOnlyJavaBeanProperty<?>> properties;
+    public final Integer getRadioSwitch(){ return ((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).getValue(); }
+    public final void setRadioSwitch(Integer value){ ((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).setValue(value); }
+    public final Integer getRegisterRadioSwitch(){ return ((NumberedSwitch) machine.getChip("panelRegisterSelectionSwitch")).getValue(); }
+	public final void setRegisterRadioSwitch(Integer value) { ((NumberedSwitch) machine.getChip("panelRegisterSelectionSwitch")).setValue(value); }
+	public final Boolean getPaused(){ return machine.getCable("paused").getBit(0); }
+	   
+	private List<ReadOnlyJavaBeanProperty<?>> properties;
     
 	private boolean toTick = true;
 	private void updateEvent() {
@@ -132,6 +148,10 @@ public class MachineWrapper {
     	setTick(getTick() + 1);
     	updateEvent();
     }
+    public void forceUpdate() {
+    	machine.evaluate();
+    	updateEvent();
+    }
 	public void putProgram(String address, String program) throws IllegalStateException, NumberFormatException{
 		int intAddress = Integer.decode(address);
 		((Memory)machine.getChip("memory")).loadProgram(intAddress, AssemblyCompiler.compile(program));
@@ -142,31 +162,37 @@ public class MachineWrapper {
 		forceTick();
 		((Switch) machine.getChip("panelResetCUSwitch")).flip(false);
 	}
-	public void forceLoadPC() {
-		((Switch) machine.getChip("panelPauseCUSwitch")).flip(true);
-		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
-		// TODO: Move out onto panel in next stage.
-		((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).setValue(0);
-		forceTick();
-		((Switch) machine.getChip("panelPauseCUSwitch")).flip(false);
-		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
-	}
 	public void forceLoadMAR() {
-		((Switch) machine.getChip("panelPauseCUSwitch")).flip(true);
-		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
-		// TODO: Move out onto panel in next stage.
-		((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).setValue(1);
-		forceTick();
-		((Switch) machine.getChip("panelPauseCUSwitch")).flip(false);
-		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
+		loadSomething(1);
 	}
-	public void loadDataIntoMemory() {
-		((Switch) machine.getChip("panelPauseCUSwitch")).flip(true);
+	public void forceLoad() {
+		// ((Switch) machine.getChip("panelPauseCUSwitch")).flip(true);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
+		forceTick();
+		// ((Switch) machine.getChip("panelPauseCUSwitch")).flip(paused);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
+		forceUpdate();
+	}
+	private void loadSomething(int id) {
+		// ((Switch) machine.getChip("panelPauseCUSwitch")).flip(true);
 		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
 		// TODO: Move out onto panel in next stage.
-		((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).setValue(2);
+		int oldValue = getRadioSwitch();
+		setRadioSwitch(id);
 		forceTick();
-		((Switch) machine.getChip("panelPauseCUSwitch")).flip(false);
+		// ((Switch) machine.getChip("panelPauseCUSwitch")).flip(paused);
 		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
+		setRadioSwitch(oldValue);
+		forceUpdate();
+	}
+	private boolean paused = false;
+	public void pauseOrRestore() {
+		paused = !paused;
+		((Switch) machine.getChip("panelPauseCUSwitch")).flip(paused);
+		forceUpdate();
+	}
+	public void IPLButton() {
+		machine.IPLMagic();
+    	updateEvent();
 	}
 }

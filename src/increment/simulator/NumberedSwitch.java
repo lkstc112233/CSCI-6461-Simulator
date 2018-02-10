@@ -18,8 +18,14 @@ public class NumberedSwitch extends Chip {
 		value.putValue(i);
 	}
 	
+	public Integer getValue() {
+		return (int) value.toInteger();
+	}
+	
 	@Override
 	public boolean evaluate() {
 		return getPort("output").assign(value);
 	}
+
+	
 }
