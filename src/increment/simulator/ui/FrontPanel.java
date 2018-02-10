@@ -58,7 +58,7 @@ public class FrontPanel extends Stage {
 	     *
 	     */
 		grid.setGridLinesVisible(false);
-		Scene scene = new Scene(grid, 800, 210);
+		Scene scene = new Scene(grid, 800, 400);
 		scene.getStylesheets().add("increment/simulator/ui/buttonstyle.css");
 		setScene(scene);
 		/* centerlize  the node */
@@ -202,6 +202,7 @@ public class FrontPanel extends Stage {
 		});
 		box.getChildren().add(button);
 		RadioButton indicator = new RadioButton();
+		
 		indicator.setDisable(true);
 		indicator.selectedProperty().bind(machine.getPausedProperty());
 		box.getChildren().add(indicator);
