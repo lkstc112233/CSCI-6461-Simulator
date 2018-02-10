@@ -45,11 +45,11 @@ public abstract class Chip {
 	 */
 	public boolean evaluate(){ return false; }
 	/**
-	 *  ports‘ width （ALL ports in the Chip）.
+	 * All ports width mapping.
 	 */
 	protected Map<String, Integer> portsFormat;
 	/**
-	 *  ports' cable （ALL port in the Chip）.
+	 * All ports cable mapping.
 	 */
 	protected Map<String, Cable> ports;
 	/**
