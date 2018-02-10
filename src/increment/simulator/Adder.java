@@ -1,11 +1,11 @@
 package increment.simulator;
 /**
- * Adder. It adds two values together.
+ * Adder. It adds two values together.<br>
  * 
- * An adder has two inputs:
- * 		* operand1[width]
- * 		* operand2[width]
- * An adder has one output:
+ * An adder has two inputs:<br>
+ * 		* operand1[width]<br>
+ * 		* operand2[width]<br>
+ * An adder has one output:<br>
  * 		* result[width]
  * 
  * @author Xu Ke
@@ -13,8 +13,8 @@ package increment.simulator;
  */
 public class Adder extends Chip {
 	/**
-	 * 
-	 * @param width
+	 * Constructor
+	 * @param width the width of the operands and result.
 	 */
 	public Adder(int width) {
 		addPort("operand1", width);

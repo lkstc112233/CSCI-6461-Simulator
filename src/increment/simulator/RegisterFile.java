@@ -1,39 +1,53 @@
 package increment.simulator;
 /**
  * Register file. It contains several registers(And according to the documentation, 
- * the number will be 4), each of width ```width```(which will be specified as 16).
+ * the number will be 4), each has a same bit width (which will be specified as 16).<br>
  * 
- * A register file will have three inputs:
- * 		* write[1]
- * 		* address[addressWidth]
- * 		* input[width]
- * A register file will have one output:
+ * A register file will have three inputs:<br>
+ * 		* load[1]<br>
+ * 		* address[addressWidth]<br>
+ * 		* input[width]<br>
+ * A register file will have one output:<br>
  * 		* output[width]
  * 
  * @author Xu Ke
  *
  */
 public class RegisterFile extends Chip {
+	/**
+	 * A mux for selecting output of the registers.
+	 */
 	protected Mux muxForOutput;
+	/**
+	 * The working registers.
+	 */
 	protected ClockRegister[] data;
-	protected Demux demuxForWrite;
+	/**
+	 * A demux for the load bit.
+	 */
+	protected Demux demuxForLoad;
+	/**
+	 * Constructor. It connects the registers by built in cable.
+	 * @param addressWidth
+	 * @param width
+	 */
 	public RegisterFile(int addressWidth, int width){
 		data = new ClockRegister[1 << addressWidth];
 		muxForOutput = new Mux(addressWidth, width);
-		demuxForWrite = new Demux(addressWidth, 1);
+		demuxForLoad = new Demux(addressWidth, 1);
 		// Connect merged chips.
 		for (int i = 0; i < data.length; ++i) {
 			data[i] = new ClockRegister(width);
 			Cable cable = new SingleCable(1);
-			demuxForWrite.connectPort("output" + Integer.toString(i), cable);
-			data[i].connectPort("write", cable);
+			demuxForLoad.connectPort("output" + Integer.toString(i), cable);
+			data[i].connectPort("load", cable);
 			cable = new SingleCable(width);
 			muxForOutput.connectPort("input" + Integer.toString(i), cable);
 			data[i].connectPort("output", cable);
 		}
 	}
 	/**
-	 * Since this is a merged chip, we connect ports manually.
+	 * Since this is a merged chip, we should connect ports manually to the right position.
 	 */
 	@Override
 	public void connectPort(String name, Cable cable){
@@ -47,10 +61,10 @@ public class RegisterFile extends Chip {
 			break;
 		case "address":
 			muxForOutput.connectPort("sel", cable);
-			demuxForWrite.connectPort("sel", cable);
+			demuxForLoad.connectPort("sel", cable);
 			break;
-		case "write":
-			demuxForWrite.connectPort("input", cable);
+		case "load":
+			demuxForLoad.connectPort("input", cable);
 			break;
 		default:
 			super.connectPort(name, cable);
@@ -58,14 +72,15 @@ public class RegisterFile extends Chip {
 		}
 	}
 	/**
-	 * Sets a value for a very register.
-	 * @param index
-	 * @param value
+	 * Sets a value for a selected register.
+	 * @param index - To select the register.
+	 * @param value - To put in the register.
 	 */
 	public void setValue(int index, long value) {
 		data[index].setValue(value);
 	}
 	/**
+	 * Distributes this function to the right chip.
 	 * @return real width of a given port.
 	 */
 	@Override
@@ -77,27 +92,36 @@ public class RegisterFile extends Chip {
 			return data[0].getPortWidth(name);
 		case "address":
 			return muxForOutput.getPortWidth("sel");
-		case "write":
-			return demuxForWrite.getPortWidth("input");
+		case "load":
+			return demuxForLoad.getPortWidth("input");
 		default:
 			return super.getPortWidth(name);
 		}
 	}
-	
+	/**
+	 * Ticks every memory chip.
+	 */
+	@Override
 	public void tick(){
 		for (Chip c : data)
 			c.tick();
 	}
-	
+	/**
+	 * Puts selected register value to the output.
+	 * @return true if any value changed.
+	 */
+	@Override
 	public boolean evaluate(){
 		boolean vary = false;
-		vary |= demuxForWrite.evaluate();
+		vary |= demuxForLoad.evaluate();
 		for (Chip c : data)
 			vary |= c.evaluate();
 		vary |= muxForOutput.evaluate();
 		return vary;
 	}
-	
+	/**
+	 * Provide a nice readable text.
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
