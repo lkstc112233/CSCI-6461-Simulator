@@ -105,7 +105,7 @@ public class NewMain extends Application {
 			}
 		});
 		buttons.getChildren().add(btn);
-		btn = new Button("Show control panel");
+		btn = new Button("Show magic panel");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {

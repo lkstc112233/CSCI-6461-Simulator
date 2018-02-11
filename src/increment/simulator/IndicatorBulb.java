@@ -21,7 +21,9 @@ public class IndicatorBulb extends Chip {
 	public boolean isOn() {
 		return status;
 	}
-	
+	/**
+	 * Only sets bulb status. Always returns false.
+	 */
 	@Override
 	public boolean evaluate() {
 		status = getPort("input").getBit(0);

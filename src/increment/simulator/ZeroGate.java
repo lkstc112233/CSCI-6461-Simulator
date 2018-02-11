@@ -1,6 +1,7 @@
 package increment.simulator;
 /**
- * A gate will transfer data if the transfer input is set to true.<br>
+ * A zero gate will transfer data if the transfer input is set to true.
+ * Else it will transmits 0 instead.<br>
  * 
  * A gate has two inputs:<br>
  * 		* input[width]<br>
@@ -11,24 +12,26 @@ package increment.simulator;
  * @author Xu Ke
  *
  */
-public class Gate extends Chip {
+public class ZeroGate extends Chip {
 	/**
 	 * Constructor.
 	 * @param width
 	 */
-	public Gate(int width) {
+	public ZeroGate(int width) {
 		addPort("input", width);
 		addPort("transfer", 1);
 		addPort("output", width);
 	}
-	
 	/**
-	 * Only modifies output when transfer is set. 
+	 * Transfers data if transfer is set to 1.
+	 * Otherwise sets output to zero.
 	 */
 	@Override
 	public boolean evaluate() {
 		if (getPort("transfer").getBit(0))
 			return getPort("output").assign(getPort("input"));
-		return false;
+		if (getPort("output").toInteger() == 0) return false;
+		getPort("output").setZero();
+		return true;
 	}
 }

@@ -1,27 +1,24 @@
 package increment.simulator;
 
 /**
- * A clock register.
+ * A clock register.<br>
  * 
- * A clock register will have two inputs:
- * 		* load[1]
- * 		* input[width]
- * A clock register will have one output:
+ * A clock register will have two inputs:<br>
+ * 		* load[1]<br>
+ * 		* input[width]<br>
+ * A clock register will have one output:<br>
  * 		* output[width]
  * 
  * @author Xu Ke
  *
  */
 public class ClockRegister extends Chip {
-	// I'm using a Cable class for storage here. It's just because it fits here.
+	/**
+	 * A {@link Cable} object to store value. It's very good for moving data. 
+	 */
 	protected Cable data;
 	/**
-	 * Constructor. Creating a register of width of ```width```.
-	 * A clock register will have two inputs:
-	 * 		* load[1]
-	 * 		* input[width]
-	 * A clock register will have one output:
-	 * 		* output[width]
+	 * Constructor. Creating a register of width of width.
 	 * @param width
 	 */
 	public ClockRegister(int width){
@@ -42,9 +39,7 @@ public class ClockRegister extends Chip {
 	 * When evaluates, we move data to output.
 	 */
 	public boolean evaluate(){
-		if (getPort("output").assign(data))
-			return true;
-		return false;
+		return getPort("output").assign(data);
 	}
 	/**
 	 * Turns chip value into a readable way.

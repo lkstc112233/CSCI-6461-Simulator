@@ -15,6 +15,7 @@ the 'Machine' panel, another panel with several 'States' of the CPU and memory.
 
 Now we have chips and cables to wire them up. 
 
-For how we wire them up, please refer to another file.
+For how we wire them up, please refer to the definition file, whose name is chipsDef.ini
 
-The design of instructions goes into another file.
+The design of instructions goes into another file, whose name is controlDef.ini
+
