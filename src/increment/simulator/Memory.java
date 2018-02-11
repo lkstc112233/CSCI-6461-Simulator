@@ -45,11 +45,22 @@ public class Memory extends Chip {
 	@Override
 	public void tick(){
 		if (getPort("load").getBit(0)) {
-			// TODO: add range detect here.
 			int address = (int) getPort("address").toInteger();
+			if (outofRange(address))
+				return; // Or throw.
 			data[address].assign(getPort("input"));
 			changed[address] = true;
 		}
+	}
+	/**
+	 * Checks if target address is out of range.
+	 * @param address
+	 * @return
+	 */
+	private boolean outofRange(int address) {
+		if (address < 0)
+			return true;
+		return address >= data.length;
 	}
 	/**
 	 * When evaluates, we move specified data to output.
@@ -57,7 +68,10 @@ public class Memory extends Chip {
 	 */
 	@Override
 	public boolean evaluate(){
-		return getPort("output").assign(data[(int) getPort("address").toInteger()]);
+		int address = (int) getPort("address").toInteger();
+		if (outofRange(address))
+			return false; // Or throw.
+		return getPort("output").assign(data[address]);
 	}
 	
 	/**
