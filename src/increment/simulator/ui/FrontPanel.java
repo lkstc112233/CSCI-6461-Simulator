@@ -9,7 +9,6 @@ import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
@@ -59,7 +58,7 @@ public class FrontPanel extends Stage {
 	     */
 		grid.setGridLinesVisible(false);
 		Scene scene = new Scene(grid, 800, 400);
-		scene.getStylesheets().add("increment/simulator/ui/buttonstyle.css");
+		scene.getStylesheets().add("/res/buttonstyle.css");
 		setScene(scene);
 		/* centerlize  the node */
 		grid.setAlignment(Pos.CENTER);
@@ -73,22 +72,22 @@ public class FrontPanel extends Stage {
 				radio.setDisable(true);
 				radio.selectedProperty().bind(machine.getAddressBulbsProperty(i));
 				grid.add(radio, i, 1);
-				grid.setHalignment(radio, HPos.CENTER);
+				GridPane.setHalignment(radio, HPos.CENTER);
 			}
 			radio = new RadioButton();
 			radio.setDisable(true);
 			radio.selectedProperty().bind(machine.getValueBulbsProperty(i));
 			grid.add(radio, i, 2);
-			grid.setHalignment(radio, HPos.CENTER);
+			GridPane.setHalignment(radio, HPos.CENTER);
 			CheckBox check = new CheckBox();
 			grid.add(check, i, 3);
-			grid.setConstraints(check,i,3,1,1,HPos.CENTER,VPos.CENTER);
+			GridPane.setConstraints(check,i,3,1,1,HPos.CENTER,VPos.CENTER);
 			machine.getSwitchesProperty(i).bind(check.selectedProperty());
 			Text text1 = new Text(Integer.toString(i));
 			Text text2 = new Text(Integer.toString(i));
-			grid.setHalignment(text1, HPos.CENTER);
+			GridPane.setHalignment(text1, HPos.CENTER);
 			grid.add(text1, i, 0);
-			grid.setConstraints(text2,i,4,1,1, HPos.CENTER, VPos.CENTER);
+			GridPane.setConstraints(text2,i,4,1,1, HPos.CENTER, VPos.CENTER);
 			grid.add(text2, i, 4);
 		}
 		VBox groupBox = new VBox();
