@@ -21,7 +21,7 @@
 -fx-background-repeat: stretch;
   -fx-background-size: 40;
   -fx-padding:10;
-  -fx-background-image: url("file:res/close2.png");
+  -fx-background-image: url('./close2.png');
 
 }
 
@@ -51,7 +51,7 @@
      -fx-background-repeat: stretch;
 
 
--fx-background-image: url("file:res/open.png");
+-fx-background-image: url('./open.png');
 
 
 }
