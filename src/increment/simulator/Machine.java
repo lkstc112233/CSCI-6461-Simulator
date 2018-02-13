@@ -1,8 +1,7 @@
 package increment.simulator;
 
-import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +29,6 @@ public class Machine {
 			System.err.println(e.getMessage());
 			System.exit(-1);
 		}
-		((RegisterFile)getChip("IndexRegisterFile")).setValue(0, 0);
-		
 	}
 	/**
 	 * Load a testing program by MAGIC!
@@ -43,18 +40,15 @@ public class Machine {
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(0x10);
-		String program = "LDX 3, 9 LDX 2, 10, 1 LDX 1, 7 LDA 2, 0, 18 LDA 1, 1, 19 " + 
-		"LDA 3, 0, 20, 1 LDA 0, 2, 21, 1 STX 2, 8 STX 1, 6 STX 1, 5, 1 LDR 3, 0, 16 LDR 2, 1, 17 LDR 1, 0, 18, 1" +        
-		"LDR 0, 2, 19, 1 STR 0, 0, 10 STR 1, 3, 11 STR 2, 0, 6, 1 STR 3, 2, 5, 1 HLT";
+		((RegisterFile)getChip("IndexRegisterFile")).setValue(0, 0);
+		String program = "LDX 2, 15 LDR 0, 2, 20, 0 STR 0, 2, 6 LDR 1, 0, 14, 1 STR 1, 0, 15, 1 HLT";
 		CompiledProgram code = AssemblyCompiler.compile(program);
 		mem.loadProgram(0x10, code);
-		mem.putValue(5, 5);
-		mem.putValue(6, 6); 
-		mem.putValue(7, 7); 
-		mem.putValue(8, 8);
-		mem.putValue(9, 9); 
-		mem.putValue(10, 10); 
-		mem.putValue(15, 31);
+		mem.putValue(0x0F, 0x0230); // Data (560) at 0x0F, it's used as an address for IDX
+		mem.putValue(0x244, 0x2134); // Data at 580(0x244)
+		mem.putValue(0x0E, 0x0474); // Data (1140) at 0x0E, it's used for indirect accessing.
+		mem.putValue(0x474, 0xB23A); // Data at 1140(0x474)
+		
 	}
 	
 	/**
@@ -63,7 +57,7 @@ public class Machine {
 	 * @throws IOException When load file failed.
 	 */
 	private void loadFile() throws IOException {
-		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/chipsDef.ini"))));
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new FileReader("chipsDef.ini"));
 		parseChipsDefinition(tokens);
 		parseCablesDefinition(tokens);
 	}
