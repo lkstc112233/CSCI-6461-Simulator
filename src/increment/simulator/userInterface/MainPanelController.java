@@ -1,4 +1,4 @@
-package UserInterface;
+package increment.simulator.userInterface;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

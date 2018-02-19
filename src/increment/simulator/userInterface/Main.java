@@ -1,4 +1,4 @@
-package UserInterface;
+package increment.simulator.userInterface;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
