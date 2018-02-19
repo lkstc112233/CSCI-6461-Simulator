@@ -1,4 +1,4 @@
-package increment.simulator;
+package increment.simulator.chips;
 /**
  * This is a chip who determines whether input is all zero or not.
  * 

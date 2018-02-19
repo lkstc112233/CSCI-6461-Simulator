@@ -1,4 +1,7 @@
-package increment.simulator;
+package increment.simulator.chips;
+
+import increment.simulator.Cable;
+import increment.simulator.CablePartialAdapter;
 
 /**
  * A group of bulbs, which can be on and off. It's going to take a group of input that is either true or false,

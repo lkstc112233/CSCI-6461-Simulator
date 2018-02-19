@@ -3,12 +3,12 @@ package increment.simulator.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import increment.simulator.BulbSet;
 import increment.simulator.Machine;
-import increment.simulator.Memory;
-import increment.simulator.NumberedSwitch;
-import increment.simulator.Switch;
-import increment.simulator.SwitchesSet;
+import increment.simulator.chips.BulbSet;
+import increment.simulator.chips.Memory;
+import increment.simulator.chips.NumberedSwitch;
+import increment.simulator.chips.Switch;
+import increment.simulator.chips.SwitchesSet;
 import increment.simulator.tools.AssemblyCompiler;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

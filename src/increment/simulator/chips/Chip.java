@@ -1,7 +1,10 @@
-package increment.simulator;
+package increment.simulator.chips;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import increment.simulator.Cable;
+import increment.simulator.DummyCable;
 
 /**
  * A chip. This chip works as a black box. It takes 0 or more inputs (as {@link Cable}), and gives

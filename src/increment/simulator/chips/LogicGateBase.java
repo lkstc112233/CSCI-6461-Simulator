@@ -1,6 +1,8 @@
-package increment.simulator;
+package increment.simulator.chips;
 
 import java.util.Map.Entry;
+
+import increment.simulator.Cable;
 /**
  * Provides a base for logic gates(and/or, or so on).
  * 

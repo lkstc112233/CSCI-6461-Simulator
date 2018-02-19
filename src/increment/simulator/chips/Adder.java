@@ -1,4 +1,4 @@
-package increment.simulator;
+package increment.simulator.chips;
 /**
  * Adder. It adds two values together.<br>
  * 

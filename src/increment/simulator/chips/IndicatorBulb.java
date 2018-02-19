@@ -1,4 +1,4 @@
-package increment.simulator;
+package increment.simulator.chips;
 
 /**
  * A simulated bulb, which can be on and off, indicating its input. It's going to take a bit input that is

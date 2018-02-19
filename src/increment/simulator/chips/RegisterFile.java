@@ -1,4 +1,8 @@
-package increment.simulator;
+package increment.simulator.chips;
+
+import increment.simulator.Cable;
+import increment.simulator.SingleCable;
+
 /**
  * Register file. It contains several registers(And according to the documentation, 
  * the number will be 4), each has a same bit width (which will be specified as 16).<br>

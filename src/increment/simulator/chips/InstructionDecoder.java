@@ -1,4 +1,4 @@
-package increment.simulator;
+package increment.simulator.chips;
 /**
  * This is the instruction decoder. It decodes a 16-bit wide instruction into several parts.<br>
  * 		* OpCode: [0..5]<br>
