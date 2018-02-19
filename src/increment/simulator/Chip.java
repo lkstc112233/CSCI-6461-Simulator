@@ -66,6 +66,17 @@ public abstract class Chip {
 		}
 	}
 	/**
+	 * Assigning a value into a given port.
+	 * @param name
+	 * @param value
+	 * @return true if the port changes.
+	 */
+	protected boolean assignPort(String name, long value) {
+		long oldValue = getPort(name).toInteger();
+		getPort(name).putValue(value);
+		return oldValue != getPort(name).toInteger();
+	}
+	/**
 	 * Connects a cable to a port.
 	 * @param name - port name.
 	 * @param cable - cable to connect.

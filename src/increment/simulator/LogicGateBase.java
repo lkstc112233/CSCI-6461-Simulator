@@ -44,10 +44,7 @@ public abstract class LogicGateBase extends Chip {
 				result = process(result, name.getValue().toInteger());
 			}
 		}
-		if (result == getPort("output").toInteger())
-			return false;
-		getPort("output").putValue(result);
-		return true;
+		return assignPort("output", result);
 	}
 	/**
 	 * Provides a operate base.

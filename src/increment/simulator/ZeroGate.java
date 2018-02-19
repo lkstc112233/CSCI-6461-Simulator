@@ -30,8 +30,6 @@ public class ZeroGate extends Chip {
 	public boolean evaluate() {
 		if (getPort("transfer").getBit(0))
 			return getPort("output").assign(getPort("input"));
-		if (getPort("output").toInteger() == 0) return false;
-		getPort("output").setZero();
-		return true;
+		return assignPort("output", 0);
 	}
 }

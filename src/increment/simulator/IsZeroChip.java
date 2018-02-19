@@ -22,11 +22,9 @@ public class IsZeroChip extends Chip {
 	
 	@Override
 	public boolean evaluate() {
-		long oldValue = getPort("isZero").toInteger();
 		if (getPort("input").toInteger() == 0)
-			getPort("isZero").putValue(1);
+			return assignPort("isZero", 1);
 		else
-			getPort("isZero").putValue(0);
-		return oldValue != getPort("isZero").toInteger();
+			return assignPort("isZero", 0);
 	}
 }
