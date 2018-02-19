@@ -1,5 +1,6 @@
 Feb 18, 2018:
 	Is Zero chip, preparing for jmp.
+	Compiler change: added some instructions.
 
 Feb 10, 2018:
 	Memory access checks range and will not cause exception now.
