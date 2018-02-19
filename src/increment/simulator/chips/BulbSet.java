@@ -12,7 +12,7 @@ import increment.simulator.CablePartialAdapter;
  * @author Xu Ke
  *
  */
-public class BulbSet extends Chip {
+public class BulbSet extends ChipsSet {
 	/**
 	 * Bulbs storage. 
 	 */
@@ -50,18 +50,6 @@ public class BulbSet extends Chip {
 	public boolean getBit(int i) {
 		if (i >= 0 && i < bulbs.length)
 			return bulbs[i].isOn();
-		return false;
-	}
-	
-	/**
-	 * When evaluate we evaluate each bulb in the set.
-	 * 
-	 * @return This process doesn't change bulb value so we always return false.
-	 */
-	@Override
-	public boolean evaluate() {
-		for (IndicatorBulb b : bulbs)
-			b.evaluate();
 		return false;
 	}
 }

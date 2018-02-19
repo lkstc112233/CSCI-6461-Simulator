@@ -12,7 +12,7 @@ import increment.simulator.CablePartialAdapter;
  * @author Xu Ke
  *
  */
-public class SwitchesSet extends Chip {
+public class SwitchesSet extends ChipsSet {
 	/**
 	 * Switches storage.
 	 */
@@ -50,16 +50,5 @@ public class SwitchesSet extends Chip {
 	public void flipBit(int i, boolean b) {
 		if (i >= 0  && i < switches.length)
 			switches[i].flip(b);
-	}
-	/**
-	 * Move switches values to output. 
-	 */
-	@Override
-	public boolean evaluate() {
-		boolean changed = false;
-		for (Switch s : switches) {
-			changed |= s.evaluate();
-		}
-		return changed;
 	}
 }
