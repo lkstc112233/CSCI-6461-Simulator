@@ -13,9 +13,11 @@ public class Main extends Application {
 	
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/res/fxml/FrontPanel.fxml"));
-        primaryStage.setScene(new Scene(root, 1000, 400));
     	machine = new MachineWrapper(new Machine());
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/FrontPanel.fxml"));
+        Parent root = fxmlLoader.load();
+        fxmlLoader.<FrontPanelController>getController().setMachine(machine);
+        primaryStage.setScene(new Scene(root, 1000, 400));
 
         primaryStage.show();
     }
