@@ -1,6 +1,10 @@
 package increment.simulator.userInterface;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class FrontPanelController {
 
@@ -20,5 +24,24 @@ public class FrontPanelController {
     }
 
     public void handleLoadMARButtonAction(ActionEvent actionEvent) {
+    }
+
+
+    public void handleDebugButtonAction(ActionEvent actionEvent) throws Exception {
+
+        Parent root = FXMLLoader.load(getClass().getResource("MainPanel.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root, 800, 600));
+        stage.show();
+
+    }
+
+   /* public void handleMagicButtonAction(ActionEvent actionEvent) {
+    }*/
+    public void handleMagicButtonAction(ActionEvent actionEvent) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("ControlPanel.fxml"));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root, 800, 600));
+        stage.show();
     }
 }
