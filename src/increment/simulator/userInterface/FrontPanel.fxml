@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<GridPane fx:id="FrontPanel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="increment.simulator.userInterface.FrontPanelController">
+<GridPane fx:id="FrontPanel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="increment.simulator.userInterface.FrontPanelController">
   <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.5" prefWidth="100.0" />
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.5" prefWidth="100.0" />
@@ -170,7 +170,7 @@
       </VBox>
 
        <!--Button Group-->
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="15" GridPane.rowIndex="6">
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="18" GridPane.rowIndex="6">
          <children>
             <Button fx:id="Button_Circle" mnemonicParsing="false" onAction="#handleCircleButtonAction" text="Circle" />
             <RadioButton fx:id="Radio_Pause" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0">
@@ -183,6 +183,8 @@
             <Button fx:id="Button_IPL"      mnemonicParsing="false" onAction="#handleIPLButtonAction"     text="IPL" />
             <Button fx:id="Button_Load"     mnemonicParsing="false" onAction="#handleLoadButtonAction"    text="Load" />
             <Button fx:id="Button_Load_MAR" mnemonicParsing="false" onAction="#handleLoadMARButtonAction" text="Load MAR" />
+            <Button fx:id="Button_Debug"    mnemonicParsing="false" onAction="#handleDebugButtonAction" text="Debug Button" />
+            <Button fx:id="Button_Magic"    mnemonicParsing="false" onAction="#handleMagicButtonAction" text="Magic Button" />
          </children>
       </HBox>
    </children>

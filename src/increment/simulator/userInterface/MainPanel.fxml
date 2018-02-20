@@ -120,7 +120,6 @@
             <Button fx:id="Button_Tick" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleTickButtonAction" text="Tick" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
             <Button fx:id="Button_AutoTick" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleAutoTickButtonAction" text="Auto tick on/off" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
             <Button fx:id="Button_ShowMagicPanel" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleShowMagicButtonAction" text="Show magic panel" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-            <Button fx:id="Button_ShowFrontPane" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleShowFrontButtonAction" text="Show front panel" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
 
