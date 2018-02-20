@@ -29,7 +29,7 @@ public class FrontPanelController {
 
     public void handleDebugButtonAction(ActionEvent actionEvent) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("MainPanel.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/res/fxml/MainPanel.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
@@ -39,7 +39,7 @@ public class FrontPanelController {
    /* public void handleMagicButtonAction(ActionEvent actionEvent) {
     }*/
     public void handleMagicButtonAction(ActionEvent actionEvent) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("ControlPanel.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/res/fxml/ControlPanel.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
