@@ -1,4 +1,4 @@
-package increment.simulator;
+package increment.simulator.chips;
 /**
  * A multiplexer. Takes X inputs and select one of them.<br>
  * A multiplexer doesn't store anything, so it does nothing during tick.<br>

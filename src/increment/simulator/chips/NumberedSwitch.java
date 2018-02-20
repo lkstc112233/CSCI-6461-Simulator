@@ -1,4 +1,7 @@
-package increment.simulator;
+package increment.simulator.chips;
+
+import increment.simulator.SingleCable;
+
 /**
  * A switch that gives numeric output on its output.<br>
  * 

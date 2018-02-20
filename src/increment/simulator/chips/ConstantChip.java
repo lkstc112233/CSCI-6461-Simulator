@@ -1,4 +1,7 @@
-package increment.simulator;
+package increment.simulator.chips;
+
+import increment.simulator.Cable;
+import increment.simulator.SingleCable;
 
 /**
  * A constant chip that has one Output, which produces a constant value.<br>

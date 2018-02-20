@@ -1,4 +1,8 @@
+Feb 19, 2018:
+	New way handling assignment!
+
 Feb 18, 2018:
+	New ui frame!
 	Is Zero chip, preparing for jmp.
 	Compiler change: added some instructions.
 

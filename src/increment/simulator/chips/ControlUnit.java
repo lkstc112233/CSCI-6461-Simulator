@@ -1,4 +1,4 @@
-package increment.simulator;
+package increment.simulator.chips;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import increment.simulator.Machine;
 import increment.simulator.util.ConvenientStreamTokenizer;
 import static increment.simulator.util.ExceptionHandling.panic;
 

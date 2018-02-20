@@ -1,4 +1,4 @@
-package increment.simulator;
+package increment.simulator.chips;
 /**
  * A demultiplexer. Takes an input and moves it to one of X outputs. The other outputs will
  * be set to 0 in all bits. <br>
