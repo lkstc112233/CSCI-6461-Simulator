@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import increment.simulator.chips.Chip;
+import increment.simulator.chips.ChipFactory;
+import increment.simulator.chips.ClockRegister;
+import increment.simulator.chips.Memory;
+import increment.simulator.chips.RegisterFile;
 import increment.simulator.tools.AssemblyCompiler;
 import increment.simulator.tools.AssemblyCompiler.CompiledProgram;
 import increment.simulator.util.ConvenientStreamTokenizer;

@@ -1,7 +1,10 @@
-package increment.simulator;
+package increment.simulator.chips;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import increment.simulator.Cable;
+import increment.simulator.DummyCable;
 
 /**
  * A chip. This chip works as a black box. It takes 0 or more inputs (as {@link Cable}), and gives
@@ -64,6 +67,17 @@ public abstract class Chip {
 			portsFormat.put(name, width);
 			ports.put(name, new DummyCable(width));
 		}
+	}
+	/**
+	 * Assigning a value into a given port.
+	 * @param name
+	 * @param value
+	 * @return true if the port changes.
+	 */
+	protected boolean assignPort(String name, long value) {
+		long oldValue = getPort(name).toInteger();
+		getPort(name).putValue(value);
+		return oldValue != getPort(name).toInteger();
 	}
 	/**
 	 * Connects a cable to a port.

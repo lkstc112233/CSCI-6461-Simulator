@@ -1,4 +1,4 @@
-package increment.simulator;
+package increment.simulator.chips;
 /**
  * A not gate. It reverses every bit in input and move it to output.<br>
  * 

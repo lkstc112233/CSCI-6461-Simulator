@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<GridPane fx:id="MainPane" fx:controller="increment.simulator.userInterface.MainPanelController" alignment="CENTER" hgap="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" vgap="10.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" >
+  <columnConstraints>
+      <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
+      <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
+      <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" percentHeight="16.667" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" percentHeight="16.667" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" percentHeight="16.667" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" percentHeight="16.667" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" percentHeight="16.667" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" percentHeight="16.667" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" percentHeight="5.0" />
+  </rowConstraints>
+
+    <!--padding -->
+    <padding>
+        <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
+    </padding>
+
+    <!--Children Setting-->
+   <children>
+       <!--Tick Text-->
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+         <children>
+            <Text fx:id="Text_Tick_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Tick:" />
+            <Text fx:id="Text_Tick_Text"  strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+         </children>
+      </VBox>
+
+       <!--PC Text-->
+       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+           <children>
+               <Text fx:id="Text_PC_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="PC:" />
+               <Text fx:id="Text_PC_Text"  strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+           </children>
+       </VBox>
+
+       <!--BUS Text-->
+       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+           <children>
+               <Text fx:id="Text_BUS_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="BUS:" />
+               <Text fx:id="Text_PC_Text1"  strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+           </children>
+       </VBox>
+
+       <!--MAR Text-->
+       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
+           <children>
+               <Text fx:id="Text_MAR_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="MAR:" />
+               <Text fx:id="Text_MAR_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+           </children>
+       </VBox>
+
+       <!--MBR Text-->
+       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="5">
+           <children>
+               <Text fx:id="Text_MBR_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="MBR:" />
+               <Text fx:id="Text_MBR_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+           </children>
+       </VBox>
+
+       <!--IR Text-->
+       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="6">
+         <children>
+              <Text fx:id="Text_IR_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="IR:" />
+              <Text fx:id="Text_IR_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+         </children>
+      </VBox>
+
+       <!--GPRF Text-->
+       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
+           <children>
+               <Text fx:id="Text_GPRF_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="GPRF:" />
+               <Text fx:id="Text_GPRF_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+           </children>
+       </VBox>
+
+       <!--IRF Text-->
+       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="2">
+           <children>
+               <Text fx:id="Text_IRF_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="IRF:" />
+               <Text fx:id="Text_IRF_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+           </children>
+       </VBox>
+
+       <!--CU Text-->
+       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="2">
+           <children>
+               <Text fx:id="Text_CU_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Control Unit:" />
+               <Text fx:id="Text_CU_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+           </children>
+       </VBox>
+
+       <!--Memory Text-->
+       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+           <children>
+               <Text fx:id="Text_Memory_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory:" />
+               <ScrollPane fx:id="Text_Memory_Text" disable="true" prefHeight="59.0" prefWidth="200.0" />
+           </children>
+       </VBox>
+
+       <!--Buttons Setting-->
+      <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="10.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7">
+         <children>
+            <Button fx:id="Button_Tick" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleTickButtonAction" text="Tick" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+            <Button fx:id="Button_AutoTick" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleAutoTickButtonAction" text="Auto tick on/off" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+            <Button fx:id="Button_ShowMagicPanel" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleShowMagicButtonAction" text="Show magic panel" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+            <Button fx:id="Button_ShowFrontPane" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleShowFrontButtonAction" text="Show front panel" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+
+
+
+   </children>
+
+</GridPane>

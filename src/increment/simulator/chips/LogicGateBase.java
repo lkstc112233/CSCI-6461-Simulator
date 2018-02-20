@@ -1,6 +1,8 @@
-package increment.simulator;
+package increment.simulator.chips;
 
 import java.util.Map.Entry;
+
+import increment.simulator.Cable;
 /**
  * Provides a base for logic gates(and/or, or so on).
  * 
@@ -44,10 +46,7 @@ public abstract class LogicGateBase extends Chip {
 				result = process(result, name.getValue().toInteger());
 			}
 		}
-		if (result == getPort("output").toInteger())
-			return false;
-		getPort("output").putValue(result);
-		return true;
+		return assignPort("output", result);
 	}
 	/**
 	 * Provides a operate base.

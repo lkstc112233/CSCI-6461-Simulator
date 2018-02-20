@@ -1,4 +1,8 @@
-package increment.simulator;
+package increment.simulator.chips;
+
+import increment.simulator.Cable;
+import increment.simulator.SingleCable;
+
 /**
  * Register file. It contains several registers(And according to the documentation, 
  * the number will be 4), each has a same bit width (which will be specified as 16).<br>
@@ -13,7 +17,7 @@ package increment.simulator;
  * @author Xu Ke
  *
  */
-public class RegisterFile extends Chip {
+public class RegisterFile extends ChipsSet {
 	/**
 	 * A mux for selecting output of the registers.
 	 */
@@ -34,7 +38,9 @@ public class RegisterFile extends Chip {
 	public RegisterFile(int addressWidth, int width){
 		data = new ClockRegister[1 << addressWidth];
 		muxForOutput = new Mux(addressWidth, width);
+		addChip(muxForOutput);
 		demuxForLoad = new Demux(addressWidth, 1);
+		addChip(demuxForLoad);
 		// Connect merged chips.
 		for (int i = 0; i < data.length; ++i) {
 			data[i] = new ClockRegister(width);
@@ -44,32 +50,13 @@ public class RegisterFile extends Chip {
 			cable = new SingleCable(width);
 			muxForOutput.connectPort("input" + Integer.toString(i), cable);
 			data[i].connectPort("output", cable);
+			addChip(data[i]);
+			addChipPortRelation("input", data[i], "input");
 		}
-	}
-	/**
-	 * Since this is a merged chip, we should connect ports manually to the right position.
-	 */
-	@Override
-	public void connectPort(String name, Cable cable){
-		switch(name){
-		case "output":
-			muxForOutput.connectPort(name, cable);
-			break;
-		case "input":
-			for (Chip c : data)
-				c.connectPort(name, cable);
-			break;
-		case "address":
-			muxForOutput.connectPort("sel", cable);
-			demuxForLoad.connectPort("sel", cable);
-			break;
-		case "load":
-			demuxForLoad.connectPort("input", cable);
-			break;
-		default:
-			super.connectPort(name, cable);
-			break;
-		}
+		addChipPortRelation("output", muxForOutput, "output");
+		addChipPortRelation("address", muxForOutput, "sel");
+		addChipPortRelation("address", demuxForLoad, "sel");
+		addChipPortRelation("load", demuxForLoad, "input");
 	}
 	/**
 	 * Sets a value for a selected register.
@@ -78,46 +65,6 @@ public class RegisterFile extends Chip {
 	 */
 	public void setValue(int index, long value) {
 		data[index].setValue(value);
-	}
-	/**
-	 * Distributes this function to the right chip.
-	 * @return real width of a given port.
-	 */
-	@Override
-	public int getPortWidth(String name){
-		switch(name){
-		case "output":
-			return muxForOutput.getPortWidth(name);
-		case "input":
-			return data[0].getPortWidth(name);
-		case "address":
-			return muxForOutput.getPortWidth("sel");
-		case "load":
-			return demuxForLoad.getPortWidth("input");
-		default:
-			return super.getPortWidth(name);
-		}
-	}
-	/**
-	 * Ticks every memory chip.
-	 */
-	@Override
-	public void tick(){
-		for (Chip c : data)
-			c.tick();
-	}
-	/**
-	 * Puts selected register value to the output.
-	 * @return true if any value changed.
-	 */
-	@Override
-	public boolean evaluate(){
-		boolean vary = false;
-		vary |= demuxForLoad.evaluate();
-		for (Chip c : data)
-			vary |= c.evaluate();
-		vary |= muxForOutput.evaluate();
-		return vary;
 	}
 	/**
 	 * Provide a nice readable text.

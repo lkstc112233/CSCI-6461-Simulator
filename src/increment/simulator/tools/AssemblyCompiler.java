@@ -111,6 +111,42 @@ public class AssemblyCompiler {
 			return (parseIXAndAddressAndOptionalI(tokens) | (33 << 10));
 		case "STX": // 0x22
 			return (parseIXAndAddressAndOptionalI(tokens) | (34 << 10));
+		case "JZ": // 0x08
+			return (parseRAndIXAndAddressAndOptionalI(tokens) | (8 << 10));
+		case "JNE": // 0x09
+			return (parseRAndIXAndAddressAndOptionalI(tokens) | (9 << 10));
+		case "JCC": // 0x0A
+			return (parseRAndIXAndAddressAndOptionalI(tokens) | (10 << 10));
+		case "JMA": // 0x0B
+			return (parseIXAndAddressAndOptionalI(tokens) | (11 << 10));
+		case "JSR": // 0x0C
+			return (parseIXAndAddressAndOptionalI(tokens) | (12 << 10));
+		case "RFS": // 0x0D
+			return (parseImmediate(tokens) | (13 << 10));
+		case "SOB": // 0x0E
+			return (parseRAndIXAndAddressAndOptionalI(tokens) | (14 << 10));
+		case "JGE": // 0x0F
+			return (parseRAndIXAndAddressAndOptionalI(tokens) | (15 << 10));
+		case "AMR": // 0x04
+			return (parseRAndIXAndAddressAndOptionalI(tokens) | (4 << 10));
+		case "SMR": // 0x05
+			return (parseRAndIXAndAddressAndOptionalI(tokens) | (5 << 10));
+		case "AIR": // 0x06
+			return (parseRAndImmediate(tokens) | (6 << 10));
+		case "SIR": // 0x07
+			return (parseRAndImmediate(tokens) | (7 << 10));
+		case "MLT": // 0x10
+			return (parseRxAndRy(tokens) | (16 << 10));
+		case "DVD": // 0x11
+			return (parseRxAndRy(tokens) | (17 << 10));
+		case "TRR": // 0x12
+			return (parseRxAndRy(tokens) | (18 << 10));
+		case "AND": // 0x13
+			return (parseRxAndRy(tokens) | (19 << 10));
+		case "ORR": // 0x14
+			return (parseRxAndRy(tokens) | (20 << 10));
+		case "NOT": // 0x15
+			return (parseRx(tokens) | (21 << 10));
 		case "HLT": // 0
 			return 0;
 		}
@@ -181,6 +217,76 @@ public class AssemblyCompiler {
 		if (1 == (int)tokens.nval)
 			return 1 << 5;
 		return 0;
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseRAndImmediate(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		short i = (short) tokens.nval;
+		if (tokens.nextToken() != ',')
+			panic("Unexpected token at line " + tokens.lineno());
+		i <<= 8;
+		i |= parseImmediate(tokens);
+		return i;
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseImmediate(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		return (short) tokens.nval;
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseRxAndRy(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		short i = (short) tokens.nval;
+		if (tokens.nextToken() != ',')
+			panic("Unexpected token at line " + tokens.lineno());
+		i <<= 8;
+		i |= parseRy(tokens);
+		return i;
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseRx(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		return (short) ((int)tokens.nval << 8);
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseRy(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		return (short) ((int)tokens.nval << 6);
 	}
 	/**
 	 * Main function for testing.
