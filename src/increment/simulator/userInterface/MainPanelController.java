@@ -28,7 +28,7 @@ public class MainPanelController {
     public void handleShowMagicButtonAction (ActionEvent actionEvent) throws Exception {
 
 
-        Parent root = FXMLLoader.load(getClass().getResource("ControlPanel.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/res/fxml/ControlPanel.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root, 600, 400));
         stage.show();
