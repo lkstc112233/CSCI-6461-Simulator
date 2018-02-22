@@ -1,5 +1,7 @@
 package increment.simulator.userInterface;
 
+import increment.simulator.ui.MachineWrapper;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,12 +13,12 @@ import javafx.scene.text.Text;
 
 
 public class MainPanelController {
-
+	public void setMachine(MachineWrapper machine) {
+		Text_PC_Text.textProperty().bind(machine.getProgramCounterProperty());
+	}
+	
     @FXML private Text Text_PC_Text;
     @FXML private  Text Text_PC_Label;
-
-
-
 
     public void handleTickButtonAction(ActionEvent actionEvent) {
 
@@ -27,20 +29,13 @@ public class MainPanelController {
 
     public void handleShowMagicButtonAction (ActionEvent actionEvent) throws Exception {
 
-     //  Text_PC_Text.setText("333\n333\n333\n333");
 
-        Parent root = FXMLLoader.load(getClass().getResource("ControlPanel.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/res/fxml/ControlPanel.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root, 600, 400));
         stage.show();
 
     }
 
-    public void handleShowFrontButtonAction(ActionEvent actionEvent) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("FrontPanel.fxml"));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 800, 400));
-        stage.show();
-    }
 }
