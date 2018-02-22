@@ -114,8 +114,8 @@ public class MachineWrapper {
     public final String getMemoryAddressRegister(){ try{return machine.getChip("MAR").toString();}catch(NullPointerException e){return "Not Found";} }
     public final String getMemoryBufferRegister(){ try{return machine.getChip("MBR").toString();}catch(NullPointerException e){return "Not Found";} }
     public final String getInstructionRegister(){ try{return machine.getChip("IR").toString();}catch(NullPointerException e){return "Not Found";} }
-    public final String getGeneralPurposeRegisterFile(){ try{return machine.getChip("GeneralPurposeRegisterFile").toString();}catch(NullPointerException e){return "Not Found";} }
-    public final String getIndexRegisterFile(){ try{return machine.getChip("IndexRegisterFile").toString();}catch(NullPointerException e){return "Not Found";} }
+    public final String getGeneralPurposeRegisterFile(){ try{return machine.getChip("GPRF").toString();}catch(NullPointerException e){return "Not Found";} }
+    public final String getIndexRegisterFile(){ try{return machine.getChip("IRF").toString();}catch(NullPointerException e){return "Not Found";} }
     public final String getMemory(){ try{return machine.getChip("memory").toString();}catch(NullPointerException e){return "Not Found";} }
     public final String getControlUnit(){ try{return machine.getChip("CU").toString();}catch(NullPointerException e){return "Not Found";} }
     public final Integer getRadioSwitch(){ try{return ((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).getValue();}catch(NullPointerException e){return 0;} }
