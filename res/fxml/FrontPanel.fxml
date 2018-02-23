@@ -84,29 +84,29 @@
       <RadioButton fx:id="r5" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
       <RadioButton fx:id="r6" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="6" GridPane.rowIndex="1" />
       <RadioButton fx:id="r7" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-      <RadioButton fx:id="r9" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="9" GridPane.rowIndex="1" />
-      <RadioButton fx:id="s4" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-      <RadioButton fx:id="s3" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-      <RadioButton fx:id="s2" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-      <RadioButton fx:id="s1" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <RadioButton fx:id="s0" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.rowIndex="2" />
       <RadioButton fx:id="r8" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+      <RadioButton fx:id="r9" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+      <RadioButton fx:id="r10" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="10" GridPane.rowIndex="1" />
+      <RadioButton fx:id="r11" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="11" GridPane.rowIndex="1" />
+      <RadioButton fx:id="r12" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="12" GridPane.rowIndex="1" />
+      <RadioButton fx:id="r13" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="13" GridPane.rowIndex="1" />
+      <RadioButton fx:id="r14" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="22.0" GridPane.columnIndex="14" GridPane.rowIndex="1" />
+      <RadioButton fx:id="r15" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="22.0" GridPane.columnIndex="15" GridPane.rowIndex="1" />
+      <RadioButton fx:id="s0" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.rowIndex="2" />
+      <RadioButton fx:id="s1" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <RadioButton fx:id="s2" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <RadioButton fx:id="s3" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+      <RadioButton fx:id="s4" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
       <RadioButton fx:id="s5" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
       <RadioButton fx:id="s6" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="6" GridPane.rowIndex="2" />
       <RadioButton fx:id="s7" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="7" GridPane.rowIndex="2" />
       <RadioButton fx:id="s8" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="8" GridPane.rowIndex="2" />
       <RadioButton fx:id="s9" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="9" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r10" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="10" GridPane.rowIndex="1" />
       <RadioButton fx:id="s10" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="10" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r11" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="11" GridPane.rowIndex="1" />
       <RadioButton fx:id="s11" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="11" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r12" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="12" GridPane.rowIndex="1" />
       <RadioButton fx:id="s12" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="12" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r13" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="13" GridPane.rowIndex="1" />
       <RadioButton fx:id="s13" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="13" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r14" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="22.0" GridPane.columnIndex="14" GridPane.rowIndex="1" />
       <RadioButton fx:id="s14" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="22.0" GridPane.columnIndex="14" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r15" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="22.0" GridPane.columnIndex="15" GridPane.rowIndex="1" />
       <RadioButton fx:id="s15" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="22.0" GridPane.columnIndex="15" GridPane.rowIndex="2" />
 
        <!--Selection of register Radio-->
