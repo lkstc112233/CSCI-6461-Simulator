@@ -43,8 +43,7 @@ public class DebugPanelController {
 
     }
 
-    public void handleAutoTickButtonAction(ActionEvent actionEvent) {
-    }
+
 
     public void handleShowMagicButtonAction (ActionEvent actionEvent) throws Exception {
 

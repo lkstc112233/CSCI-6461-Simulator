@@ -108,12 +108,12 @@
        </VBox>
 
        <!--Memory Text-->
-       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+       <VBox GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="6">
            <children>
                <Text fx:id="Text_Memory_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory:" />
-               <ScrollPane fx:id="Text_Memory_ScrollPnae" disable="true" prefHeight="59.0" prefWidth="200.0" >
+               <ScrollPane fx:id="Text_Memory_ScrollPnae" >
                     <content>
-                         <Text fx:id="Text_Memory_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+                         <Text fx:id="Text_Memory_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
                     </content>
                </ScrollPane>
            </children>
@@ -123,7 +123,6 @@
       <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="10.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7">
          <children>
             <Button fx:id="Button_Tick" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleTickButtonAction" text="Tick" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-            <Button fx:id="Button_AutoTick" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleAutoTickButtonAction" text="Auto tick on/off" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
             <Button fx:id="Button_ShowMagicPanel" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleShowMagicButtonAction" text="Show magic panel" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
