@@ -69,8 +69,8 @@ public class MachineWrapper {
 		public MachineStatusPropertyGetterOrSetter(int i) {
 			index = i;
 		}
-		public final Boolean getValueBulbs(){ try{return ((BulbSet)machine.getChip("panelValueBulbSet")).getBit(index);}catch(NullPointerException e){return false;} }
-	    public final Boolean getAddressBulbs(){ try{return ((BulbSet)machine.getChip("panelAddressBulbSet")).getBit(index);}catch(NullPointerException e){return false;} }
+		public final Boolean getValueBulbs(){ try{return ((BulbSet)machine.getChip("panelValue")).getBit(index);}catch(NullPointerException e){return false;} }
+	    public final Boolean getAddressBulbs(){ try{return ((BulbSet)machine.getChip("panelAddress")).getBit(index);}catch(NullPointerException e){return false;} }
 	    public final Boolean getSwitches(){ try{return false;}catch(NullPointerException e){return false;} }
 	    public final void setSwitches(Boolean value){ try{((SwitchesSet)machine.getChip("panelSwitchSet")).flipBit(index, value);}catch(NullPointerException e){} }
 	}
@@ -120,8 +120,8 @@ public class MachineWrapper {
     public final String getControlUnit(){ try{return machine.getChip("CU").toString();}catch(NullPointerException e){return "Not Found";} }
     public final Integer getRadioSwitch(){ try{return ((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).getValue();}catch(NullPointerException e){return 0;} }
     public final void setRadioSwitch(Integer value){ try{((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).setValue(value);}catch(NullPointerException e){} }
-    public final Integer getRegisterRadioSwitch(){ try{return ((NumberedSwitch) machine.getChip("panelRegisterSelectionSwitch")).getValue();}catch(NullPointerException e){return 0;}  }
-	public final void setRegisterRadioSwitch(Integer value) { try{((NumberedSwitch) machine.getChip("panelRegisterSelectionSwitch")).setValue(value);}catch(NullPointerException e){} }
+    public final Integer getRegisterRadioSwitch(){ try{return ((NumberedSwitch) machine.getChip("panelRegSelSwitch")).getValue();}catch(NullPointerException e){return 0;}  }
+	public final void setRegisterRadioSwitch(Integer value) { try{((NumberedSwitch) machine.getChip("panelRegSelSwitch")).setValue(value);}catch(NullPointerException e){} }
 	public final Boolean getPaused(){ try{return machine.getCable("paused").getBit(0);}catch(NullPointerException e){return false;} }
 	   
 	private List<ReadOnlyJavaBeanProperty<?>> properties;
@@ -158,33 +158,33 @@ public class MachineWrapper {
     	updateEvent();
 	}
 	public void resetCUStatus() {
-		((Switch) machine.getChip("panelResetCUSwitch")).flip(true);
+		((Switch) machine.getChip("panelResetCU")).flip(true);
 		forceTick();
-		((Switch) machine.getChip("panelResetCUSwitch")).flip(false);
+		((Switch) machine.getChip("panelResetCU")).flip(false);
 	}
 	public void forceLoadMAR() {
 		loadSomething(1);
 	}
 	public void forceLoad() {
-		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
+		((Switch) machine.getChip("panelLoad")).flip(true);
 		forceTick();
-		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
+		((Switch) machine.getChip("panelLoad")).flip(false);
 		forceUpdate();
 	}
 	private void loadSomething(int id) {
-		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
+		((Switch) machine.getChip("panelLoad")).flip(true);
 		// TODO: Move out onto panel in next stage.
 		int oldValue = getRadioSwitch();
 		setRadioSwitch(id);
 		forceTick();
-		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
+		((Switch) machine.getChip("panelLoad")).flip(false);
 		setRadioSwitch(oldValue);
 		forceUpdate();
 	}
 	private boolean paused = false;
 	public void pauseOrRestore() {
 		paused = !paused;
-		((Switch) machine.getChip("panelPauseCUSwitch")).flip(paused);
+		((Switch) machine.getChip("panelPauseCU")).flip(paused);
 		forceUpdate();
 	}
 	public void IPLButton() {
