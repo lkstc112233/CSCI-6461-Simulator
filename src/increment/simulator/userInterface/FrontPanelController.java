@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
+import javafx.scene.control.CheckBox;
 
 import java.awt.*;
 
@@ -43,6 +44,24 @@ public class FrontPanelController {
     @FXML private RadioButton s13;
     @FXML private RadioButton s14;
     @FXML private RadioButton s15;
+
+    @FXML private CheckBox Check_Switch_0;
+    @FXML private CheckBox Check_Switch_1;
+    @FXML private CheckBox Check_Switch_2;
+    @FXML private CheckBox Check_Switch_3;
+    @FXML private CheckBox Check_Switch_4;
+    @FXML private CheckBox Check_Switch_5;
+    @FXML private CheckBox Check_Switch_6;
+    @FXML private CheckBox Check_Switch_7;
+    @FXML private CheckBox Check_Switch_8;
+    @FXML private CheckBox Check_Switch_9;
+    @FXML private CheckBox Check_Switch_10;
+    @FXML private CheckBox Check_Switch_11;
+    @FXML private CheckBox Check_Switch_12;
+    @FXML private CheckBox Check_Switch_13;
+    @FXML private CheckBox Check_Switch_14;
+    @FXML private CheckBox Check_Switch_15;
+
 
 
 
@@ -80,6 +99,25 @@ public class FrontPanelController {
         s13.selectedProperty().bind(machine.getValueBulbsProperty(13));
         s14.selectedProperty().bind(machine.getValueBulbsProperty(14));
         s15.selectedProperty().bind(machine.getValueBulbsProperty(15));
+
+        machine.getSwitchesProperty(0).bind(Check_Switch_0.selectedProperty());
+        machine.getSwitchesProperty(1).bind(Check_Switch_1.selectedProperty());
+        machine.getSwitchesProperty(2).bind(Check_Switch_2.selectedProperty());
+        machine.getSwitchesProperty(3).bind(Check_Switch_3.selectedProperty());
+        machine.getSwitchesProperty(4).bind(Check_Switch_4.selectedProperty());
+        machine.getSwitchesProperty(5).bind(Check_Switch_5.selectedProperty());
+        machine.getSwitchesProperty(6).bind(Check_Switch_6.selectedProperty());
+        machine.getSwitchesProperty(7).bind(Check_Switch_7.selectedProperty());
+        machine.getSwitchesProperty(8).bind(Check_Switch_8.selectedProperty());
+        machine.getSwitchesProperty(9).bind(Check_Switch_9.selectedProperty());
+        machine.getSwitchesProperty(10).bind(Check_Switch_10.selectedProperty());
+        machine.getSwitchesProperty(11).bind(Check_Switch_11.selectedProperty());
+        machine.getSwitchesProperty(12).bind(Check_Switch_12.selectedProperty());
+        machine.getSwitchesProperty(13).bind(Check_Switch_13.selectedProperty());
+        machine.getSwitchesProperty(14).bind(Check_Switch_14.selectedProperty());
+        machine.getSwitchesProperty(15).bind(Check_Switch_15.selectedProperty());
+
+
 
 
 
