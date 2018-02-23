@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
 
 
 
-public class MainPanelController {
+public class DebugPanelController {
 	public void setMachine(MachineWrapper machine) {
 
 		Text_Tick_Text.textProperty().bind(machine.getTickProperty().asString());

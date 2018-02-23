@@ -35,7 +35,7 @@ public class FrontPanelController {
     public void handleDebugButtonAction(ActionEvent actionEvent) throws Exception {
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/DebugPanel.fxml"));
         Parent root = fxmlLoader.load();
-        fxmlLoader.<MainPanelController>getController().setMachine(machine);
+        fxmlLoader.<DebugPanelController>getController().setMachine(machine);
         Stage stage = new Stage();
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
