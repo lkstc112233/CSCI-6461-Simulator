@@ -32,6 +32,7 @@ public class BulbSet extends ChipsSet {
 		for (int i = 0; i < width; ++i) {
 			bulbs[i] = new IndicatorBulb();
 			bulbs[i].connectPort("input", new CablePartialAdapter(1, inputAdapter, i));
+			addChip(bulbs[i]);
 		}
 	}
 	/**
