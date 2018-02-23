@@ -32,6 +32,7 @@ public class SwitchesSet extends ChipsSet {
 		for (int i = 0; i < width; ++i) {
 			switches[i] = new Switch();
 			switches[i].connectPort("output", new CablePartialAdapter(1, outputAdapter, i));
+			addChip(switches[i]);
 		}
 	}
 	/**
