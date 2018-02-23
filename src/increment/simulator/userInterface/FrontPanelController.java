@@ -189,4 +189,27 @@ public class FrontPanelController {
         machine.setRadioSwitch(4);
         machine.forceUpdate();
     }
+
+    public void handleRadioswitch0(ActionEvent actionEvent) {
+        machine.setRegisterRadioSwitch(0);
+        machine.forceUpdate();
+    }
+
+    public void handleRadioswitch1(ActionEvent actionEvent) {
+        machine.setRegisterRadioSwitch(1);
+        machine.forceUpdate();
+    }
+
+    public void handleRadioswitch2(ActionEvent actionEvent) {
+        machine.setRegisterRadioSwitch(2);
+        machine.forceUpdate();
+    }
+
+    public void handleRadioswitch3(ActionEvent actionEvent) {
+        machine.setRegisterRadioSwitch(3);
+        machine.forceUpdate();
+    }
+
+
+
 }

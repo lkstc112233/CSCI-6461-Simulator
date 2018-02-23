@@ -150,14 +150,14 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                <children>
-                  <RadioButton fx:id="Radioswitch0" mnemonicParsing="false" text="0">
+                  <RadioButton fx:id="Radioswitch0" text="0" onAction="#handleRadioswitch0" mnemonicParsing="false" >
                      <toggleGroup>
                         <ToggleGroup fx:id="RadioSwitchGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="Radioswitch1" mnemonicParsing="false" text="1" toggleGroup="$RadioSwitchGroup" />
-                  <RadioButton fx:id="Radioswitch2" mnemonicParsing="false" text="2" toggleGroup="$RadioSwitchGroup" />
-                  <RadioButton fx:id="Radioswitch3" mnemonicParsing="false" text="3" toggleGroup="$RadioSwitchGroup" />
+                  <RadioButton fx:id="Radioswitch1"  text="1" onAction="#handleRadioswitch1" mnemonicParsing="false" toggleGroup="$RadioSwitchGroup" />
+                  <RadioButton fx:id="Radioswitch2"  text="2" onAction="#handleRadioswitch2" mnemonicParsing="false" toggleGroup="$RadioSwitchGroup" />
+                  <RadioButton fx:id="Radioswitch3" text="3"  onAction="#handleRadioswitch3" mnemonicParsing="false"  toggleGroup="$RadioSwitchGroup" />
                </children>
                <VBox.margin>
                   <Insets top="25.0" />
