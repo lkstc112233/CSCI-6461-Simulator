@@ -167,4 +167,26 @@ public class FrontPanelController {
         stage.show();
         machine.forceUpdate();
     }
+
+    public void handleMemoryRegister(ActionEvent actionEvent) {
+        machine.setRadioSwitch(2);
+        machine.forceUpdate();
+
+    }
+
+    public void handlePCRegister(ActionEvent actionEvent) {
+        machine.setRadioSwitch(0);
+        machine.forceUpdate();
+    }
+
+    public void handleGPRFRegister(ActionEvent actionEvent) {
+        machine.setRadioSwitch(5);
+        machine.forceUpdate();
+    }
+
+    public void handleIRFRegister(ActionEvent actionEvent) {
+
+        machine.setRadioSwitch(4);
+        machine.forceUpdate();
+    }
 }

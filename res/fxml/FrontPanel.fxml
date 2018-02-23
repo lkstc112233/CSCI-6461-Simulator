@@ -112,14 +112,14 @@
        <!--Selection of register Radio-->
        <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" GridPane.columnIndex="16" GridPane.rowSpan="4">
          <children>
-            <RadioButton fx:id="Radio_PC_Register" mnemonicParsing="false" text="PC">
+            <RadioButton fx:id="Radio_PC_Register" text="PC" onAction="#handlePCRegister" mnemonicParsing="false">
                <toggleGroup>
                   <ToggleGroup fx:id="RegisterSelectGroup" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="Radio_Memory_Register" mnemonicParsing="false" text="Memory" toggleGroup="$RegisterSelectGroup" />
-            <RadioButton fx:id="Radio_GPRF_Register" mnemonicParsing="false" text="GPRF" toggleGroup="$RegisterSelectGroup" />
-            <RadioButton fx:id="Radio_IRF_Register" mnemonicParsing="false" text="IRF" toggleGroup="$RegisterSelectGroup" />
+            <RadioButton fx:id="Radio_Memory_Register" text="Memory" onAction="#handleMemoryRegister"  mnemonicParsing="false"  toggleGroup="$RegisterSelectGroup" />
+            <RadioButton fx:id="Radio_GPRF_Register"   text="GPRF"  onAction="#handleGPRFRegister" mnemonicParsing="false" toggleGroup="$RegisterSelectGroup" />
+            <RadioButton fx:id="Radio_IRF_Register"     text="IRF" onAction="#handleIRFRegister" mnemonicParsing="false"  toggleGroup="$RegisterSelectGroup" />
          </children>
          <GridPane.margin>
             <Insets left="25.0" top="25.0" />
