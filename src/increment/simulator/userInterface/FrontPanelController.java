@@ -127,5 +127,6 @@ public class FrontPanelController {
         Stage stage = new Stage();
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
+        machine.forceUpdate();
     }
 }
