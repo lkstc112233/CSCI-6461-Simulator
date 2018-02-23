@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import com.sun.javafx.scene.control.skin.SplitPaneSkin.Content?>
 <GridPane fx:id="MainPane" fx:controller="increment.simulator.userInterface.MainPanelController" alignment="CENTER" hgap="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" vgap="10.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" >
   <columnConstraints>
       <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
@@ -54,7 +55,7 @@
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
            <children>
                <Text fx:id="Text_BUS_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="BUS:" />
-               <Text fx:id="Text_PC_Text1"  strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+               <Text fx:id="Text_BUS_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
            </children>
        </VBox>
 
@@ -110,7 +111,11 @@
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
            <children>
                <Text fx:id="Text_Memory_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory:" />
-               <ScrollPane fx:id="Text_Memory_Text" disable="true" prefHeight="59.0" prefWidth="200.0" />
+               <ScrollPane fx:id="Text_Memory_ScrollPnae" disable="true" prefHeight="59.0" prefWidth="200.0" >
+                    <content>
+                         <Text fx:id="Text_Memory_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+                    </content>
+               </ScrollPane>
            </children>
        </VBox>
 
