@@ -1,5 +1,6 @@
 package increment.simulator.userInterface;
 
+import increment.simulator.ui.MachineWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +8,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class FrontPanelController {
+	private MachineWrapper machine;
+	public void setMachine(MachineWrapper machine) {
+		this.machine = machine;
+	}
 
     public void handleCircleButtonAction(ActionEvent actionEvent) {
     }
@@ -28,16 +33,15 @@ public class FrontPanelController {
 
 
     public void handleDebugButtonAction(ActionEvent actionEvent) throws Exception {
-
-        Parent root = FXMLLoader.load(getClass().getResource("/res/fxml/MainPanel.fxml"));
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/MainPanel.fxml"));
+        Parent root = fxmlLoader.load();
+        fxmlLoader.<MainPanelController>getController().setMachine(machine);
         Stage stage = new Stage();
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
-
+        machine.forceUpdate();
     }
 
-   /* public void handleMagicButtonAction(ActionEvent actionEvent) {
-    }*/
     public void handleMagicButtonAction(ActionEvent actionEvent) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/res/fxml/ControlPanel.fxml"));
         Stage stage = new Stage();
