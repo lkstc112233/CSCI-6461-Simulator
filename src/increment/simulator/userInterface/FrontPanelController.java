@@ -4,10 +4,7 @@ import increment.simulator.ui.MachineWrapper;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -79,7 +76,7 @@ public class FrontPanelController {
             KeyFrame keyFrame = new KeyFrame(duration,event -> {machine.tick();});
             automaticTick.getKeyFrames().setAll(keyFrame);
             automaticTick.play();
-
+        }
     }
 
 
