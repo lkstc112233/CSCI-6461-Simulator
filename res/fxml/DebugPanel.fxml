@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<GridPane fx:id="MainPane" fx:controller="increment.simulator.userInterface.MainPanelController" alignment="CENTER" hgap="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" vgap="10.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" >
+
+<GridPane fx:id="debugPanel" fx:controller="increment.simulator.userInterface.DebugPanelController" alignment="CENTER" hgap="50.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" vgap="10.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" >
   <columnConstraints>
       <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
       <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
@@ -54,7 +55,7 @@
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
            <children>
                <Text fx:id="Text_BUS_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="BUS:" />
-               <Text fx:id="Text_PC_Text1"  strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+               <Text fx:id="Text_BUS_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
            </children>
        </VBox>
 
@@ -107,10 +108,14 @@
        </VBox>
 
        <!--Memory Text-->
-       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+       <VBox GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="6">
            <children>
                <Text fx:id="Text_Memory_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory:" />
-               <ScrollPane fx:id="Text_Memory_Text" disable="true" prefHeight="59.0" prefWidth="200.0" />
+               <ScrollPane fx:id="Text_Memory_ScrollPnae" >
+                    <content>
+                         <Text fx:id="Text_Memory_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
+                    </content>
+               </ScrollPane>
            </children>
        </VBox>
 
@@ -118,7 +123,6 @@
       <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="10.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7">
          <children>
             <Button fx:id="Button_Tick" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleTickButtonAction" text="Tick" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-            <Button fx:id="Button_AutoTick" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleAutoTickButtonAction" text="Auto tick on/off" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
             <Button fx:id="Button_ShowMagicPanel" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleShowMagicButtonAction" text="Show magic panel" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>

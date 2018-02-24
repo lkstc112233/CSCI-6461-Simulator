@@ -11,7 +11,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Spinner?>
+<?import java.util.ArrayList?>
 
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Slider?>
 <GridPane fx:id="FrontPanel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="increment.simulator.userInterface.FrontPanelController">
   <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.5" prefWidth="100.0" />
@@ -84,42 +88,41 @@
       <RadioButton fx:id="r5" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
       <RadioButton fx:id="r6" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="6" GridPane.rowIndex="1" />
       <RadioButton fx:id="r7" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-      <RadioButton fx:id="r9" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="9" GridPane.rowIndex="1" />
-      <RadioButton fx:id="s4" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-      <RadioButton fx:id="s3" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-      <RadioButton fx:id="s2" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-      <RadioButton fx:id="s1" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <RadioButton fx:id="s0" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.rowIndex="2" />
       <RadioButton fx:id="r8" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+      <RadioButton fx:id="r9" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="9" GridPane.rowIndex="1" />
+      <RadioButton fx:id="r10" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="10" GridPane.rowIndex="1" />
+      <RadioButton fx:id="r11" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="11" GridPane.rowIndex="1" />
+
+
+
+      <RadioButton fx:id="s0" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.rowIndex="2" />
+      <RadioButton fx:id="s1" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <RadioButton fx:id="s2" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <RadioButton fx:id="s3" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+      <RadioButton fx:id="s4" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
       <RadioButton fx:id="s5" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
       <RadioButton fx:id="s6" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="6" GridPane.rowIndex="2" />
       <RadioButton fx:id="s7" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="7" GridPane.rowIndex="2" />
       <RadioButton fx:id="s8" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="8" GridPane.rowIndex="2" />
       <RadioButton fx:id="s9" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="9" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r10" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="10" GridPane.rowIndex="1" />
       <RadioButton fx:id="s10" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="10" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r11" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="11" GridPane.rowIndex="1" />
       <RadioButton fx:id="s11" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="11" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r12" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="12" GridPane.rowIndex="1" />
       <RadioButton fx:id="s12" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="12" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r13" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="13" GridPane.rowIndex="1" />
       <RadioButton fx:id="s13" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="13" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r14" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="22.0" GridPane.columnIndex="14" GridPane.rowIndex="1" />
       <RadioButton fx:id="s14" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="22.0" GridPane.columnIndex="14" GridPane.rowIndex="2" />
-      <RadioButton fx:id="r15" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="22.0" GridPane.columnIndex="15" GridPane.rowIndex="1" />
       <RadioButton fx:id="s15" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="22.0" GridPane.columnIndex="15" GridPane.rowIndex="2" />
 
        <!--Selection of register Radio-->
        <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" GridPane.columnIndex="16" GridPane.rowSpan="4">
          <children>
-            <RadioButton fx:id="Radio_PC_Register" mnemonicParsing="false" text="PC">
+            <RadioButton fx:id="Radio_PC_Register" text="PC" onAction="#handlePCRegister" mnemonicParsing="false">
                <toggleGroup>
                   <ToggleGroup fx:id="RegisterSelectGroup" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="Radio_Memory_Register" mnemonicParsing="false" text="Memory" toggleGroup="$RegisterSelectGroup" />
-            <RadioButton fx:id="Radio_GPRF_Register" mnemonicParsing="false" text="GPRF" toggleGroup="$RegisterSelectGroup" />
-            <RadioButton fx:id="Radio_IRF_Register" mnemonicParsing="false" text="IRF" toggleGroup="$RegisterSelectGroup" />
+            <RadioButton fx:id="Radio_Memory_Register" text="Memory" onAction="#handleMemoryRegister"  mnemonicParsing="false"  toggleGroup="$RegisterSelectGroup" />
+            <RadioButton fx:id="Radio_GPRF_Register"   text="GPRF"  onAction="#handleGPRFRegister" mnemonicParsing="false" toggleGroup="$RegisterSelectGroup" />
+            <RadioButton fx:id="Radio_IRF_Register"     text="IRF" onAction="#handleIRFRegister" mnemonicParsing="false"  toggleGroup="$RegisterSelectGroup" />
          </children>
          <GridPane.margin>
             <Insets left="25.0" top="25.0" />
@@ -150,14 +153,14 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                <children>
-                  <RadioButton fx:id="Radioswitch0" mnemonicParsing="false" text="0">
+                  <RadioButton fx:id="Radioswitch0" text="0" onAction="#handleRadioswitch0" mnemonicParsing="false" >
                      <toggleGroup>
                         <ToggleGroup fx:id="RadioSwitchGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="Radioswitch1" mnemonicParsing="false" text="1" toggleGroup="$RadioSwitchGroup" />
-                  <RadioButton fx:id="Radioswitch2" mnemonicParsing="false" text="2" toggleGroup="$RadioSwitchGroup" />
-                  <RadioButton fx:id="Radioswitch3" mnemonicParsing="false" text="3" toggleGroup="$RadioSwitchGroup" />
+                  <RadioButton fx:id="Radioswitch1"  text="1" onAction="#handleRadioswitch1" mnemonicParsing="false" toggleGroup="$RadioSwitchGroup" />
+                  <RadioButton fx:id="Radioswitch2"  text="2" onAction="#handleRadioswitch2" mnemonicParsing="false" toggleGroup="$RadioSwitchGroup" />
+                  <RadioButton fx:id="Radioswitch3" text="3"  onAction="#handleRadioswitch3" mnemonicParsing="false"  toggleGroup="$RadioSwitchGroup" />
                </children>
                <VBox.margin>
                   <Insets top="25.0" />
@@ -180,15 +183,29 @@
             </RadioButton>
             <Button fx:id="Button_Pause"    mnemonicParsing="false" onAction="#handlePauseButtonAction"   text="Pause" />
             <Button fx:id="Button_Reset_CU" mnemonicParsing="false" onAction="#handleResetCUButtonAction" text="Reset CU Status" />
+            <Button fx:id="Button_AutoTick"    mnemonicParsing="false" onAction="#handleAutoTickButtonAction" text="AutoTick" />
+             <Slider fx:id="Slider_Auto_set"
+                     prefWidth="100"
+                     max="3" min= "0" value="1"
+                     showTickMarks="true"
+                     showTickLabels="true"
+                     majorTickUnit="0.5"
+                     snapToTicks="true"
+                     minorTickCount="1"
+
+
+             />
             <Button fx:id="Button_IPL"      mnemonicParsing="false" onAction="#handleIPLButtonAction"     text="IPL" />
             <Button fx:id="Button_Load"     mnemonicParsing="false" onAction="#handleLoadButtonAction"    text="Load" />
             <Button fx:id="Button_Load_MAR" mnemonicParsing="false" onAction="#handleLoadMARButtonAction" text="Load MAR" />
-            <Button fx:id="Button_Debug"    mnemonicParsing="false" onAction="#handleDebugButtonAction" text="Debug Button" />
-            <Button fx:id="Button_Magic"    mnemonicParsing="false" onAction="#handleMagicButtonAction" text="Magic Button" />
+            <Button fx:id="Button_Debug"    mnemonicParsing="false" onAction="#handleDebugButtonAction" text="Debug Panel" />
+            <Button fx:id="Button_Magic"    mnemonicParsing="false" onAction="#handleMagicButtonAction" text="Magic Panel" />
          </children>
       </HBox>
    </children>
    <padding>
       <Insets left="15.0" top="15.0" />
    </padding>
+
+
 </GridPane>
