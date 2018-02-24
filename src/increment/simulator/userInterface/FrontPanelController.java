@@ -4,6 +4,8 @@ import increment.simulator.ui.MachineWrapper;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,19 +13,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.control.CheckBox;
 import javafx.util.Duration;
-
-import java.awt.*;
 
 public class FrontPanelController {
 	private MachineWrapper machine;
     Timeline automaticTick;
 	@FXML private RadioButton Radio_Pause;
 	@FXML private GridPane FrontPanel;
+    @FXML private Slider Slider_Auto_set;
 
+          private Duration duration;
 
 	public void setMachine(MachineWrapper machine) {
 		this.machine = machine;
@@ -38,12 +41,7 @@ public class FrontPanelController {
         for(int i = 0 ; i < 16; i++)
         machine.getSwitchesProperty(i).bind(((CheckBox)FrontPanel.lookup("#Check_Switch_"+i)).selectedProperty());
 
-        automaticTick = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                machine.tick();
-            }
-        }));
+        automaticTick = new Timeline(new KeyFrame(Duration.seconds(1), event -> machine.tick()));
         automaticTick.setCycleCount(Timeline.INDEFINITE);
 
 	}
@@ -74,9 +72,14 @@ public class FrontPanelController {
 
     public void handleAutoTickButtonAction(ActionEvent actionEvent) {
         if (Animation.Status.RUNNING == automaticTick.getStatus())
-            automaticTick.pause();
-        else
+
+            automaticTick.stop();
+        else {
+            duration = Duration.seconds(Slider_Auto_set.getValue());
+            KeyFrame keyFrame = new KeyFrame(duration,event -> {machine.tick();});
+            automaticTick.getKeyFrames().setAll(keyFrame);
             automaticTick.play();
+
     }
 
 
@@ -139,6 +142,8 @@ public class FrontPanelController {
         machine.setRegisterRadioSwitch(3);
         machine.forceUpdate();
     }
+
+
 
 
 
