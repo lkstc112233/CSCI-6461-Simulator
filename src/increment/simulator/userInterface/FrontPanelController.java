@@ -69,8 +69,7 @@ public class FrontPanelController {
 
     public void handleAutoTickButtonAction(ActionEvent actionEvent) {
         if (Animation.Status.RUNNING == automaticTick.getStatus())
-
-            automaticTick.stop();
+            automaticTick.pause();
         else {
             duration = Duration.seconds(Slider_Auto_set.getValue());
             KeyFrame keyFrame = new KeyFrame(duration,event -> {machine.tick();});
