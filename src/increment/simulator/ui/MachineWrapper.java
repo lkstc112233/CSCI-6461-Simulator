@@ -166,18 +166,18 @@ public class MachineWrapper {
 		loadSomething(1);
 	}
 	public void forceLoad() {
-		((Switch) machine.getChip("panelLoad")).flip(true);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
 		forceTick();
-		((Switch) machine.getChip("panelLoad")).flip(false);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
 		forceUpdate();
 	}
 	private void loadSomething(int id) {
-		((Switch) machine.getChip("panelLoad")).flip(true);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
 		// TODO: Move out onto panel in next stage.
 		int oldValue = getRadioSwitch();
 		setRadioSwitch(id);
 		forceTick();
-		((Switch) machine.getChip("panelLoad")).flip(false);
+		((Switch) machine.getChip("panelLoadSwitch")).flip(false);
 		setRadioSwitch(oldValue);
 		forceUpdate();
 	}
