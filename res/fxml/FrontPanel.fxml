@@ -115,7 +115,7 @@
        <!--Selection of register Radio-->
        <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" GridPane.columnIndex="16" GridPane.rowSpan="4">
          <children>
-            <RadioButton fx:id="Radio_PC_Register" text="PC" onAction="#handlePCRegister" mnemonicParsing="false">
+            <RadioButton fx:id="Radio_PC_Register" text="PC" onAction="#handlePCRegister" mnemonicParsing="false" selected="true">
                <toggleGroup>
                   <ToggleGroup fx:id="RegisterSelectGroup" />
                </toggleGroup>
@@ -153,7 +153,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                <children>
-                  <RadioButton fx:id="Radioswitch0" text="0" onAction="#handleRadioswitch0" mnemonicParsing="false" >
+                  <RadioButton fx:id="Radioswitch0" text="0" onAction="#handleRadioswitch0" mnemonicParsing="false" selected="true">
                      <toggleGroup>
                         <ToggleGroup fx:id="RadioSwitchGroup" />
                      </toggleGroup>
@@ -186,8 +186,6 @@
             <Button fx:id="Button_IPL"      mnemonicParsing="false" onAction="#handleIPLButtonAction"     text="IPL" />
             <Button fx:id="Button_Load"     mnemonicParsing="false" onAction="#handleLoadButtonAction"    text="Load" />
             <Button fx:id="Button_Load_MAR" mnemonicParsing="false" onAction="#handleLoadMARButtonAction" text="Load MAR" />
-            <Button fx:id="Button_Debug"    mnemonicParsing="false" onAction="#handleDebugButtonAction" text="Debug Panel" />
-            <Button fx:id="Button_Magic"    mnemonicParsing="false" onAction="#handleMagicButtonAction" text="Magic Panel" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="18" GridPane.rowIndex="7">
@@ -202,6 +200,8 @@
                      snapToTicks="true"
                      minorTickCount="1"
              />
+            <Button fx:id="Button_Debug"    mnemonicParsing="false" onAction="#handleDebugButtonAction" text="Debug Panel" />
+            <Button fx:id="Button_Magic"    mnemonicParsing="false" onAction="#handleMagicButtonAction" text="Magic Panel" />
          </children>
       </HBox>
    </children>
