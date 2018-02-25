@@ -6,8 +6,8 @@ package increment.simulator.chips;
  * The arithmetic unit takes 3 inputs:
  * 		* operand1[width]
  * 		* operand2[width]
- * 		* opcode[TBD] - specifies which operation to take place.
- * The arithmetic unit gives 1 output:
+ * 		* opcode[6] - specifies which operation to take place.
+ * The arithmetic unit gives 2 outputs:
  * 		* result[width]
  * 		* condition[4] - the condition code.
  * 
@@ -19,7 +19,7 @@ public class ArithmeticUnit extends Chip {
 		addPort("operand1", width);
 		addPort("operand2", width);
 		addPort("result", width);
-		addPort("opcode", 4 /* maybe? */);
+		addPort("opcode", 6);
 		addPort("condition", 4);
 	}
 	
