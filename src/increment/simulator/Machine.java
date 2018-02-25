@@ -35,7 +35,7 @@ public class Machine {
 			System.err.println(e.getMessage());
 			System.exit(-1);
 		}
-		((RegisterFile)getChip("IndexRegisterFile")).setValue(0, 0);
+		((RegisterFile)getChip("IRF")).setValue(0, 0);
 		
 	}
 	/**

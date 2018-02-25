@@ -1,3 +1,6 @@
+Feb 24, 2018:
+	Reloading a port gets a warning now. 
+
 Feb 19, 2018:
 	New way handling assignment!
 
