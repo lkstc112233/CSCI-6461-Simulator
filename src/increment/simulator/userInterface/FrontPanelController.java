@@ -39,7 +39,11 @@ public class FrontPanelController {
         machine.getSwitchesProperty(i).bind(((CheckBox)FrontPanel.lookup("#Check_Switch_"+i)).selectedProperty());
 
         automaticTick = new Timeline(new KeyFrame(Duration.seconds(1), event -> machine.tick()));
+
+
         automaticTick.setCycleCount(Timeline.INDEFINITE);
+
+
 
 	}
 
@@ -74,7 +78,9 @@ public class FrontPanelController {
             duration = Duration.seconds(Slider_Auto_set.getValue());
             KeyFrame keyFrame = new KeyFrame(duration,event -> {machine.tick();});
             automaticTick.getKeyFrames().setAll(keyFrame);
+
             automaticTick.play();
+
         }
     }
 
