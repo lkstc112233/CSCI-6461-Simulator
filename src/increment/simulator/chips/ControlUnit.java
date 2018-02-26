@@ -1,7 +1,8 @@
 package increment.simulator.chips;
 
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -127,7 +128,7 @@ public class ControlUnit extends Chip {
 	 * @throws IllegalStateException When file format error.
 	 */
 	private void loadFile() throws IOException {
-		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new FileReader("controlDef.ini"));
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/controlDef.ini"))));
 
 		if (!parsePorts(tokens))
 			panic("Cannot parse ports.\nLine: " + tokens.lineno());
