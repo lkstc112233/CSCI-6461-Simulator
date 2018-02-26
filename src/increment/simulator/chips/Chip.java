@@ -87,6 +87,8 @@ public abstract class Chip {
 	 */
 	public void connectPort(String name, Cable cable){
 		if (portsFormat.containsKey(name) && portsFormat.get(name) == cable.getWidth()) {
+			if (!(ports.get(name) instanceof DummyCable))
+				System.err.println("Warning: trying to reconnect port '"+name+"'.\nOld cable overwriten.");
 			ports.put(name, cable);
 		}
 		else

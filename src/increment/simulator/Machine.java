@@ -34,6 +34,7 @@ public class Machine {
 			System.err.println(e.getMessage());
 			System.exit(-1);
 		}
+		((RegisterFile)getChip("IRF")).setValue(0, 0);
 	}
 	/**
 	 * Load a testing program by MAGIC!
