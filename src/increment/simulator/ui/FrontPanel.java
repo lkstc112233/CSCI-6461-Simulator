@@ -59,7 +59,8 @@ public class FrontPanel extends Stage {
 	     */
 		grid.setGridLinesVisible(false);
 		Scene scene = new Scene(grid, 800, 400);
-		scene.getStylesheets().add("increment/simulator/ui/buttonstyle.css");
+		scene.getStylesheets().add("res/buttonstyle.css");
+		scene.getStylesheets().add("res/background.css");
 		setScene(scene);
 		/* centerlize  the node */
 		grid.setAlignment(Pos.CENTER);
