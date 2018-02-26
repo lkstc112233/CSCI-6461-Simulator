@@ -1,5 +1,5 @@
  .root {
-     -fx-background-image: url("file:res/background.jpg");
+     -fx-background-image: url("../background.jpg");
 } 
 
 .button {

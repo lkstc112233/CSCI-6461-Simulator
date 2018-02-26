@@ -51,7 +51,7 @@ public class ControlPanel extends Stage {
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
 		Scene scene = new Scene(grid, 600, 450);
-		scene.getStylesheets().add("res/background.css");
+		scene.getStylesheets().add("/res/css/background.css");
 		setScene(scene);
 		
 		grid.add(new Text("To Address\nbeginning at:"), 0, 0);
