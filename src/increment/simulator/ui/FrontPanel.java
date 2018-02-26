@@ -9,6 +9,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
@@ -58,7 +59,8 @@ public class FrontPanel extends Stage {
 	     */
 		grid.setGridLinesVisible(false);
 		Scene scene = new Scene(grid, 800, 400);
-		scene.getStylesheets().add("/res/buttonstyle.css");
+		scene.getStylesheets().add("/res/css/buttonstyle.css");
+		scene.getStylesheets().add("/res/css/background.css");
 		setScene(scene);
 		/* centerlize  the node */
 		grid.setAlignment(Pos.CENTER);

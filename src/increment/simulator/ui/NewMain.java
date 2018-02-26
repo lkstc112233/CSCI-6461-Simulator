@@ -121,6 +121,7 @@ public class NewMain extends Application {
 			}
 		});
 		buttons.getChildren().add(btn);
+		scene.getStylesheets().add("/res/css/background.css");
 		primaryStage.show();
 	}
 
