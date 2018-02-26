@@ -30,6 +30,7 @@ public class ArithmeticUnit extends ChipsSet {
 		Mux outputMux = new Mux(6, width);
 		addChip(outputMux);
 		addChipPortRelation("result", outputMux, "output");
+		addChipPortRelation("opcode", outputMux, "sel");
 		
 		Adder adder = new Adder(width);
 		addChip(adder);
