@@ -6,6 +6,7 @@ import increment.simulator.tools.AssemblyCompiler.CompiledProgram;
 
 /**
  * The memory. It's abstracted as a black box that supports read/load by byte, a.k.a. a memory interface.<br>
+ * There is a build in cache inside this interface. It's a magical cache! implemented by MAGIC!<br>
  * A memory will have three inputs:<br>
  * 		* load[1]<br>
  * 		* address[12]<br>
@@ -21,6 +22,12 @@ public class Memory extends Chip {
 	 * Memory data stored in a big array. Using cable allow me to handle bits more conveniently. 
 	 */
 	protected Cable[] data;
+	protected static class CacheEntry {
+		public int tag;
+		public boolean valid = false;
+	}
+	protected CacheEntry[] cache;
+	protected int cachePointer = 0;
 	/**
 	 * Constructor. Creating a 12-bit addressed memory (4096 words, addressing from 0 to 4095).
 	 */
@@ -40,6 +47,9 @@ public class Memory extends Chip {
 		addPort("address", 1 << width);
 		addPort("input", 16);
 		addPort("output", 16);
+		cache = new CacheEntry[16];
+		for (int i = 0; i < 16; ++i)
+			cache[i] = new CacheEntry();
 	}
 	/**
 	 * When timer ticks, if input[0] is true, we move data of input to data[address].
@@ -53,6 +63,7 @@ public class Memory extends Chip {
 			data[address].assign(getPort("input"));
 			changed[address] = true;
 		}
+		loadCache((int)getPort("address").toInteger() >> 2);
 	}
 	/**
 	 * Checks if target address is out of range.
@@ -87,6 +98,20 @@ public class Memory extends Chip {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+		sb.append("Cache Status:\n");
+		for (int i = 0; i < 16; ++i) {
+			if (!cache[i].valid)
+				continue;
+			int tag = cache[i].tag;
+			sb.append("Tag ");
+			sb.append(tag);
+			sb.append(": \n\t");
+			for (int j = tag << 2; j < (cache[i].tag << 2) + 4; ++j) {
+				sb.append(String.format("%04X", data[j].toInteger()));
+				sb.append(" ");
+			}
+			sb.append("\n");
+		}
 		sb.append("Memory chip data:\n");
 		for (int i = 0; i < data.length; ++i) {
 			if (!changed[i]) continue;
@@ -115,5 +140,15 @@ public class Memory extends Chip {
 		for (Short ins : code) {
 			putValue(address++, ins);
 		}
+	}
+	private void loadCache(int tag) {
+		for (int i = 0; i < 16; ++i)
+			if (cache[i].valid)
+				if (cache[i].tag == tag)
+					return;
+		cache[cachePointer].valid = true;
+		cache[cachePointer].tag = tag;
+		cachePointer++;
+		cachePointer %= 16;
 	}
 }
