@@ -1,3 +1,6 @@
+Mar 1, 2018:
+	New Instructions: AIR, SIR
+
 Feb 28, 2018:
 	Now we have IO devices!
 
