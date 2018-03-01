@@ -63,8 +63,8 @@ public class MachineWrapper {
 	public JavaBeanIntegerProperty getRegisterRadioSwitchProperty() { return registerRadioSwitchProperty; }
 	private ReadOnlyJavaBeanBooleanProperty pausedProperty;
 	public ReadOnlyJavaBeanBooleanProperty getPausedProperty() { return pausedProperty; }
-	private ReadOnlyJavaBeanBooleanProperty screenProperty;
-	public ReadOnlyJavaBeanBooleanProperty getScreenProperty() { return screenProperty; }
+	private ReadOnlyJavaBeanStringProperty screenProperty;
+	public ReadOnlyJavaBeanStringProperty getScreenProperty() { return screenProperty; }
 
 	public class MachineStatusPropertyGetterOrSetter {
 		int index;
@@ -94,7 +94,7 @@ public class MachineWrapper {
     		properties.add(radioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("radioSwitch").build());
     		properties.add(registerRadioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("registerRadioSwitch").build());
     		properties.add(pausedProperty = new ReadOnlyJavaBeanBooleanPropertyBuilder().bean(this).name("paused").build());
-    		properties.add(screenProperty = new ReadOnlyJavaBeanBooleanPropertyBuilder().bean(this).name("screen").build());
+    		properties.add(screenProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("screen").build());
     		valueBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
     		addressBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
     		switchesProperty = new JavaBeanBooleanProperty[16];
