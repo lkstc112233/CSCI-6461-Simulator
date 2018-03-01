@@ -11,6 +11,7 @@ import java.util.Map;
 import increment.simulator.chips.Chip;
 import increment.simulator.chips.ChipFactory;
 import increment.simulator.chips.ClockRegister;
+import increment.simulator.chips.IODevices;
 import increment.simulator.chips.Memory;
 import increment.simulator.chips.RegisterFile;
 import increment.simulator.tools.AssemblyCompiler;
@@ -24,6 +25,9 @@ import static increment.simulator.util.ExceptionHandling.panic;
  *
  */
 public class Machine {
+	private Keyboard keyboard;
+	private Printer printer;
+	private CardReader reader;
 	public Machine() {
 		try {
 			loadFile();
@@ -35,6 +39,12 @@ public class Machine {
 			System.err.println(e.getMessage());
 			System.exit(-1);
 		}
+		keyboard = new Keyboard();
+		((IODevices)getChip("IO")).connectDevice(0, keyboard);
+		printer = new Printer();
+		((IODevices)getChip("IO")).connectDevice(1, printer);
+		reader = new CardReader();
+		((IODevices)getChip("IO")).connectDevice(0, reader);
 		((RegisterFile)getChip("IRF")).setValue(0, 0);
 		
 	}
@@ -257,5 +267,11 @@ public class Machine {
 					change = true;
 			}
 		}
+	}
+	public String getScreen(){
+		return printer.toString();
+	}
+	public void keyPress(short key) {
+		keyboard.pressKey(key);
 	}
 }

@@ -9,7 +9,6 @@ package increment.simulator.chips;
  * 		* opcode[TBD] - specifies which operation to take place.
  * The logical unit gives 1 output:
  * 		* result[width]
- * 		* condition[4] - the condition code.
  * 
  * @author Xu Ke
  *
@@ -19,8 +18,7 @@ public class LogicalUnit extends Chip {
 		addPort("operand1", width);
 		addPort("operand2", width);
 		addPort("result", width);
-		addPort("opcode", 4 /* maybe? */);
-		addPort("condition", 4);
+		addPort("opcode", 6);
 	}
 	
 	@Override

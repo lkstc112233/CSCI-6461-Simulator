@@ -147,6 +147,14 @@ public class AssemblyCompiler {
 			return (parseRxAndRy(tokens) | (20 << 10));
 		case "NOT": // 0x15
 			return (parseRx(tokens) | (21 << 10));
+		case "IN":  // 0x31
+			return (parseRAndImmediate(tokens) | (49 << 10));
+		case "OUT": // 0x32
+			return (parseRAndImmediate(tokens) | (50 << 10));
+		case "SRC": // 0x19
+			return (parseRAndCountAndLRAndAL(tokens) | (25 << 10));
+		case "RRC": // 0x1A
+			return (parseRAndCountAndLRAndAL(tokens) | (26 << 10));
 		case "HLT": // 0
 			return 0;
 		}
@@ -287,6 +295,68 @@ public class AssemblyCompiler {
 		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
 			panic("Unexpected token at line " + tokens.lineno());
 		return (short) ((int)tokens.nval << 6);
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseRAndCountAndLRAndAL(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		short i = (short) tokens.nval;
+		if (tokens.nextToken() != ',')
+			panic("Unexpected token at line " + tokens.lineno());
+		i <<= 8;
+		i |= parseCountAndLRAndAL(tokens);
+		return i;
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseCountAndLRAndAL(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		short i = (short) tokens.nval;
+		if (tokens.nextToken() != ',')
+			panic("Unexpected token at line " + tokens.lineno());
+		i |= parseLRAndAL(tokens);
+		return i;
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseLRAndAL(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		short i = (short) tokens.nval;
+		if (tokens.nextToken() != ',')
+			panic("Unexpected token at line " + tokens.lineno());
+		i <<= 6;
+		i |= parseAL(tokens);
+		return i;
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseAL(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		return (short) ((int)tokens.nval << 7);
 	}
 	/**
 	 * Main function for testing.
