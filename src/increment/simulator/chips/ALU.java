@@ -13,6 +13,7 @@ import increment.simulator.SingleCable;
  * Gives serveral outputs:
  * 		* result[16]
  * 		* CCStat[4]
+ * 		* jump[1]
  * 
  * @author Xu Ke
  *
