@@ -43,4 +43,7 @@ public class IODevices extends Chip {
 			return assignPort("read", devices[(int) getPort("port").toInteger()].input());
 		return false;
 	}
+	public void connectDevice(int i, IODevice device) {
+		devices[i] = device;
+	}
 }
