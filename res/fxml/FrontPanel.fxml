@@ -16,7 +16,14 @@
 
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Slider?>
-<GridPane fx:id="FrontPanel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="increment.simulator.userInterface.FrontPanelController">
+<GridPane fx:id="FrontPanel" alignment="CENTER"
+          maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          prefHeight="400.0" prefWidth="1000.0"
+          xmlns="http://javafx.com/javafx/"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="increment.simulator.userInterface.FrontPanelController"
+          stylesheets="@../css/background.css"
+>
   <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.5" prefWidth="100.0" />
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.5" prefWidth="100.0" />
@@ -202,6 +209,7 @@
              />
             <Button fx:id="Button_Debug"    mnemonicParsing="false" onAction="#handleDebugButtonAction" text="Debug Panel" />
             <Button fx:id="Button_Magic"    mnemonicParsing="false" onAction="#handleMagicButtonAction" text="Magic Panel" />
+            <Button fx:id="Button_Keyboard" mnemonicParsing="false" onAction="#handleLoadMARButtonAction" text="Keyboard" />
          </children>
       </HBox>
    </children>

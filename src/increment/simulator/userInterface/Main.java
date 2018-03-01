@@ -17,7 +17,9 @@ public class Main extends Application {
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/FrontPanel.fxml"));
         Parent root = fxmlLoader.load();
         fxmlLoader.<FrontPanelController>getController().setMachine(machine);
-        primaryStage.setScene(new Scene(root, 1000, 400));
+        Scene scene = new Scene(root, 1000, 400);
+      //  scene.getStylesheets().add("/res/css/background.css");
+        primaryStage.setScene(scene);
 
         primaryStage.show();
     }
