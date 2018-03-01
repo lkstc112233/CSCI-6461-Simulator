@@ -1,3 +1,6 @@
+Feb 28, 2018:
+	Now we have IO devices!
+
 Feb 25, 2018:
 	AMR and SMR now usable.
 	ALU unit is under construction!
