@@ -43,8 +43,6 @@ public class FrontPanelController {
 
         automaticTick.setCycleCount(Timeline.INDEFINITE);
 
-
-
 	}
 
     public void handleCircleButtonAction(ActionEvent actionEvent) {
@@ -84,6 +82,8 @@ public class FrontPanelController {
         }
     }
 
+
+    
 
     public void handleDebugButtonAction(ActionEvent actionEvent) throws Exception {
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/DebugPanel.fxml"));
