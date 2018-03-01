@@ -7,9 +7,9 @@ package increment.simulator;
 public abstract class IODevice {
 	/**
 	 * outputs a byte. If the device cannot output, just do nothing. 
-	 * @param b - the word to output
+	 * @param word - the word to output
 	 */
-	public void output(short b) {}
+	public void output(short word) {}
 	/**
 	 * Inputs a byte. If the device cannot perform any input, just return 0. 
 	 * @return The byte.
