@@ -63,6 +63,8 @@ public class MachineWrapper {
 	public JavaBeanIntegerProperty getRegisterRadioSwitchProperty() { return registerRadioSwitchProperty; }
 	private ReadOnlyJavaBeanBooleanProperty pausedProperty;
 	public ReadOnlyJavaBeanBooleanProperty getPausedProperty() { return pausedProperty; }
+	private ReadOnlyJavaBeanStringProperty screenProperty;
+	public ReadOnlyJavaBeanStringProperty getScreenProperty() { return screenProperty; }
 
 	public class MachineStatusPropertyGetterOrSetter {
 		int index;
@@ -92,6 +94,7 @@ public class MachineWrapper {
     		properties.add(radioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("radioSwitch").build());
     		properties.add(registerRadioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("registerRadioSwitch").build());
     		properties.add(pausedProperty = new ReadOnlyJavaBeanBooleanPropertyBuilder().bean(this).name("paused").build());
+    		properties.add(screenProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("screen").build());
     		valueBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
     		addressBulbsProperty = new ReadOnlyJavaBeanBooleanProperty[16];
     		switchesProperty = new JavaBeanBooleanProperty[16];
@@ -123,7 +126,8 @@ public class MachineWrapper {
     public final Integer getRegisterRadioSwitch(){ try{return ((NumberedSwitch) machine.getChip("panelRegSelSwitch")).getValue();}catch(NullPointerException e){return 0;}  }
 	public final void setRegisterRadioSwitch(Integer value) { try{((NumberedSwitch) machine.getChip("panelRegSelSwitch")).setValue(value);}catch(NullPointerException e){} }
 	public final Boolean getPaused(){ try{return machine.getCable("paused").getBit(0);}catch(NullPointerException e){return false;} }
-	   
+	public final String getScreen(){ try{return machine.getScreen();}catch(NullPointerException e){return "Not Found";} }
+    
 	private List<ReadOnlyJavaBeanProperty<?>> properties;
     
 	private boolean toTick = true;
@@ -190,5 +194,9 @@ public class MachineWrapper {
 	public void IPLButton() {
 		machine.IPLMagic();
     	updateEvent();
+	}
+	
+	public void keyPress(short key) {
+		machine.keyPress(key);
 	}
 }

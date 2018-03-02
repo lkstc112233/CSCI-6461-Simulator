@@ -1,5 +1,13 @@
+Feb 28, 2018:
+	Now we have IO devices!
+
+Feb 25, 2018:
+	AMR and SMR now usable.
+	ALU unit is under construction!
+
 Feb 24, 2018:
 	Reloading a port gets a warning now. 
+	Panel loading is back!
 
 Feb 19, 2018:
 	New way handling assignment!
