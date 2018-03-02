@@ -1,3 +1,6 @@
+Feb 25, 2018:
+    optimize ui.
+    
 Feb 24, 2018:
 	Reloading a port gets a warning now. 
 

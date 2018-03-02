@@ -43,82 +43,82 @@
        <!--Tick Text-->
       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
          <children>
-            <Text fx:id="Text_Tick_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Tick:" />
-            <Text fx:id="Text_Tick_Text"  strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+            <Text fx:id="Text_Tick_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Tick:" styleClass="text"/>
+            <Text fx:id="Text_Tick_Text"  strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
          </children>
       </VBox>
 
        <!--PC Text-->
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
            <children>
-               <Text fx:id="Text_PC_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="PC:" />
-               <Text fx:id="Text_PC_Text"  strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+               <Text fx:id="Text_PC_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="PC:" styleClass="text"/>
+               <Text fx:id="Text_PC_Text"  strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
            </children>
        </VBox>
 
        <!--BUS Text-->
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
            <children>
-               <Text fx:id="Text_BUS_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="BUS:" />
-               <Text fx:id="Text_BUS_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+               <Text fx:id="Text_BUS_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="BUS:" styleClass="text"/>
+               <Text fx:id="Text_BUS_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
            </children>
        </VBox>
 
        <!--MAR Text-->
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
            <children>
-               <Text fx:id="Text_MAR_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="MAR:" />
-               <Text fx:id="Text_MAR_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+               <Text fx:id="Text_MAR_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="MAR:" styleClass="text"/>
+               <Text fx:id="Text_MAR_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
            </children>
        </VBox>
 
        <!--MBR Text-->
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="5">
            <children>
-               <Text fx:id="Text_MBR_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="MBR:" />
-               <Text fx:id="Text_MBR_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+               <Text fx:id="Text_MBR_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="MBR:" styleClass="text"/>
+               <Text fx:id="Text_MBR_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
            </children>
        </VBox>
 
        <!--IR Text-->
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="6">
          <children>
-              <Text fx:id="Text_IR_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="IR:" />
-              <Text fx:id="Text_IR_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+              <Text fx:id="Text_IR_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="IR:" styleClass="text"/>
+              <Text fx:id="Text_IR_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
          </children>
       </VBox>
 
        <!--GPRF Text-->
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
            <children>
-               <Text fx:id="Text_GPRF_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="GPRF:" />
-               <Text fx:id="Text_GPRF_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+               <Text fx:id="Text_GPRF_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="GPRF:" styleClass="text"/>
+               <Text fx:id="Text_GPRF_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
            </children>
        </VBox>
 
        <!--IRF Text-->
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="2">
            <children>
-               <Text fx:id="Text_IRF_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="IRF:" />
-               <Text fx:id="Text_IRF_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+               <Text fx:id="Text_IRF_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="IRF:" styleClass="text"/>
+               <Text fx:id="Text_IRF_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
            </children>
        </VBox>
 
        <!--CU Text-->
        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="2">
            <children>
-               <Text fx:id="Text_CU_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Control Unit:" />
-               <Text fx:id="Text_CU_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" />
+               <Text fx:id="Text_CU_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Control Unit:" styleClass="text"/>
+               <Text fx:id="Text_CU_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
            </children>
        </VBox>
 
        <!--Memory Text-->
        <VBox GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="6">
            <children>
-               <Text fx:id="Text_Memory_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory:" />
-               <ScrollPane fx:id="Text_Memory_ScrollPnae" >
+               <Text fx:id="Text_Memory_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory:" styleClass="text"/>
+               <ScrollPane fx:id="Text_Memory_ScrollPnae" styleClass = "scroll-pane">
                     <content>
-                         <Text fx:id="Text_Memory_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
+                         <Text fx:id="Text_Memory_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" styleClass="text_memory"/>
                     </content>
                </ScrollPane>
            </children>
