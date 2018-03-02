@@ -6,7 +6,8 @@ package increment.simulator.chips;
  * The shifting unit takes 3 inputs:
  * 		* operand[width]
  * 		* count[4]
- * 		* shiftingInstruction[3]
+ * 		* shiftOrRotate[1]
+ * 		* shiftingInstruction[2]
  * The logical unit gives 1 output:
  * 		* result[width]
  * 
@@ -16,7 +17,8 @@ package increment.simulator.chips;
 public class ShiftingUnit extends Chip {
 	public ShiftingUnit(int width) {
 		addPort("operand", width);
-		addPort("shiftingInstruction", 3);
+		addPort("shiftOrRotate", 1);
+		addPort("shiftingInstruction", 2);
 		addPort("count", 4);
 		addPort("result", width);
 	}
@@ -25,7 +27,9 @@ public class ShiftingUnit extends Chip {
 		long operand = getPort("operand").toInteger();
 		int width = getPort("operand").getWidth();
 		int count = (int) getPort("count").toInteger();
-		switch((int)getPort("shiftingInstruction").toInteger()){
+		int command = (int) getPort("shiftingInstruction").toInteger();
+		command |= getPort("shiftOrRotate").toInteger() << 2;
+		switch(command){
 		case 0:
 			return assignPort("result", (operand & (1 << (width - 1))) | ((operand & ((1 << (width - 1)) - 1)) >> count) | ((operand & ((1 << count) - 1)) << (width - 1 - count)));
 		case 1:

@@ -1,6 +1,7 @@
 package increment.simulator.chips;
 
 import increment.simulator.Cable;
+import increment.simulator.CablePartialAdapter;
 import increment.simulator.SingleCable;
 
 /**
@@ -10,6 +11,8 @@ import increment.simulator.SingleCable;
  * 		* operand1[16]
  * 		* operand2[16]
  * 		* opcode[6]
+ * 		* shifting[2]
+ * 		* shiftingCount[4]
  * Gives serveral outputs:
  * 		* result[16]
  * 		* CCStat[4]
@@ -19,19 +22,26 @@ import increment.simulator.SingleCable;
  *
  */
 public class ALU extends ChipsSet {
+	ShiftingUnit su;
 	public ALU() {
 		addPort("operand1", 16);
 		addPort("operand2", 16);
 		addPort("opcode", 6);
+		addPort("shifting", 2);
 		addPort("result", 16);
 		addPort("CCStat", 4);
+		addPort("shiftingCount", 4);
+		addPort("jump", 1);
 		
 		Mux resmux = new Mux(6, 16);
 		Mux ccmux = new Mux(6, 4);
+		Mux jumpmux = new Mux(6, 1);
 		addChip(resmux);
 		addChip(ccmux);
+		addChip(jumpmux);
 		addChipPortRelation("result", resmux, "output");
 		addChipPortRelation("CCStat", ccmux, "output");
+		addChipPortRelation("jump", jumpmux, "output");
 		addChipPortRelation("opcode", resmux, "sel");
 		addChipPortRelation("opcode", ccmux, "sel");
 		
@@ -48,5 +58,29 @@ public class ALU extends ChipsSet {
 		resmux.connectPort("input6", cable);
 		resmux.connectPort("input7", cable);
 		
+		su = new ShiftingUnit(16);
+		addChip(su);
+		addChipPortRelation("shifting", su, "shiftingInstruction");
+		addChipPortRelation("operand2", su, "operand");
+		addChipPortRelation("shiftingCount", su, "count");
+		cable = new SingleCable(16);
+		su.connectPort("result", cable);
+		resmux.connectPort("input25", cable);
+		resmux.connectPort("input26", cable);
+		
+		LogicalUnit lu = new LogicalUnit(16);
+		addChip(lu);
+		addChipPortRelation("operand2", lu, "condition");
+		addChipPortRelation("opcode", lu, "opcode");
+		addChipPortRelation("jump", lu, "jump");
+	}
+	
+	@Override
+	public void connectPort(String name, Cable cable) {
+		super.connectPort(name, cable);
+		if (name.equals("opcode")) {
+			CablePartialAdapter cpa = new CablePartialAdapter(1, cable);
+			su.connectPort("shiftOrRotate", cpa);
+		}
 	}
 }
