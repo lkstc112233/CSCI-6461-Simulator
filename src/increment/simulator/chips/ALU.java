@@ -73,6 +73,17 @@ public class ALU extends ChipsSet {
 		addChipPortRelation("operand2", lu, "condition");
 		addChipPortRelation("opcode", lu, "opcode");
 		addChipPortRelation("jump", lu, "jump");
+		cable = new SingleCable(1);
+		lu.connectPort("jump", cable);
+		jumpmux.connectPort("input8", cable);
+		jumpmux.connectPort("input9", cable);
+		jumpmux.connectPort("input10", cable);
+		jumpmux.connectPort("input11", cable);
+		jumpmux.connectPort("input12", cable);
+		jumpmux.connectPort("input13", cable);
+		jumpmux.connectPort("input14", cable);
+		jumpmux.connectPort("input15", cable);
+		
 	}
 	
 	@Override
