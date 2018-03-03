@@ -90,10 +90,15 @@ public class FrontPanelController   {
     }
 
     public void handleAutoTickButtonAction(ActionEvent actionEvent) {
-        if (Animation.Status.RUNNING == automaticTick.getStatus())
+        if (Animation.Status.RUNNING == automaticTick.getStatus()) {
             automaticTick.stop();
-        else {
-            duration = Duration.seconds(Slider_Auto_set.getValue());
+            Slider_Auto_set.setDisable(false);
+        } else {
+        	if (Slider_Auto_set.getValue() == 0)
+                duration = Duration.millis(1);        		
+        	else
+                duration = Duration.seconds(Slider_Auto_set.getValue());
+            Slider_Auto_set.setDisable(true);
             KeyFrame keyFrame = new KeyFrame(duration,event -> {machine.tick();});
             automaticTick.getKeyFrames().setAll(keyFrame);
 
@@ -104,23 +109,34 @@ public class FrontPanelController   {
 
 
     
-
+    private Stage debugStage;
     public void handleDebugButtonAction(ActionEvent actionEvent) throws Exception {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/DebugPanel.fxml"));
-        Parent root = fxmlLoader.load();
-        fxmlLoader.<DebugPanelController>getController().setMachine(machine);
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 800, 600));
-        stage.show();
-        machine.forceUpdate();
+    	if (debugStage == null) {
+	    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/DebugPanel.fxml"));
+	        Parent root = fxmlLoader.load();
+	        fxmlLoader.<DebugPanelController>getController().setMachine(machine);
+	        debugStage = new Stage();
+	        debugStage.setScene(new Scene(root, 800, 600));
+	        debugStage.setTitle("Field Engineer Console");
+	        debugStage.show();
+	        machine.forceUpdate();
+    	} else if (!debugStage.isShowing())
+    		debugStage.show();
     }
 
+    private Stage magicStage;
     public void handleMagicButtonAction(ActionEvent actionEvent) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/res/fxml/ControlPanel.fxml"));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 800, 600));
-        stage.show();
-        machine.forceUpdate();
+    	if (magicStage == null) {
+	        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/ControlPanel.fxml"));
+	        Parent root = fxmlLoader.load();
+	        fxmlLoader.<ControlPanelController>getController().setMachine(machine);
+	        magicStage = new Stage();
+	        magicStage.setScene(new Scene(root, 800, 600));
+	        magicStage.setTitle("MAGIC Panel");
+	        magicStage.show();
+	        machine.forceUpdate();
+    	} else if (!magicStage.isShowing())
+    		magicStage.show();
     }
 
     public void handleMemoryRegister(ActionEvent actionEvent) {

@@ -24,9 +24,10 @@ public class Main extends Application {
         fxmlLoader.<FrontPanelController>getController().setMachine(machine);
         FrontPanelController controller = fxmlLoader.getController();
         Scene scene = new Scene(root);
-
         scene.getStylesheets().add("/res/css/background.css");
+
         primaryStage.setScene(scene);
+        primaryStage.setTitle("CSCI 6461 Simulator Front Panel");
 
         primaryStage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override

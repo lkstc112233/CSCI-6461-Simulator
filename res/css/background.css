@@ -1,14 +1,37 @@
  .root {
-     -fx-background-image: url("../background.jpg");
+    -fx-background-color: #b6cac0;
 } 
 
 .button {
     -fx-text-fill: white;
-    -fx-font-family: "Arial Narrow";
+    -fx-font-family: "Consolas, Monaco, monospace",Georgia,Serif;
     -fx-font-weight: bold;
     -fx-background-color: linear-gradient(#61a2b1, #2A5058);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
+
 .button:hover {
     -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+}
+
+.text {
+	-fx-font-family: "Consolas, Monaco, monospace",Georgia,Serif;
+	-fx-font-size: 18px;
+}
+.text_15 {
+	-fx-font-family: "Consolas, Monaco, monospace",Georgia,Serif;
+	-fx-font-size: 15px;
+}
+
+text_memory {
+	-fx-font-family: "Consolas, Monaco, monospace",Georgia,Serif;
+	-fx-font-size: 15px;
+}
+
+.text-area .content{
+      -fx-background-image: url("../background.jpg");
+  }
+  
+.scroll-pane > .viewport {
+   -fx-background-image: url("../background.jpg");
 }
