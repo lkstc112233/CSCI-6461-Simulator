@@ -3,32 +3,52 @@ package increment.simulator.userInterface;
 import increment.simulator.ui.MachineWrapper;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.scene.control.CheckBox;
 import javafx.util.Duration;
 
-public class FrontPanelController {
+public class FrontPanelController   {
 	private MachineWrapper machine;
     Timeline automaticTick;
 	@FXML private RadioButton Radio_Pause;
 	@FXML private GridPane FrontPanel;
     @FXML private Slider Slider_Auto_set;
+    @FXML private GridPane KeyboardPanel;
+
 
           private Duration duration;
+          private Boolean Cap_look=true;
+
+          public EventHandler handleLoadKeyboardAction;
+
+    @FXML
+    public void keyHandler(KeyEvent keyEvent){
+
+
+
+
+
+    }
+
+
+
 
 	public void setMachine(MachineWrapper machine) {
 		this.machine = machine;
 		Radio_Pause.selectedProperty().bind(this.machine.getPausedProperty());
-
+       // FrontPanel.setGridLinesVisible(true);
         for(int i = 0 ; i < 12; i++)
        ((RadioButton) FrontPanel.lookup("#r" + i)).selectedProperty().bind(machine.getAddressBulbsProperty(i));
 
@@ -40,7 +60,7 @@ public class FrontPanelController {
 
         automaticTick = new Timeline(new KeyFrame(Duration.seconds(1), event -> machine.tick()));
 
-
+        ((TextArea)FrontPanel.lookup("#Text_CodeOutPut")).textProperty().bind(machine.getScreenProperty());
         automaticTick.setCycleCount(Timeline.INDEFINITE);
 
 	}
@@ -146,7 +166,56 @@ public class FrontPanelController {
     }
 
 
+    public void handleLoadKeyboardAction(ActionEvent actionEvent) throws Exception {
+
+         if (KeyboardPanel.isVisible())
+             KeyboardPanel.setVisible(false);
+         else
+            KeyboardPanel.setVisible(true);
 
 
 
+    }
+
+
+    public void keyPressedHandlerAction(ActionEvent actionEvent) {
+
+        short key=0;
+        Button x = (Button) actionEvent.getSource();
+        String s =x.getId().substring(4);
+        int index =Integer.parseInt(s);
+
+        if(index<40){
+            String keyS = x.getText();
+            key = (short) keyS.charAt(0);
+            if (key>64)
+            {
+                key = Cap_look? key: (short) (key +  32);
+            }
+        }
+        else {
+            switch (index){
+                case 50: key = 9;break;
+                case 51:{
+                    if (Cap_look) {
+                        Cap_look=false;
+                        System.out.println("butt is disarmed");
+                    }
+                    else {
+                        Cap_look=true;
+                        System.out.println("butt is armed");
+                    }
+                }break;
+                case 52: key = 13; break;
+                case 53:break;
+                case 54:break;
+                case 55: key = 32; break;
+                case 56: key = 127; break;
+            }
+        }
+       System.out.println(key);
+       this.machine.keyPress(key);
+
+       
+    }
 }

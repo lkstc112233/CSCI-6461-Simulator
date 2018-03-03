@@ -116,7 +116,7 @@
        <VBox GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="6">
            <children>
                <Text fx:id="Text_Memory_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory:" />
-               <ScrollPane fx:id="Text_Memory_ScrollPnae" >
+               <ScrollPane fx:id="Text_Memory_ScrollPane" >
                     <content>
                          <Text fx:id="Text_Memory_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
                     </content>
