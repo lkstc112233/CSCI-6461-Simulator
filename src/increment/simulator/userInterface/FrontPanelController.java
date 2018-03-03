@@ -16,11 +16,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class FrontPanelController   {
-	private MachineWrapper machine;
+	private static MachineWrapper machine;
     Timeline automaticTick;
 	@FXML private RadioButton Radio_Pause;
 	@FXML private GridPane FrontPanel;
@@ -60,7 +61,7 @@ public class FrontPanelController   {
 
         automaticTick = new Timeline(new KeyFrame(Duration.seconds(1), event -> machine.tick()));
 
-        ((TextArea)FrontPanel.lookup("#Text_CodeOutPut")).textProperty().bind(machine.getScreenProperty());
+        ((Text)FrontPanel.lookup("#Text_CodeOutPut")).textProperty().bind(machine.getScreenProperty());
         automaticTick.setCycleCount(Timeline.INDEFINITE);
 
 	}
@@ -143,6 +144,7 @@ public class FrontPanelController   {
         machine.setRadioSwitch(2);
         machine.forceUpdate();
 
+
     }
 
     public void handlePCRegister(ActionEvent actionEvent) {
@@ -184,6 +186,8 @@ public class FrontPanelController   {
 
     public void handleLoadKeyboardAction(ActionEvent actionEvent) throws Exception {
 
+
+        System.out.println("this = " + this.hashCode());
          if (KeyboardPanel.isVisible())
              KeyboardPanel.setVisible(false);
          else
@@ -194,8 +198,7 @@ public class FrontPanelController   {
     }
 
 
-    public void keyPressedHandlerAction(ActionEvent actionEvent) {
-
+    public void keyPressedHandlerAction(ActionEvent actionEvent) throws Exception {
         short key=0;
         Button x = (Button) actionEvent.getSource();
         String s =x.getId().substring(4);
@@ -230,7 +233,9 @@ public class FrontPanelController   {
             }
         }
        System.out.println(key);
-       this.machine.keyPress(key);
+
+        machine.keyPress(key);
+
 
        
     }

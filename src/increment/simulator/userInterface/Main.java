@@ -5,7 +5,6 @@ import increment.simulator.ui.MachineWrapper;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -39,6 +38,7 @@ public class Main extends Application {
             }
         });
         primaryStage.show();
+
     }
 
     private EventHandler keychanged(){
