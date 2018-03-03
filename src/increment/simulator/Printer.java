@@ -37,6 +37,7 @@ public class Printer extends IODevice {
 				last += (char) word;
 				console.add(last);
 			} else {
+				console.add(last);
 				console.add("" + (char) word);
 			}
 		}
