@@ -74,7 +74,7 @@ public class NewMain extends Application {
 		grid.add(getBox(grid, "Control Unit: ", machine.getControlUnitProperty()), 1, 4);
 		grid.add(getScrollBox(grid, "Memory: ", machine.getMemoryProperty()), 2, 0, 1, 6);
 
-		automaticTick = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+		automaticTick = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
 		    @Override
 		    public void handle(ActionEvent event) {
 				machine.tick();
