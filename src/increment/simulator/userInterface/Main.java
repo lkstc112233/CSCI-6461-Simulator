@@ -19,6 +19,7 @@ public class Main extends Application {
         fxmlLoader.<FrontPanelController>getController().setMachine(machine);
         Scene scene = new Scene(root, 1000, 400);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("CSCI 6461 Simulator Front Panel");
 
         primaryStage.show();
     }

@@ -89,25 +89,34 @@ public class FrontPanelController {
 
 
     
-
+    private Stage debugStage;
     public void handleDebugButtonAction(ActionEvent actionEvent) throws Exception {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/DebugPanel.fxml"));
-        Parent root = fxmlLoader.load();
-        fxmlLoader.<DebugPanelController>getController().setMachine(machine);
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 800, 600));
-        stage.show();
-        machine.forceUpdate();
+    	if (debugStage == null) {
+	    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/DebugPanel.fxml"));
+	        Parent root = fxmlLoader.load();
+	        fxmlLoader.<DebugPanelController>getController().setMachine(machine);
+	        debugStage = new Stage();
+	        debugStage.setScene(new Scene(root, 800, 600));
+	        debugStage.setTitle("Field Engineer Console");
+	        debugStage.show();
+	        machine.forceUpdate();
+    	} else if (!debugStage.isShowing())
+    		debugStage.show();
     }
 
+    private Stage magicStage;
     public void handleMagicButtonAction(ActionEvent actionEvent) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/ControlPanel.fxml"));
-        Parent root = fxmlLoader.load();
-        fxmlLoader.<ControlPanelController>getController().setMachine(machine);
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 800, 600));
-        stage.show();
-        machine.forceUpdate();
+    	if (magicStage == null) {
+	        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/ControlPanel.fxml"));
+	        Parent root = fxmlLoader.load();
+	        fxmlLoader.<ControlPanelController>getController().setMachine(machine);
+	        magicStage = new Stage();
+	        magicStage.setScene(new Scene(root, 800, 600));
+	        magicStage.setTitle("MAGIC Panel");
+	        magicStage.show();
+	        machine.forceUpdate();
+    	} else if (!magicStage.isShowing())
+    		magicStage.show();
     }
 
     public void handleMemoryRegister(ActionEvent actionEvent) {
