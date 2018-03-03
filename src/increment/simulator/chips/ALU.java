@@ -58,6 +58,12 @@ public class ALU extends ChipsSet {
 		resmux.connectPort("input5", cable);
 		resmux.connectPort("input6", cable);
 		resmux.connectPort("input7", cable);
+		resmux.connectPort("input16", cable);
+		resmux.connectPort("input17", cable);
+		resmux.connectPort("input18", cable);
+		resmux.connectPort("input19", cable);
+		resmux.connectPort("input20", cable);
+		resmux.connectPort("input21", cable);
 		
 		su = new ShiftingUnit(16);
 		addChip(su);
