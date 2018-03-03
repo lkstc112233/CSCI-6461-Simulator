@@ -121,6 +121,14 @@ public class NewMain extends Application {
 			}
 		});
 		buttons.getChildren().add(btn);
+		btn = new Button("Show screen panel");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				getScreenPanel().show();
+			}
+		});
+		buttons.getChildren().add(btn);
 		scene.getStylesheets().add("/res/css/background.css");
 		primaryStage.show();
 	}
@@ -159,6 +167,14 @@ public class NewMain extends Application {
 		return frontPanel;
 	}
 
+	
+	Stage screenPanel;
+	private Stage getScreenPanel() {
+		if (screenPanel == null)
+			screenPanel = new ScreenPanel(machine);
+		return screenPanel;
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
