@@ -3,10 +3,6 @@ package increment.simulator.userInterface;
 import increment.simulator.ui.MachineWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
 
@@ -39,18 +35,6 @@ public class DebugPanelController {
     @FXML private  Text Text_Memory_Text;
 
     public void handleTickButtonAction(ActionEvent actionEvent) {
-
-    }
-
-
-
-    public void handleShowMagicButtonAction (ActionEvent actionEvent) throws Exception {
-
-
-        Parent root = FXMLLoader.load(getClass().getResource("/res/fxml/ControlPanel.fxml"));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 600, 400));
-        stage.show();
 
     }
 

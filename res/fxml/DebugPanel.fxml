@@ -128,7 +128,6 @@
       <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="10.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7">
          <children>
             <Button fx:id="Button_Tick" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleTickButtonAction" text="Tick" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-            <Button fx:id="Button_ShowMagicPanel" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleShowMagicButtonAction" text="Show magic panel" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
 
