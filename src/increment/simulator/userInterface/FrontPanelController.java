@@ -43,8 +43,6 @@ public class FrontPanelController {
 
         automaticTick.setCycleCount(Timeline.INDEFINITE);
 
-
-
 	}
 
     public void handleCircleButtonAction(ActionEvent actionEvent) {
@@ -73,7 +71,7 @@ public class FrontPanelController {
 
     public void handleAutoTickButtonAction(ActionEvent actionEvent) {
         if (Animation.Status.RUNNING == automaticTick.getStatus())
-            automaticTick.pause();
+            automaticTick.stop();
         else {
             duration = Duration.seconds(Slider_Auto_set.getValue());
             KeyFrame keyFrame = new KeyFrame(duration,event -> {machine.tick();});
@@ -84,6 +82,8 @@ public class FrontPanelController {
         }
     }
 
+
+    
 
     public void handleDebugButtonAction(ActionEvent actionEvent) throws Exception {
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/DebugPanel.fxml"));

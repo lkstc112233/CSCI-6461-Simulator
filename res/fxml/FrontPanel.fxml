@@ -16,7 +16,14 @@
 
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Slider?>
-<GridPane fx:id="FrontPanel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="increment.simulator.userInterface.FrontPanelController">
+<GridPane fx:id="FrontPanel" alignment="CENTER"
+          maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          prefHeight="400.0" prefWidth="1000.0"
+          xmlns="http://javafx.com/javafx/"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="increment.simulator.userInterface.FrontPanelController"
+          stylesheets="@../css/background.css"
+>
   <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.5" prefWidth="100.0" />
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.5" prefWidth="100.0" />
@@ -48,38 +55,38 @@
       <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1" GridPane.columnIndex="1" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2" GridPane.columnIndex="2" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3" GridPane.columnIndex="3" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="4" GridPane.columnIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5" GridPane.columnIndex="5" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="6" GridPane.columnIndex="6" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="7" GridPane.columnIndex="7" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="8" GridPane.columnIndex="8" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="9" GridPane.columnIndex="9" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="10" GridPane.columnIndex="10" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="11" GridPane.columnIndex="11" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="12" GridPane.columnIndex="12" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="13" GridPane.columnIndex="13" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="14" GridPane.columnIndex="14" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="15" GridPane.columnIndex="15" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="4" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="6" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="7" GridPane.columnIndex="7" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="8" GridPane.columnIndex="8" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="9" GridPane.columnIndex="9" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="10" GridPane.columnIndex="10" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="11" GridPane.columnIndex="11" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="12" GridPane.columnIndex="12" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="13" GridPane.columnIndex="13" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="14" GridPane.columnIndex="14" GridPane.rowIndex="4" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="15" GridPane.columnIndex="15" GridPane.rowIndex="4" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1" GridPane.columnIndex="1" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2" GridPane.columnIndex="2" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3" GridPane.columnIndex="3" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="4" GridPane.columnIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5" GridPane.columnIndex="5" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="6" GridPane.columnIndex="6" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="7" GridPane.columnIndex="7" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="8" GridPane.columnIndex="8" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="9" GridPane.columnIndex="9" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="10" GridPane.columnIndex="10" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="11" GridPane.columnIndex="11" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="12" GridPane.columnIndex="12" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="13" GridPane.columnIndex="13" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="14" GridPane.columnIndex="14" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="15" GridPane.columnIndex="15" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2" GridPane.columnIndex="2" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3" GridPane.columnIndex="3" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="4" GridPane.columnIndex="4" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5" GridPane.columnIndex="5" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="6" GridPane.columnIndex="6" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="7" GridPane.columnIndex="7" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="8" GridPane.columnIndex="8" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="9" GridPane.columnIndex="9" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="10" GridPane.columnIndex="10" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="11" GridPane.columnIndex="11" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="12" GridPane.columnIndex="12" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="13" GridPane.columnIndex="13" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="14" GridPane.columnIndex="14" GridPane.rowIndex="4" styleClass="text"/>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="15" GridPane.columnIndex="15" GridPane.rowIndex="4" styleClass="text"/>
       <RadioButton fx:id="r0" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.rowIndex="1" />
       <RadioButton fx:id="r1" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <RadioButton fx:id="r2" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
@@ -202,6 +209,7 @@
              />
             <Button fx:id="Button_Debug"    mnemonicParsing="false" onAction="#handleDebugButtonAction" text="Debug Panel" />
             <Button fx:id="Button_Magic"    mnemonicParsing="false" onAction="#handleMagicButtonAction" text="Magic Panel" />
+            <Button fx:id="Button_Keyboard" mnemonicParsing="false" onAction="#handleLoadMARButtonAction" text="Keyboard" />
          </children>
       </HBox>
    </children>

@@ -8,7 +8,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane fx:id="Magic_Panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="increment.simulator.userInterface.ControlPanelController">
+<GridPane fx:id="Magic_Panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          prefHeight="400.0" prefWidth="600.0"
+          xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="increment.simulator.userInterface.ControlPanelController"
+          stylesheets="@../css/background.css"
+>
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" percentWidth="20.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" percentWidth="90.0" />
@@ -26,20 +31,24 @@
 
    <children>
        <!--Address_Input-->
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To Address beginning at:" wrappingWidth="100.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To Address beginning at:" 
+      wrappingWidth="100.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" 
+      GridPane.vgrow="ALWAYS" styleClass="text_15">
          <GridPane.margin>
             <Insets left="5.0" />
          </GridPane.margin>
       </Text>
 
-      <TextArea fx:id="Input_Begin_Address_At" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+      <TextArea fx:id="Input_Begin_Address_At" prefHeight="200.0" prefWidth="200.0" 
+      GridPane.columnIndex="1" styleClass = "text-area .content">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </TextArea>
 
        <!--Program_Input-->
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Program:" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Program:" 
+      GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="TOP" styleClass="text_15">
          <GridPane.margin>
             <Insets left="5.0" top="10.0" />
          </GridPane.margin>
@@ -48,7 +57,8 @@
       <TextArea fx:id="Input_Program" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
        <!--Load_Program Button-->
-      <Button fx:id="Button_Load_Program" mnemonicParsing="false" onAction="#handleLoadButtonAction" text="Load Program" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <Button fx:id="Button_Load_Program" mnemonicParsing="false" onAction="#handleLoadButtonAction" 
+      text="Load Program" GridPane.columnSpan="2" GridPane.rowIndex="2" styleClass="text">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
