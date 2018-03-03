@@ -44,7 +44,7 @@ public class Machine {
 		printer = new Printer();
 		((IODevices)getChip("IO")).connectDevice(1, printer);
 		reader = new CardReader();
-		((IODevices)getChip("IO")).connectDevice(0, reader);
+		((IODevices)getChip("IO")).connectDevice(2, reader);
 		((RegisterFile)getChip("IRF")).setValue(0, 0);
 		
 	}
