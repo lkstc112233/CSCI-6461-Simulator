@@ -74,7 +74,7 @@ public class NewMain extends Application {
 		grid.add(getBox(grid, "Control Unit: ", machine.getControlUnitProperty()), 1, 4);
 		grid.add(getScrollBox(grid, "Memory: ", machine.getMemoryProperty()), 2, 0, 1, 6);
 
-		automaticTick = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+		automaticTick = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
 		    @Override
 		    public void handle(ActionEvent event) {
 				machine.tick();
@@ -121,6 +121,14 @@ public class NewMain extends Application {
 			}
 		});
 		buttons.getChildren().add(btn);
+		btn = new Button("Show screen panel");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				getScreenPanel().show();
+			}
+		});
+		buttons.getChildren().add(btn);
 		scene.getStylesheets().add("/res/css/background.css");
 		primaryStage.show();
 	}
@@ -159,6 +167,14 @@ public class NewMain extends Application {
 		return frontPanel;
 	}
 
+	
+	Stage screenPanel;
+	private Stage getScreenPanel() {
+		if (screenPanel == null)
+			screenPanel = new ScreenPanel(machine);
+		return screenPanel;
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
