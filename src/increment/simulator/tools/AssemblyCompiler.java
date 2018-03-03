@@ -120,7 +120,7 @@ public class AssemblyCompiler {
 		case "JMA": // 0x0B
 			return (parseIXAndAddressAndOptionalI(tokens) | (11 << 10));
 		case "JSR": // 0x0C
-			return (parseIXAndAddressAndOptionalI(tokens) | (12 << 10));
+			return (parseIXAndAddressAndOptionalI(tokens) | (3 << 8) | (12 << 10)); // This is a trick.
 		case "RFS": // 0x0D
 			return (parseImmediate(tokens) | (13 << 10));
 		case "SOB": // 0x0E

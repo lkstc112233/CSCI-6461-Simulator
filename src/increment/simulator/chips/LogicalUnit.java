@@ -6,6 +6,8 @@ package increment.simulator.chips;
  * The logical unit takes 3 inputs:
  * 		* condition[width]
  * 		* opcode[6] - specifies which operation to take place.
+ * 		* CC[4]
+ * 		* CCCond[2]
  * The logical unit gives 1 output:
  * 		* jump[1]
  * 
@@ -17,6 +19,8 @@ public class LogicalUnit extends Chip {
 		addPort("condition", width);
 		addPort("jump", 1);
 		addPort("opcode", 6);
+		addPort("CC", 4);
+		addPort("CCCond", 2);
 	}
 	
 	@Override
@@ -33,10 +37,15 @@ public class LogicalUnit extends Chip {
 				return assignPort("jump", 1);
 			else
 				return assignPort("jump", 0);
-		case 10: // JCC TODO: not finished.
+		case 10: // JCC
+			if ((getPort("CC").getBit((int) getPort("CCCond").toInteger())))
+				return assignPort("jump", 1);
+			else
+				return assignPort("jump", 0);
 		case 11: // JMA
 			return assignPort("jump", 1);
-		case 12: // JSR TODO: not finished.
+		case 12: // JSR
+			return assignPort("jump", 1);
 		case 13: // RFS TODO: not finished.
 		case 14: // SOB TODO: not finished.
 		case 15: // JGE

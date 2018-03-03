@@ -13,6 +13,8 @@ import increment.simulator.SingleCable;
  * 		* opcode[6]
  * 		* shifting[2]
  * 		* shiftingCount[4]
+ * 		* CC[4]
+ * 		* CCCond[2]
  * Gives serveral outputs:
  * 		* result[16]
  * 		* CCStat[4]
@@ -34,6 +36,8 @@ public class ALU extends ChipsSet {
 		addPort("shiftingCount", 4);
 		addPort("jump", 1);
 		addPort("jiba", 16);
+		addPort("CC", 4);
+		addPort("CCCond", 2);
 		
 		Mux resmux = new Mux(6, 16);
 		Mux ccmux = new Mux(6, 4);
@@ -82,6 +86,8 @@ public class ALU extends ChipsSet {
 		addChip(lu);
 		addChipPortRelation("operand2", lu, "condition");
 		addChipPortRelation("opcode", lu, "opcode");
+		addChipPortRelation("CC", lu, "CC");
+		addChipPortRelation("CCCond", lu, "CCCond");
 		cable = new SingleCable(1);
 		lu.connectPort("jump", cable);
 		jumpmux.connectPort("input8", cable);
@@ -92,7 +98,6 @@ public class ALU extends ChipsSet {
 		jumpmux.connectPort("input13", cable);
 		jumpmux.connectPort("input14", cable);
 		jumpmux.connectPort("input15", cable);
-		
 	}
 	
 	@Override
