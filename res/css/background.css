@@ -1,5 +1,5 @@
  .root {
-    -fx-background-image: url("../background.jpg");
+    -fx-background-color: #b6cac0;
 } 
 
 .button {
@@ -22,9 +22,6 @@
 	-fx-font-family: "Consolas, Monaco, monospace",Georgia,Serif;
 	-fx-font-size: 15px;
 }
-/* .test {
-	-fx-background-color: black;
-}   */
 
 text_memory {
 	-fx-font-family: "Consolas, Monaco, monospace",Georgia,Serif;
