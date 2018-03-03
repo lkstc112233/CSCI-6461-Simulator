@@ -1,3 +1,6 @@
+Mar 2, 2018:
+	All instruction required are done.
+
 Mar 1, 2018:
 	New Instructions: AIR, SIR
 

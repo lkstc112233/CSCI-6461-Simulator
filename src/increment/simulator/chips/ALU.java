@@ -65,6 +65,7 @@ public class ALU extends ChipsSet {
 		resmux.connectPort("input5", cable);
 		resmux.connectPort("input6", cable);
 		resmux.connectPort("input7", cable);
+		resmux.connectPort("input14", cable);
 		resmux.connectPort("input16", cable);
 		resmux.connectPort("input17", cable);
 		resmux.connectPort("input18", cable);

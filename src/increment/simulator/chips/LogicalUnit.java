@@ -47,7 +47,11 @@ public class LogicalUnit extends Chip {
 		case 12: // JSR
 			return assignPort("jump", 1);
 		case 13: // RFS not implemented here.
-		case 14: // SOB TODO: not finished.
+		case 14: // SOB
+			if (portVal > 0)
+				return assignPort("jump", 1);
+			else
+				return assignPort("jump", 0);
 		case 15: // JGE
 			if (portVal >= 0)
 				return assignPort("jump", 1);

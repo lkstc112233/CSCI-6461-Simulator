@@ -91,6 +91,12 @@ public class ArithmeticUnit extends ChipsSet {
 		not.connectPort("output", cable);
 		outputMux.connectPort("input21", cable);
 		
+		Decreaser dec = new Decreaser(16);
+		addChip(dec);
+		addChipPortRelation("operand2", dec, "input");
+		cable = new SingleCable(width);
+		dec.connectPort("output", cable);
+		outputMux.connectPort("input14", cable);
 		
 		conditionAdapter = new CablePartialAdapter(4, getPort("condition"));
 		adder.connectPort("overflow", new CablePartialAdapter(1, conditionAdapter, 0));
