@@ -44,6 +44,7 @@ public class ALU extends ChipsSet {
 		addChipPortRelation("jump", jumpmux, "output");
 		addChipPortRelation("opcode", resmux, "sel");
 		addChipPortRelation("opcode", ccmux, "sel");
+		addChipPortRelation("opcode", jumpmux, "sel");
 		
 		ArithmeticUnit au = new ArithmeticUnit(16);
 		addChip(au);
@@ -72,7 +73,6 @@ public class ALU extends ChipsSet {
 		addChip(lu);
 		addChipPortRelation("operand2", lu, "condition");
 		addChipPortRelation("opcode", lu, "opcode");
-		addChipPortRelation("jump", lu, "jump");
 		cable = new SingleCable(1);
 		lu.connectPort("jump", cable);
 		jumpmux.connectPort("input8", cable);
