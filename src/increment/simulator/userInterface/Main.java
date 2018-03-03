@@ -18,7 +18,6 @@ public class Main extends Application {
         Parent root = fxmlLoader.load();
         fxmlLoader.<FrontPanelController>getController().setMachine(machine);
         Scene scene = new Scene(root, 1000, 400);
-      //  scene.getStylesheets().add("/res/css/background.css");
         primaryStage.setScene(scene);
 
         primaryStage.show();
