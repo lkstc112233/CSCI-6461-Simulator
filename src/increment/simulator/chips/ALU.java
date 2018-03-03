@@ -17,6 +17,7 @@ import increment.simulator.SingleCable;
  * 		* result[16]
  * 		* CCStat[4]
  * 		* jump[1]
+ * 		* jiba[16]
  * 
  * @author Xu Ke
  *
@@ -32,6 +33,7 @@ public class ALU extends ChipsSet {
 		addPort("CCStat", 4);
 		addPort("shiftingCount", 4);
 		addPort("jump", 1);
+		addPort("jiba", 16);
 		
 		Mux resmux = new Mux(6, 16);
 		Mux ccmux = new Mux(6, 4);
@@ -51,6 +53,7 @@ public class ALU extends ChipsSet {
 		addChipPortRelation("operand1", au, "operand1");
 		addChipPortRelation("operand2", au, "operand2");
 		addChipPortRelation("opcode", au, "opcode");
+		addChipPortRelation("jiba", au, "jiba");
 		
 		Cable cable = new SingleCable(16);
 		au.connectPort("result", cable);
