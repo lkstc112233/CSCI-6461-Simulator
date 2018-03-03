@@ -21,10 +21,6 @@ import increment.simulator.SingleCable;
  */
 public class ArithmeticUnit extends ChipsSet {
 	private CablePartialAdapter conditionAdapter;
-	private NumberedSwitch mlt_lb;
-	private NumberedSwitch mlt_hb;
-	private NumberedSwitch div_qu;
-	private NumberedSwitch div_re;
 	public ArithmeticUnit(int width) {
 		addPort("operand1", width);
 		addPort("operand2", width);
@@ -55,29 +51,23 @@ public class ArithmeticUnit extends ChipsSet {
 		addChipPortRelation("jiba", jibaMux, "output");
 		addChipPortRelation("opcode", jibaMux, "sel");
 		
-		mlt_hb = new NumberedSwitch(width);
+		MulDiver mudi = new MulDiver(width);
+		addChip(mudi);
+		addChipPortRelation("operand1", mudi, "operand1");
+		addChipPortRelation("operand2", mudi, "operand2");
 		cable = new SingleCable(width);
-		mlt_hb.connectPort("output", cable);
+		mudi.connectPort("mlt_hb", cable);
 		outputMux.connectPort("input16", cable);
-		addChip(mlt_hb);
-		
-		mlt_lb = new NumberedSwitch(width);
 		cable = new SingleCable(width);
-		mlt_lb.connectPort("output", cable);
+		mudi.connectPort("mlt_lb", cable);
 		jibaMux.connectPort("input16", cable);
-		addChip(mlt_lb);
-		
-		div_qu = new NumberedSwitch(width);
 		cable = new SingleCable(width);
-		div_qu.connectPort("output", cable);
+		mudi.connectPort("div_qu", cable);
 		outputMux.connectPort("input17", cable);
-		addChip(div_qu);
-		
-		div_re = new NumberedSwitch(width);
 		cable = new SingleCable(width);
-		div_re.connectPort("output", cable);
+		mudi.connectPort("div_re", cable);
 		jibaMux.connectPort("input17", cable);
-		addChip(div_re);
+		
 		
 		conditionAdapter = new CablePartialAdapter(4, getPort("condition"));
 		adder.connectPort("overflow", new CablePartialAdapter(1, conditionAdapter, 0));
@@ -88,22 +78,10 @@ public class ArithmeticUnit extends ChipsSet {
 		addChipPortRelation("operand2", et, "input1");
 		et.connectPort("same", new CablePartialAdapter(1, conditionAdapter, 3));
 	}
+	
 	@Override
 	public void connectPort(String name, Cable cable) {
 		super.connectPort(name, cable);
 		conditionAdapter.reMother(getPort("condition"));
-	}
-	
-	@Override
-	public boolean evaluate() {
-		long op1 = getPort("operand1").toInteger();
-		long op2 = getPort("operand2").toInteger();
-		int width = getPort("result").getWidth();
-		long mul = op1 * op2;
-		mlt_lb.setValue(mul & ((1 << width) - 1));
-		mlt_hb.setValue((mul >> width) & ((1 << width) - 1));
-		div_qu.setValue((op1 == 0)?0:(op2/op1));
-		div_qu.setValue((op1 == 0)?0:(op2%op1));
-		return super.evaluate();
 	}
 }
