@@ -68,6 +68,29 @@ public class ArithmeticUnit extends ChipsSet {
 		mudi.connectPort("div_re", cable);
 		jibaMux.connectPort("input17", cable);
 		
+		AndGate and = new AndGate(16);
+		addChip(and);
+		addChipPortRelation("operand1", and, "input0");
+		addChipPortRelation("operand2", and, "input1");
+		cable = new SingleCable(width);
+		and.connectPort("output", cable);
+		outputMux.connectPort("input19", cable);
+		
+		OrGate or = new OrGate(16);
+		addChip(or);
+		addChipPortRelation("operand1", or, "input0");
+		addChipPortRelation("operand2", or, "input1");
+		cable = new SingleCable(width);
+		or.connectPort("output", cable);
+		outputMux.connectPort("input20", cable);
+		
+		NotGate not = new NotGate(16);
+		addChip(not);
+		addChipPortRelation("operand2", not, "input");
+		cable = new SingleCable(width);
+		not.connectPort("output", cable);
+		outputMux.connectPort("input21", cable);
+		
 		
 		conditionAdapter = new CablePartialAdapter(4, getPort("condition"));
 		adder.connectPort("overflow", new CablePartialAdapter(1, conditionAdapter, 0));
