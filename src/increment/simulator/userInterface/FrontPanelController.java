@@ -70,10 +70,15 @@ public class FrontPanelController {
     }
 
     public void handleAutoTickButtonAction(ActionEvent actionEvent) {
-        if (Animation.Status.RUNNING == automaticTick.getStatus())
+        if (Animation.Status.RUNNING == automaticTick.getStatus()) {
             automaticTick.stop();
-        else {
-            duration = Duration.seconds(Slider_Auto_set.getValue());
+            Slider_Auto_set.setDisable(false);
+        } else {
+        	if (Slider_Auto_set.getValue() == 0)
+                duration = Duration.millis(1);        		
+        	else
+                duration = Duration.seconds(Slider_Auto_set.getValue());
+            Slider_Auto_set.setDisable(true);
             KeyFrame keyFrame = new KeyFrame(duration,event -> {machine.tick();});
             automaticTick.getKeyFrames().setAll(keyFrame);
 
