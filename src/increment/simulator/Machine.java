@@ -2,6 +2,7 @@ package increment.simulator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
 import increment.simulator.chips.Chip;
 import increment.simulator.chips.ChipFactory;
 import increment.simulator.chips.ClockRegister;
+import increment.simulator.chips.IODevices;
 import increment.simulator.chips.Memory;
 import increment.simulator.chips.RegisterFile;
 import increment.simulator.tools.AssemblyCompiler;
@@ -24,6 +26,9 @@ import static increment.simulator.util.ExceptionHandling.panic;
  *
  */
 public class Machine {
+	private Keyboard keyboard;
+	private Printer printer;
+	private CardReader reader;
 	public Machine() {
 		try {
 			loadFile();
@@ -35,6 +40,12 @@ public class Machine {
 			System.err.println(e.getMessage());
 			System.exit(-1);
 		}
+		keyboard = new Keyboard();
+		((IODevices)getChip("IO")).connectDevice(0, keyboard);
+		printer = new Printer();
+		((IODevices)getChip("IO")).connectDevice(1, printer);
+		reader = new CardReader();
+		((IODevices)getChip("IO")).connectDevice(2, reader);
 		((RegisterFile)getChip("IRF")).setValue(0, 0);
 		
 	}
@@ -47,19 +58,9 @@ public class Machine {
 		// SIMULATED Boot Loader: 
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.
-		((ClockRegister)getChip("PC")).setValue(0x10);
-		String program = "LDX 3, 9 LDX 2, 10, 1 LDX 1, 7 LDA 2, 0, 18 LDA 1, 1, 19 " + 
-		"LDA 3, 0, 20, 1 LDA 0, 2, 21, 1 STX 2, 8 STX 1, 6 STX 1, 5, 1 LDR 3, 0, 16 LDR 2, 1, 17 LDR 1, 0, 18, 1" +        
-		"LDR 0, 2, 19, 1 STR 0, 0, 10 STR 1, 3, 11 STR 2, 0, 6, 1 STR 3, 2, 5, 1 HLT";
-		CompiledProgram code = AssemblyCompiler.compile(program);
-		mem.loadProgram(0x10, code);
-		mem.putValue(5, 5);
-		mem.putValue(6, 6); 
-		mem.putValue(7, 7); 
-		mem.putValue(8, 8);
-		mem.putValue(9, 9); 
-		mem.putValue(10, 10); 
-		mem.putValue(15, 31);
+		((ClockRegister)getChip("PC")).setValue(1025);
+		CompiledProgram code = AssemblyCompiler.compile(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/res/conf/IPL Program.prg"))));
+		mem.loadProgram(1025, code);
 	}
 	
 	/**
@@ -68,7 +69,7 @@ public class Machine {
 	 * @throws IOException When load file failed.
 	 */
 	private void loadFile() throws IOException {
-		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/chipsDef.ini"))));
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/res/conf/chipsDef.ini"))));
 		parseChipsDefinition(tokens);
 		parseCablesDefinition(tokens);
 	}
@@ -257,5 +258,14 @@ public class Machine {
 					change = true;
 			}
 		}
+	}
+	public String getScreen(){
+		return printer.toString();
+	}
+	public void keyPress(short key) {
+		keyboard.pressKey(key);
+	}
+	public void insertCard(InputStream card) {
+		reader.insertCard(card);
 	}
 }

@@ -1,5 +1,6 @@
 package increment.simulator.ui;
 
+import increment.simulator.userInterface.MachineWrapper;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;

@@ -1,8 +1,10 @@
 package increment.simulator.tools;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,24 +44,15 @@ public class AssemblyCompiler {
 		}	
 	}
 	/**
-	 * Compiles a text-written source program.
+	 * Compiles a stream-written source program.
 	 * @param fileNameOrSource
 	 * @param isFile
 	 * @return
 	 */
-	public static CompiledProgram compile(String fileNameOrSource, boolean isFile) {
+	public static CompiledProgram compile(Reader source) {
 		// Create a tokenizer, either by file or by text.
 		ConvenientStreamTokenizer tokens = null;
-		if (isFile) {
-			try {
-				tokens = new ConvenientStreamTokenizer(new FileReader(fileNameOrSource));
-			} catch (FileNotFoundException e) {
-				System.err.println("File not found.");
-				System.exit(-1);
-			}
-		}
-		else
-			tokens = new ConvenientStreamTokenizer(new StringReader(fileNameOrSource));
+		tokens = new ConvenientStreamTokenizer(source);
 		// Compile the program and return.
 		CompiledProgram program = null;
 		try {
@@ -76,7 +69,7 @@ public class AssemblyCompiler {
 	 * @return
 	 */
 	public static CompiledProgram compile(String source) {
-		return compile(source, false);
+		return compile(new StringReader(source));
 	}
 	/**
 	 * Compile!
@@ -98,8 +91,11 @@ public class AssemblyCompiler {
 	 * @throws IOException When needed.
 	 */
 	private static int phaseInstruction(ConvenientStreamTokenizer tokens) throws IOException {
-		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD)
+		int token = tokens.nextToken();
+		if (token != ConvenientStreamTokenizer.TT_WORD && token != ConvenientStreamTokenizer.TT_NUMBER)
 			return -1;
+		if (token == ConvenientStreamTokenizer.TT_NUMBER)
+			return (int) tokens.nval;
 		switch(tokens.sval){
 		case "LDR": // 0x01
 			return (parseRAndIXAndAddressAndOptionalI(tokens) | (1 << 10));
@@ -120,9 +116,9 @@ public class AssemblyCompiler {
 		case "JMA": // 0x0B
 			return (parseIXAndAddressAndOptionalI(tokens) | (11 << 10));
 		case "JSR": // 0x0C
-			return (parseIXAndAddressAndOptionalI(tokens) | (12 << 10));
+			return (parseIXAndAddressAndOptionalI(tokens) | (3 << 8) | (12 << 10)); // This is a trick.
 		case "RFS": // 0x0D
-			return (parseImmediate(tokens) | (13 << 10));
+			return (parseImmediate(tokens) | (3 << 8) | (13 << 10)); // Same trick here.
 		case "SOB": // 0x0E
 			return (parseRAndIXAndAddressAndOptionalI(tokens) | (14 << 10));
 		case "JGE": // 0x0F
@@ -147,10 +143,22 @@ public class AssemblyCompiler {
 			return (parseRxAndRy(tokens) | (20 << 10));
 		case "NOT": // 0x15
 			return (parseRx(tokens) | (21 << 10));
+		case "IN":  // 0x31
+			return (parseRAndImmediate(tokens) | (49 << 10));
+		case "OUT": // 0x32
+			return (parseRAndImmediate(tokens) | (50 << 10));
+		case "SRC": // 0x19
+			return (parseRAndCountAndLRAndAL(tokens) | (25 << 10));
+		case "RRC": // 0x1A
+			return (parseRAndCountAndLRAndAL(tokens) | (26 << 10));
+		case "CHK":
+			return (parseRAndImmediate(tokens) | (51 << 10));
 		case "HLT": // 0
 			return 0;
+		case "NOP": // 0x3F, does nothing.
+			return (63 << 10);
 		}
-		panic("Unrecognized instruction");
+		panic("Unrecognized instruction:" + tokens.sval);
 		return -1;
 	}
 	/**
@@ -289,12 +297,91 @@ public class AssemblyCompiler {
 		return (short) ((int)tokens.nval << 6);
 	}
 	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseRAndCountAndLRAndAL(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		short i = (short) tokens.nval;
+		if (tokens.nextToken() != ',')
+			panic("Unexpected token at line " + tokens.lineno());
+		i <<= 8;
+		i |= parseCountAndLRAndAL(tokens);
+		return i;
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseCountAndLRAndAL(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		short i = (short) tokens.nval;
+		if (tokens.nextToken() != ',')
+			panic("Unexpected token at line " + tokens.lineno());
+		i |= parseLRAndAL(tokens);
+		return i;
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseLRAndAL(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		short i = (short) tokens.nval;
+		if (tokens.nextToken() != ',')
+			panic("Unexpected token at line " + tokens.lineno());
+		i <<= 6;
+		i |= parseAL(tokens);
+		return i;
+	}
+	/**
+	 * Parse parameters.
+	 * @param tokens
+	 * @return parsed parameters.
+	 * @throws IOException
+	 * @throws IllegalStateException when file is corrupted.
+	 */
+	private static short parseAL(ConvenientStreamTokenizer tokens) throws IOException {
+		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_NUMBER)
+			panic("Unexpected token at line " + tokens.lineno());
+		return (short) ((int)tokens.nval << 7);
+	}
+	/**
 	 * Main function for testing.
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CompiledProgram cpm = compile("LDX 2,15	LDR 0,2,20,0 LDA 1,2,6,0");
-		for (short s : cpm.program)
-			System.out.println(s);
+		CompiledProgram cpm = null;
+		try {
+			cpm = compile(new FileReader(args[0]));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(args[1]);
+			for (short s : cpm.program) {
+				System.out.println(s);
+				out.write(s >> 8);
+				out.write(s);
+			}
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

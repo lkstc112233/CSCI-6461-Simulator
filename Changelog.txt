@@ -1,8 +1,23 @@
+Mar 4, 2018:
+	Happy birthday to me!
+	CHK is ready, and IPL now loads program from card!
+
+Mar 2, 2018:
+	All instruction required are done.
+
+Mar 1, 2018:
+	New Instructions: AIR, SIR
+
+Feb 28, 2018:
+	Now we have IO devices!
+
 Feb 25, 2018:
-    optimize ui.
-    
+	AMR and SMR now usable.
+	ALU unit is under construction!
+
 Feb 24, 2018:
 	Reloading a port gets a warning now. 
+	Panel loading is back!
 
 Feb 19, 2018:
 	New way handling assignment!

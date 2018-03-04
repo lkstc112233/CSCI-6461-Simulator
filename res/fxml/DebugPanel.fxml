@@ -115,8 +115,10 @@
        <!--Memory Text-->
        <VBox GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="6">
            <children>
+
                <Text fx:id="Text_Memory_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory:" styleClass="text"/>
                <ScrollPane fx:id="Text_Memory_ScrollPnae" styleClass = "scroll-pane">
+
                     <content>
                          <Text fx:id="Text_Memory_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" styleClass="text_memory"/>
                     </content>
@@ -127,8 +129,11 @@
        <!--Buttons Setting-->
       <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="10.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7">
          <children>
-            <Button fx:id="Button_Tick" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleTickButtonAction" text="Tick" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-            <Button fx:id="Button_ShowMagicPanel" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleShowMagicButtonAction" text="Show magic panel" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+            <Button fx:id="Button_Tick" alignment="CENTER"
+                    contentDisplay="CENTER" mnemonicParsing="false"
+                    onAction="#handleTickButtonAction" text="Tick"
+                    textAlignment="CENTER" HBox.hgrow="ALWAYS"
+                    visible="false"/>
          </children>
       </HBox>
 

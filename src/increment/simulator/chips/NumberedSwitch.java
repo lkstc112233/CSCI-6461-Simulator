@@ -27,7 +27,7 @@ public class NumberedSwitch extends Chip {
 	 * Put a value into the switch. A.K.A. turning the switch.
 	 * @param i
 	 */
-	public void setValue(int i) {
+	public void setValue(long i) {
 		value.putValue(i);
 	}
 
