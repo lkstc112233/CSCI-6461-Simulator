@@ -49,7 +49,7 @@ public class FrontPanelController   {
 	public void setMachine(MachineWrapper machine) {
 		this.machine = machine;
 		Radio_Pause.selectedProperty().bind(this.machine.getPausedProperty());
-        FrontPanel.setGridLinesVisible(true);
+       // FrontPanel.setGridLinesVisible(true);
         for(int i = 0 ; i < 12; i++)
        ((RadioButton) FrontPanel.lookup("#r" + i)).selectedProperty().bind(machine.getAddressBulbsProperty(i));
 
