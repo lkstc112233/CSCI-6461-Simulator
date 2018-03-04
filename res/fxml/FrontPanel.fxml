@@ -215,9 +215,8 @@
             <Button fx:id="Button_Keyboard" mnemonicParsing="false" onAction="#handleLoadKeyboardAction" text="Keyboard" />
          </children>
       </HBox>
-       <fx:include fx:id="KeyboardPanel" source="KeyboardPanel.fxml" GridPane.columnIndex="0" GridPane.columnSpan="13" GridPane.rowIndex="8" GridPane.rowSpan="5" />
+      <fx:include fx:id="KeyboardPanel" source="KeyboardPanel.fxml" GridPane.columnIndex="0" GridPane.columnSpan="13" GridPane.rowIndex="8" GridPane.rowSpan="5" />
 
-      <Text fx:id="Text_CodeOutPut" fontSmoothingType="LCD" text="32132" GridPane.columnIndex="15" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
       <Text fx:id="Text_CodeOutPut" fontSmoothingType="LCD" text="32132" GridPane.columnIndex="14" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
 
 
