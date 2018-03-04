@@ -16,18 +16,24 @@ public class Keyboard extends IODevice {
 	}
 	@Override
 	public short input() {
-		if (buffer.isEmpty())
-			return 0;
-		return buffer.element();
+		synchronized(this) {
+			if (buffer.isEmpty())
+				return 0;
+			return buffer.element();
+		}
 	}
 	
 	public void pressKey(short key) {
-		buffer.add(key);
+		synchronized(this) {
+			buffer.add(key);
+		}
 	}
 	
 	@Override
 	public void tick() {
-		if (!buffer.isEmpty())
-			buffer.remove();
+		synchronized(this) {
+			if (!buffer.isEmpty())
+				buffer.remove();
+		}
 	}
 }
