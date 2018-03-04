@@ -44,7 +44,7 @@ public class Printer extends IODevice {
 					console.add("" + (char) word);
 				}
 			}
-			while (console.size() > 24) {
+			while (console.size() > 16) {
 				console.removeFirst();
 			}
 		}
