@@ -82,23 +82,23 @@ JMA 1, 31, 1 # arrange output
 SMR 2, 1, 12 # 
 AIR 2, 1 # 
 SOB 2, 1, 30, 1 # loop
+LDA 0, 0, 13 # reserved
+OUT 0, 1 # reserved
+RFS 0 # return
+JGE 1, 1, 28 # abs(R1) #24
+STR 1, 1, 11 # 
+SMR 1, 1, 11 # -> 0
+SMR 1, 1, 11 # -> -R1
 RFS 0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
 0 # reserved
 39 # reserved
 53 # reserved
 0 # reserved
 400 # List_head
 400 # List_tail
-20 # Count
-LDA 0, 0, 31 # PROGRAM_INIT
-AIR 0, 1 # 96
+20 # Count, temp
+LDA 0, 0, 31 # PROGRAM_INIT , 96 + #4
+AIR 0, 1 # get 96
 STR 0, 0, 30 # calc
 LDX 2, 30, 1 # Initialize self.
 LDR 0, 2, 3 # loop begins
@@ -110,98 +110,44 @@ STR 1, 2, 2, 1# store list
 LDR 1, 2, 2 # 
 AIR 1, 1 # 
 STR 1, 2, 2 # update list tail
-JMA 2, 8 # loop ends
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-LDX 1, 31 # reserved
-LDA 0, 0, 0
-SIR 0, 1
-JSR 1, 13 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
+JMA 2, 8 # loop ends #17
+LDR 0, 2, 1 # reserved
+STR 0, 2, 3 # loop begins #19
+SMR 0, 2, 2 # #20
+JZ 0, 2, 27 # reserved
+LDR 0, 2, 3, 1 # 
+JSR 1, 13 # output
+LDR 0, 2, 3
+AIR 0, 1
+JMA 2, 19 # loop ends
+LDR 2, 2, 31 # reads 33 #27
+STR 2, 0, 30 # reserved
+LDX 3, 30, 1 # reserved
+JMA 3, 4 # reserved
+33 # reserved
+0 # reserved
+0 # the input from user, #1
+0 # the min diff value, #2
+32767 # the min difference(inited with INT MAX)
+JSR 0, 11 # Main continues: Reads an input from user, #4
+STR 1, 3, 1 # 
+LDR 0, 3, 1 # 
+JSR 1, 13 # output that number
+LDR 1, 2, 1, 1 # load first value from list
+STR 1, 0, 30
+SMR 1, 3, 1 # get difference
+JSR 1, 24 # abs
+SMR 1, 3, 3
+JGE 1, 3, 18 # no change.
+AMR 1, 3, 3
+STR 1, 3, 3
+LDR 1, 0, 30
+STR 1, 3, 2 
+LDR 1, 2, 1 # +1 # 18
+AIR 1, 1 
+STR 1, 2, 1
+SMR 1, 2, 2 # isEnd?
+JNE 1, 3, 8 # loop
+LDR 0, 3, 2 # OUTPUT
+JSR 1, 13 # 
+HLT # reserved
