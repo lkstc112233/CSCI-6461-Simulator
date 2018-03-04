@@ -29,9 +29,9 @@ text_memory {
 }
 
 .text-area .content{
-      -fx-background-image: url("../img/background.jpg");
+      -fx-background-color: #f9f7e8;
   }
   
 .scroll-pane > .viewport {
-   -fx-background-image: url("../img/background.jpg");
+   -fx-background-color: #f9f7e8;
 }
