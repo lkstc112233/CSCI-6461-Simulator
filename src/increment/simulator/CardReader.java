@@ -61,4 +61,10 @@ public class CardReader extends IODevice {
 	public void tick() {
 		bufferValid = false;
 	}
+	
+	public void insertCard(Reader card) {
+		this.card = card;
+		bufferValid = false;
+		cardToEnd = false;
+	}
 }

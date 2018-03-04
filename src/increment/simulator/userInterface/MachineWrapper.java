@@ -1,5 +1,8 @@
 package increment.simulator.userInterface;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,7 +180,6 @@ public class MachineWrapper {
 	}
 	private void loadSomething(int id) {
 		((Switch) machine.getChip("panelLoadSwitch")).flip(true);
-		// TODO: Move out onto panel in next stage.
 		int oldValue = getRadioSwitch();
 		setRadioSwitch(id);
 		forceTick();
@@ -198,5 +200,13 @@ public class MachineWrapper {
 	
 	public void keyPress(short key) {
 		machine.keyPress(key);
+	}
+	
+	public void insertCard(File card) {
+		try {
+			machine.insertCard(new FileReader(card));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }
