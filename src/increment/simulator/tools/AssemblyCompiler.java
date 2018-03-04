@@ -157,6 +157,8 @@ public class AssemblyCompiler {
 			return (parseRAndCountAndLRAndAL(tokens) | (26 << 10));
 		case "HLT": // 0
 			return 0;
+		case "NOP": // 0x3F, does nothing.
+			return (63 << 10);
 		}
 		panic("Unrecognized instruction");
 		return -1;
