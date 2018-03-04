@@ -26,6 +26,7 @@ public class LogicalUnit extends Chip {
 	@Override
 	public boolean evaluate() {
 		long portVal = getPort("condition").toInteger();
+		boolean isNeg = getPort("condition").getBit(getPort("condition").getWidth() - 1);
 		switch((int)getPort("opcode").toInteger()){
 		case 8: // JZ
 			if (portVal == 0)
@@ -48,15 +49,15 @@ public class LogicalUnit extends Chip {
 			return assignPort("jump", 1);
 		case 13: // RFS not implemented here.
 		case 14: // SOB
-			if (portVal > 0)
-				return assignPort("jump", 1);
-			else
+			if (isNeg || portVal == 0)
 				return assignPort("jump", 0);
+			else
+				return assignPort("jump", 1);
 		case 15: // JGE
-			if (portVal >= 0)
-				return assignPort("jump", 1);
-			else
+			if (isNeg)
 				return assignPort("jump", 0);
+			else
+				return assignPort("jump", 1);
 		default:
 			return false;
 		}
