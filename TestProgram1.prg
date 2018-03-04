@@ -36,28 +36,28 @@ JMA 1, 1 # Jump to 65 to continue
 224 # paging
 256 # paging
 0 # reserved
+LDR 1, 1, 11, 1 # reserved
+OUT 1, 1 # reserved
+LDR 1, 1, 11 # output element in list 
+SIR 1, 1 # reserved
+STR 1, 1, 11 # save it back
+JMA 1, 20 # reserved
 0 # reserved
 0 # reserved
 0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
+0 # reserved for list
+0 # reserved for list
+0 # reserved for list
+0 # reserved for list
+0 # reserved for list
+LDA 2, 0, 10 # reserved
+DVD 0, 2 # reserved
+AMR 1, 1, 12 # reserved
+STR 1, 1, 11, 1 # reserved
+LDR 2, 1, 11 # reserved
+AIR 2, 1 # reserved
+JZ 0, 1, 18 # reserved
+JMA 1, 16 # reserved
 0 # reserved
 0 # reserved
 0 # reserved
@@ -72,17 +72,17 @@ JGE 1, 1, 3 # is_num?
 LDR 1, 1, 11 # yes
 LDA 2, 0, 1 # 
 RFS 0 # reserved
-0 # reserved for to_number
-48 # reserved for '0'
-LDX 1, 0 # PrintNumber: prints whatever in R0.
-LDX 1, 31 # reserved
-JZ 0, 1, 29 # Print '0' and return
-LDA 2, 0, 10 # output digit.
-DVD 0, 2 # reserved
-AMR 1, 1, 12 # get char
-OUT 1, 1 # output it.
-JZ 0, 1, 31 # return
-JMA 1, 17 # reserved
+0 # reserved for to_number and Print Number, list tail
+48 # reserved for '0' #12
+LDX 1, 0 # Print Number
+LDX 1, 31 # 
+LDR 2, 1, 12 # 
+STR 2, 1, 11 # manage list
+JMA 1, 31, 1 # arrange output
+SMR 2, 1, 12 # 
+AIR 2, 1 # 
+SOB 2, 1, 30, 1 # loop
+RFS 0 # reserved
 0 # reserved
 0 # reserved
 0 # reserved
@@ -90,9 +90,9 @@ JMA 1, 17 # reserved
 0 # reserved
 0 # reserved
 0 # reserved
-LDR 0, 1, 12 # 
-OUT 0, 1 # out 0.
-RFS 0 # return
+0 # reserved
+39 # reserved
+53 # reserved
 0 # reserved
 400 # List_head
 400 # List_tail
@@ -125,8 +125,10 @@ JMA 2, 8 # loop ends
 0 # reserved
 0 # reserved
 0 # reserved
-0 # reserved
-0 # reserved
+LDX 1, 31 # reserved
+LDA 0, 0, 0
+SIR 0, 1
+JSR 1, 13 # reserved
 0 # reserved
 0 # reserved
 0 # reserved
