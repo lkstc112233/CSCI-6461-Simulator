@@ -36,7 +36,7 @@ public class Printer extends IODevice {
 				console.add("");
 			else {
 				String last = console.removeLast();
-				if (last.length() < 80) {
+				if (last.length() < 60) {
 					last += (char) word;
 					console.add(last);
 				} else {
