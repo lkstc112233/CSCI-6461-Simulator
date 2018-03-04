@@ -18,9 +18,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.Pane?>
 <GridPane fx:id="FrontPanel" alignment="CENTER"
           maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-          prefHeight="450.0" prefWidth="1000.0"
+          prefHeight="480.0" prefWidth="1200.0"
           xmlns="http://javafx.com/javafx/"
           xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="increment.simulator.userInterface.FrontPanelController"
@@ -216,16 +217,21 @@
          </children>
       </HBox>
       <fx:include fx:id="KeyboardPanel" source="KeyboardPanel.fxml" GridPane.columnIndex="0" GridPane.columnSpan="13" GridPane.rowIndex="8" GridPane.rowSpan="5" />
+      <VBox GridPane.columnIndex="14" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="3" style="-fx-border-color: #fafafa;" >
+          <Text fx:id="Text_CodeOutPut" fontSmoothingType="LCD" text="32132" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+          <padding>
+              <Insets top= "5.0" />
+          </padding>
+      </VBox>
 
-      <Text fx:id="Text_CodeOutPut" fontSmoothingType="LCD" text="32132" GridPane.columnIndex="14" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
+
 
 
 
 
    </children>
-   <padding>
-      <Insets left="15.0" top="15.0" />
-   </padding>
-
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
 
 </GridPane>
