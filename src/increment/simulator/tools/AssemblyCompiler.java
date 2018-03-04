@@ -163,7 +163,7 @@ public class AssemblyCompiler {
 		case "NOP": // 0x3F, does nothing.
 			return (63 << 10);
 		}
-		panic("Unrecognized instruction");
+		panic("Unrecognized instruction:" + tokens.sval);
 		return -1;
 	}
 	/**
