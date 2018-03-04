@@ -183,7 +183,7 @@
       </VBox>
 
        <!--Button Groups-->
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="13" GridPane.rowIndex="6">
+      <HBox prefHeight="100.0"  spacing="10.0" GridPane.columnSpan="13" GridPane.rowIndex="6">
          <children>
             <Button fx:id="Button_Circle" mnemonicParsing="false" onAction="#handleCircleButtonAction" text="Circle" />
             <RadioButton fx:id="Radio_Pause" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0">
@@ -218,6 +218,7 @@
        <fx:include fx:id="KeyboardPanel" source="KeyboardPanel.fxml" GridPane.columnIndex="0" GridPane.columnSpan="13" GridPane.rowIndex="8" GridPane.rowSpan="5" />
 
       <Text fx:id="Text_CodeOutPut" fontSmoothingType="LCD" text="32132" GridPane.columnIndex="15" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
+      <Text fx:id="Text_CodeOutPut" fontSmoothingType="LCD" text="32132" GridPane.columnIndex="14" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
 
 
 
