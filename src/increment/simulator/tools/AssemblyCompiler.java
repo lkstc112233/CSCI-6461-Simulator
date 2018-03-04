@@ -1,8 +1,7 @@
 package increment.simulator.tools;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,24 +41,15 @@ public class AssemblyCompiler {
 		}	
 	}
 	/**
-	 * Compiles a text-written source program.
+	 * Compiles a stream-written source program.
 	 * @param fileNameOrSource
 	 * @param isFile
 	 * @return
 	 */
-	public static CompiledProgram compile(String fileNameOrSource, boolean isFile) {
+	public static CompiledProgram compile(Reader source) {
 		// Create a tokenizer, either by file or by text.
 		ConvenientStreamTokenizer tokens = null;
-		if (isFile) {
-			try {
-				tokens = new ConvenientStreamTokenizer(new FileReader(fileNameOrSource));
-			} catch (FileNotFoundException e) {
-				System.err.println("File not found.");
-				System.exit(-1);
-			}
-		}
-		else
-			tokens = new ConvenientStreamTokenizer(new StringReader(fileNameOrSource));
+		tokens = new ConvenientStreamTokenizer(source);
 		// Compile the program and return.
 		CompiledProgram program = null;
 		try {
@@ -76,7 +66,7 @@ public class AssemblyCompiler {
 	 * @return
 	 */
 	public static CompiledProgram compile(String source) {
-		return compile(source, false);
+		return compile(new StringReader(source));
 	}
 	/**
 	 * Compile!
