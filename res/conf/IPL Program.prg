@@ -12,7 +12,7 @@ JNE 0, 1, 10
 IN 0, 2 # load program entry point
 STR 0, 1, 22
 CHK 0, 2 # load program
-JZ 0, 1, 22, 1
+JNE 0, 1, 22, 1
 IN 0, 2
 STR 0, 1, 23, 1 # Store program
 LDR 0, 1, 23
