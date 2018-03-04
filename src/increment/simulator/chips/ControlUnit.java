@@ -128,7 +128,7 @@ public class ControlUnit extends Chip {
 	 * @throws IllegalStateException When file format error.
 	 */
 	private void loadFile() throws IOException {
-		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/controlDef.ini"))));
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/res/conf/controlDef.ini"))));
 
 		if (!parsePorts(tokens))
 			panic("Cannot parse ports.\nLine: " + tokens.lineno());

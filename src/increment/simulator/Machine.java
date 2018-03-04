@@ -58,7 +58,7 @@ public class Machine {
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.
 		((ClockRegister)getChip("PC")).setValue(100);
-		CompiledProgram code = AssemblyCompiler.compile(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/TestProgram1.prg"))));
+		CompiledProgram code = AssemblyCompiler.compile(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/res/conf/TestProgram1.prg"))));
 		mem.loadProgram(1, code);
 	}
 	
@@ -68,7 +68,7 @@ public class Machine {
 	 * @throws IOException When load file failed.
 	 */
 	private void loadFile() throws IOException {
-		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/chipsDef.ini"))));
+		ConvenientStreamTokenizer tokens = new ConvenientStreamTokenizer(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/res/conf/chipsDef.ini"))));
 		parseChipsDefinition(tokens);
 		parseCablesDefinition(tokens);
 	}
