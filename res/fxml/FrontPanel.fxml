@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.Pane?>
 <GridPane fx:id="FrontPanel" alignment="CENTER"
           maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-          prefHeight="480.0" prefWidth="1200.0"
+          prefHeight="480.0" prefWidth="1500.0"
           xmlns="http://javafx.com/javafx/"
           xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="increment.simulator.userInterface.FrontPanelController"
@@ -184,7 +184,7 @@
       </VBox>
 
        <!--Button Groups-->
-      <HBox prefHeight="100.0"  spacing="10.0" GridPane.columnSpan="13" GridPane.rowIndex="6">
+      <HBox prefHeight="100.0"  spacing="10.0" GridPane.columnSpan="11" GridPane.rowIndex="6">
          <children>
             <Button fx:id="Button_Circle" mnemonicParsing="false" onAction="#handleCircleButtonAction" text="Circle" />
             <RadioButton fx:id="Radio_Pause" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0">
@@ -199,7 +199,7 @@
             <Button fx:id="Button_Load_MAR" mnemonicParsing="false" onAction="#handleLoadMARButtonAction" text="Load MAR" />
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="13" GridPane.rowIndex="7">
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="11" GridPane.rowIndex="7">
          <children>
             <Button fx:id="Button_AutoTick"    mnemonicParsing="false" onAction="#handleAutoTickButtonAction" text="AutoTick" />
              <Slider fx:id="Slider_Auto_set"
@@ -217,7 +217,7 @@
          </children>
       </HBox>
       <fx:include fx:id="KeyboardPanel" source="KeyboardPanel.fxml" GridPane.columnIndex="0" GridPane.columnSpan="13" GridPane.rowIndex="8" GridPane.rowSpan="5" />
-      <VBox GridPane.columnIndex="14" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="3" style="-fx-border-color: #fafafa;" >
+      <VBox GridPane.columnIndex="11" GridPane.columnSpan="7" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="3" style="-fx-border-color: #fafafa;" >
           <Text fx:id="Text_CodeOutPut" fontSmoothingType="LCD" text="32132" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
           <padding>
               <Insets top= "5.0" />
