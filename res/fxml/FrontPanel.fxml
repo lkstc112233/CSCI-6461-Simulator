@@ -192,11 +192,12 @@
                   <Insets top="5.0" />
                </HBox.margin>
             </RadioButton>
-            <Button fx:id="Button_Pause"    mnemonicParsing="false" onAction="#handlePauseButtonAction"   text="Pause" />
-            <Button fx:id="Button_Reset_CU" mnemonicParsing="false" onAction="#handleResetCUButtonAction" text="Reset CU Status" />
-            <Button fx:id="Button_IPL"      mnemonicParsing="false" onAction="#handleIPLButtonAction"     text="IPL" />
-            <Button fx:id="Button_Load"     mnemonicParsing="false" onAction="#handleLoadButtonAction"    text="Load" />
-            <Button fx:id="Button_Load_MAR" mnemonicParsing="false" onAction="#handleLoadMARButtonAction" text="Load MAR" />
+            <Button fx:id="Button_Pause"       mnemonicParsing="false" onAction="#handlePauseButtonAction"      text="Pause" />
+            <Button fx:id="Button_Reset_CU"    mnemonicParsing="false" onAction="#handleResetCUButtonAction"    text="Reset CU" />
+            <Button fx:id="Button_IPL"         mnemonicParsing="false" onAction="#handleIPLButtonAction"        text="IPL" />
+            <Button fx:id="Button_Load"        mnemonicParsing="false" onAction="#handleLoadButtonAction"       text="Load" />
+            <Button fx:id="Button_Load_MAR"    mnemonicParsing="false" onAction="#handleLoadMARButtonAction"    text="Load MAR" />
+            <Button fx:id="Button_Insert_Card" mnemonicParsing="false" onAction="#handleInsertCardButtonAction" text="Insert Card" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="11" GridPane.rowIndex="7">
