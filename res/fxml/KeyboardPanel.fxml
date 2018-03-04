@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:id="KeyboardPanel"
+          maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1"
+          visible="false" fx:controller="increment.simulator.userInterface.FrontPanelController" >
+  <columnConstraints>
+    <ColumnConstraints hgrow="ALWAYS"  />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints vgrow="ALWAYS" />
+    <RowConstraints  vgrow="ALWAYS" />
+    <RowConstraints  vgrow="ALWAYS" />
+    <RowConstraints  vgrow="ALWAYS" />
+    <RowConstraints  vgrow="ALWAYS" />
+    <RowConstraints  vgrow="ALWAYS" />
+  </rowConstraints>
+   <children>
+
+       <HBox fx:id="kbRowE" GridPane.rowIndex="1"  spacing="5">
+           <Button fx:id="btnE00" text="~" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE01" text="1" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE02" text="2" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE03" text="3" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE04" text="4" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE05" text="5" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE06" text="6" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE07" text="7" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE08" text="8" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE09" text="9" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE10" text="0" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE11" text="-" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE12" text="=" onAction="#keyPressedHandlerAction"/>
+           <Button fx:id="btnE56" text="⌫ " onAction="#keyPressedHandlerAction"/>
+       </HBox>
+
+
+      <HBox  GridPane.rowIndex="2" spacing="5">
+          <Button fx:id="btnD50" text="Tab "  onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD01" text="Q" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD02" text="W" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD03" text="E" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD04" text="R" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD05" text="T" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD06" text="Y" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD07" text="U" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD08" text="I" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD09" text="O" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD10" text="P" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD11" text="[" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD12" text="]" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnD13" text="\\   " onAction="#keyPressedHandlerAction"/>
+      </HBox>
+
+
+
+      <HBox  GridPane.rowIndex="3" spacing="5">
+          <Button fx:id="btnC51" text="C. Lck " onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC01" text="A" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC02" text="S" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC03" text="D" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC04" text="F" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC05" text="G" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC06" text="H" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC07" text="J" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC08" text="K" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="ctnC09" text="L" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC10" text=";" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC11" text="'" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnC52" text="Enter   ." onAction="#keyPressedHandlerAction"/>
+      </HBox>
+
+
+      <HBox  GridPane.rowIndex="4" spacing="5">
+
+          <Button fx:id="btnB53" text="Shift    " onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB01" text="Z" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB02" text="X" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB03" text="C" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB04" text="V" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB05" text="B" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB06" text="N" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB07" text="M" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB08" text="," onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB09" text="." onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB10" text="?" onAction="#keyPressedHandlerAction"/>
+          <Button fx:id="btnB54" text="Shift    ." onAction="#keyPressedHandlerAction"/>
+
+      </HBox>
+       <HBox fx:id="kbRowA"  GridPane.rowIndex="5" spacing="5" alignment="TOP_CENTER">
+           <Button fx:id="btnA55" onAction="#keyPressedHandlerAction"
+                text="                                Space                                "/>
+       </HBox>
+
+   </children>
+</GridPane>

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -16,9 +17,10 @@
 
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
 <GridPane fx:id="FrontPanel" alignment="CENTER"
           maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-          prefHeight="400.0" prefWidth="1000.0"
+          prefHeight="450.0" prefWidth="1000.0"
           xmlns="http://javafx.com/javafx/"
           xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="increment.simulator.userInterface.FrontPanelController"
@@ -45,14 +47,15 @@
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="14.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="ALWAYS" />
+      <RowConstraints minHeight="10.0" percentHeight="60.0" prefHeight="30.0" vgrow="ALWAYS" />
   </rowConstraints>
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0" styleClass="text"/>
@@ -180,7 +183,7 @@
       </VBox>
 
        <!--Button Groups-->
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="18" GridPane.rowIndex="6">
+      <HBox prefHeight="100.0"  spacing="10.0" GridPane.columnSpan="13" GridPane.rowIndex="6">
          <children>
             <Button fx:id="Button_Circle" mnemonicParsing="false" onAction="#handleCircleButtonAction" text="Circle" />
             <RadioButton fx:id="Radio_Pause" disable="true" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0">
@@ -195,7 +198,7 @@
             <Button fx:id="Button_Load_MAR" mnemonicParsing="false" onAction="#handleLoadMARButtonAction" text="Load MAR" />
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="18" GridPane.rowIndex="7">
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnSpan="13" GridPane.rowIndex="7">
          <children>
             <Button fx:id="Button_AutoTick"    mnemonicParsing="false" onAction="#handleAutoTickButtonAction" text="AutoTick" />
              <Slider fx:id="Slider_Auto_set"
@@ -209,9 +212,16 @@
              />
             <Button fx:id="Button_Debug"    mnemonicParsing="false" onAction="#handleDebugButtonAction" text="Debug Panel" />
             <Button fx:id="Button_Magic"    mnemonicParsing="false" onAction="#handleMagicButtonAction" text="Magic Panel" />
-            <Button fx:id="Button_Keyboard" mnemonicParsing="false" onAction="#handleLoadMARButtonAction" text="Keyboard" />
+            <Button fx:id="Button_Keyboard" mnemonicParsing="false" onAction="#handleLoadKeyboardAction" text="Keyboard" />
          </children>
       </HBox>
+      <fx:include fx:id="KeyboardPanel" source="KeyboardPanel.fxml" GridPane.columnIndex="0" GridPane.columnSpan="13" GridPane.rowIndex="8" GridPane.rowSpan="5" />
+
+      <Text fx:id="Text_CodeOutPut" fontSmoothingType="LCD" text="32132" GridPane.columnIndex="14" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
+
+
+
+
    </children>
    <padding>
       <Insets left="15.0" top="15.0" />
