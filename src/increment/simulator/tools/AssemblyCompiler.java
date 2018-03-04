@@ -1,8 +1,8 @@
 package increment.simulator.tools;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -370,14 +370,15 @@ public class AssemblyCompiler {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		FileWriter out = null;
+		FileOutputStream out = null;
 		try {
-			out = new FileWriter(args[1]);
+			out = new FileOutputStream(args[1]);
 			for (short s : cpm.program) {
+				System.out.println(s);
 				out.write(s >> 8);
 				out.write(s);
 			}
-				
+			out.flush();
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,8 +1,8 @@
 package increment.simulator.userInterface;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -204,7 +204,7 @@ public class MachineWrapper {
 	
 	public void insertCard(File card) {
 		try {
-			machine.insertCard(new FileReader(card));
+			machine.insertCard(new FileInputStream(card));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -1,7 +1,7 @@
 package increment.simulator;
 
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStream;
 
 /**
  * The card reader. Not implemented yet.
@@ -9,7 +9,7 @@ import java.io.Reader;
  *
  */
 public class CardReader extends IODevice {
-	private Reader card;
+	private InputStream card;
 	private short buffer = 0;
 	private boolean bufferValid = false;
 	private boolean cardToEnd = false;
@@ -35,7 +35,7 @@ public class CardReader extends IODevice {
 		}
 		int lowerBit = 0;
 		try {
-			higherBit = card.read();
+			lowerBit = card.read();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -62,7 +62,7 @@ public class CardReader extends IODevice {
 		bufferValid = false;
 	}
 	
-	public void insertCard(Reader card) {
+	public void insertCard(InputStream card) {
 		this.card = card;
 		bufferValid = false;
 		cardToEnd = false;

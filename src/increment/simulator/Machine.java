@@ -2,8 +2,8 @@ package increment.simulator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -265,7 +265,7 @@ public class Machine {
 	public void keyPress(short key) {
 		keyboard.pressKey(key);
 	}
-	public void insertCard(Reader card) {
+	public void insertCard(InputStream card) {
 		reader.insertCard(card);
 	}
 }
