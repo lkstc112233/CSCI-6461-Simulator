@@ -1,5 +1,8 @@
 package increment.simulator.tools;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -148,6 +151,8 @@ public class AssemblyCompiler {
 			return (parseRAndCountAndLRAndAL(tokens) | (25 << 10));
 		case "RRC": // 0x1A
 			return (parseRAndCountAndLRAndAL(tokens) | (26 << 10));
+		case "CHK":
+			return (parseRAndImmediate(tokens) | (51 << 10));
 		case "HLT": // 0
 			return 0;
 		case "NOP": // 0x3F, does nothing.
@@ -358,8 +363,24 @@ public class AssemblyCompiler {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CompiledProgram cpm = compile("LDX 2,15	LDR 0,2,20,0 LDA 1,2,6,0");
-		for (short s : cpm.program)
-			System.out.println(s);
+		CompiledProgram cpm = null;
+		try {
+			cpm = compile(new FileReader(args[0]));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		FileWriter out = null;
+		try {
+			out = new FileWriter(args[1]);
+			for (short s : cpm.program) {
+				out.write(s >> 8);
+				out.write(s);
+			}
+				
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
