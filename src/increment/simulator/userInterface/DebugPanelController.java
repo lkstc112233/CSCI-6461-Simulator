@@ -36,6 +36,7 @@ public class DebugPanelController {
 
     public void handleTickButtonAction(ActionEvent actionEvent) {
 
+
     }
 
 
