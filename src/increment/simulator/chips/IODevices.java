@@ -1,5 +1,6 @@
 package increment.simulator.chips;
 
+import increment.simulator.DummyIODevice;
 import increment.simulator.IODevice;
 
 /**
@@ -20,6 +21,9 @@ public class IODevices extends Chip {
 	private IODevice devices[];
 	public IODevices() {
 		devices = new IODevice[32];
+		for (int i = 0; i < 32; ++i) {
+			devices[i] = new DummyIODevice();
+		}
 		addPort("write", 16);
 		addPort("read", 16);
 		addPort("port", 5);
