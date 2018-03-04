@@ -57,19 +57,9 @@ public class Machine {
 		// SIMULATED Boot Loader: 
 		// It loads a testing program into the memory address 0x10, and sets PC to
 		// 0x10.
-		((ClockRegister)getChip("PC")).setValue(0x10);
-		String program = "LDX 3, 9 LDX 2, 10, 1 LDX 1, 7 LDA 2, 0, 18 LDA 1, 1, 19 " + 
-		"LDA 3, 0, 20, 1 LDA 0, 2, 21, 1 STX 2, 8 STX 1, 6 STX 1, 5, 1 LDR 3, 0, 16 LDR 2, 1, 17 LDR 1, 0, 18, 1" +        
-		"LDR 0, 2, 19, 1 STR 0, 0, 10 STR 1, 3, 11 STR 2, 0, 6, 1 STR 3, 2, 5, 1 HLT";
-		CompiledProgram code = AssemblyCompiler.compile(program);
-		mem.loadProgram(0x10, code);
-		mem.putValue(5, 5);
-		mem.putValue(6, 6); 
-		mem.putValue(7, 7); 
-		mem.putValue(8, 8);
-		mem.putValue(9, 9); 
-		mem.putValue(10, 10); 
-		mem.putValue(15, 31);
+		((ClockRegister)getChip("PC")).setValue(100);
+		CompiledProgram code = AssemblyCompiler.compile(new BufferedReader(new InputStreamReader(Machine.class.getResourceAsStream("/TestProgram1.prg"))));
+		mem.loadProgram(1, code);
 	}
 	
 	/**
