@@ -1,5 +1,6 @@
 package increment.simulator.ui;
 
+import increment.simulator.userInterface.MachineWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;

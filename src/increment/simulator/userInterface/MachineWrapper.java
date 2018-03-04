@@ -1,4 +1,4 @@
-package increment.simulator.ui;
+package increment.simulator.userInterface;
 
 import java.util.ArrayList;
 import java.util.List;

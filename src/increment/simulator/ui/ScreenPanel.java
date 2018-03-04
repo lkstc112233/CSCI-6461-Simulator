@@ -1,5 +1,6 @@
 package increment.simulator.ui;
 
+import increment.simulator.userInterface.MachineWrapper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

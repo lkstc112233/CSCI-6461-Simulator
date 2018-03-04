@@ -1,6 +1,5 @@
 package increment.simulator.userInterface;
 
-import increment.simulator.ui.MachineWrapper;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;

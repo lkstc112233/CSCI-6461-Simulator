@@ -1,7 +1,6 @@
 package increment.simulator.userInterface;
 
 import increment.simulator.Machine;
-import increment.simulator.ui.MachineWrapper;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;

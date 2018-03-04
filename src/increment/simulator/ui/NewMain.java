@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import increment.simulator.Machine;
+import increment.simulator.userInterface.MachineWrapper;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
