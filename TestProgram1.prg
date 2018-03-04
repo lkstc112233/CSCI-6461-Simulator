@@ -1,5 +1,5 @@
-400
-44
+0
+0
 0
 0
 0 # line 5
@@ -40,13 +40,13 @@ JMA 1, 1 # Jump to 65 to continue
 0 # reserved
 0 # reserved
 0 # reserved
-LDX 2, 2 # reserved
-JSR 0, 11 # reserved
-STR 1, 0, 1, 1# reserved
-LDR 1, 0, 1 # reserved
-AIR 1, 1 # reserved
-STR 1, 0, 1 # reserved
-JMA 2, 0 # reserved
+0 # reserved
+0 # reserved
+0 # reserved
+0 # reserved
+0 # reserved
+0 # reserved
+0 # reserved
 0 # reserved
 0 # reserved
 0 # reserved
@@ -74,6 +74,15 @@ LDA 2, 0, 1 #
 RFS 0 # reserved
 0 # reserved for to_number
 48 # reserved for '0'
+LDX 1, 0 # PrintNumber: prints whatever in R0.
+LDX 1, 31 # reserved
+JZ 0, 1, 29 # Print '0' and return
+LDA 2, 0, 10 # output digit.
+DVD 0, 2 # reserved
+AMR 1, 1, 12 # get char
+OUT 1, 1 # output it.
+JZ 0, 1, 31 # return
+JMA 1, 17 # reserved
 0 # reserved
 0 # reserved
 0 # reserved
@@ -81,19 +90,27 @@ RFS 0 # reserved
 0 # reserved
 0 # reserved
 0 # reserved
+LDR 0, 1, 12 # 
+OUT 0, 1 # out 0.
+RFS 0 # return
 0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
-0 # reserved
+400 # List_head
+400 # List_tail
+20 # Count
+LDA 0, 0, 31 # PROGRAM_INIT
+AIR 0, 1 # 96
+STR 0, 0, 30 # calc
+LDX 2, 30, 1 # Initialize self.
+LDR 0, 2, 3 # loop begins
+SOB 0, 2, 11 # loop condition
+JMA 2, 18
+STR 0, 2, 3 # 11
+JSR 0, 11 # load list number
+STR 1, 2, 2, 1# store list
+LDR 1, 2, 2 # 
+AIR 1, 1 # 
+STR 1, 2, 2 # update list tail
+JMA 2, 8 # loop ends
 0 # reserved
 0 # reserved
 0 # reserved
