@@ -95,7 +95,7 @@
       </HBox>
        <HBox fx:id="kbRowA"  GridPane.rowIndex="5" spacing="5" alignment="TOP_CENTER">
            <Button fx:id="btnA55" onAction="#keyPressedHandlerAction"
-                text="                                Space                                "/>
+                text="                    Space                      "/>
        </HBox>
 
    </children>
