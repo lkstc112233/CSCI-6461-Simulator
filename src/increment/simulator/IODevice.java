@@ -16,6 +16,11 @@ public abstract class IODevice {
 	 */
 	public short input() { return 0; }
 	/**
+	 * Checks the status. 
+	 * @return The status.
+	 */
+	public short status() { return 0; }
+	/**
 	 * Will be called on the tick this device is active. Just updates the buffer.
 	 */
 	public void tick() {}
