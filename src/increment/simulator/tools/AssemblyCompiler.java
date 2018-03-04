@@ -98,8 +98,11 @@ public class AssemblyCompiler {
 	 * @throws IOException When needed.
 	 */
 	private static int phaseInstruction(ConvenientStreamTokenizer tokens) throws IOException {
-		if (tokens.nextToken() != ConvenientStreamTokenizer.TT_WORD)
+		int token = tokens.nextToken();
+		if (token != ConvenientStreamTokenizer.TT_WORD && token != ConvenientStreamTokenizer.TT_NUMBER)
 			return -1;
+		if (token == ConvenientStreamTokenizer.TT_NUMBER)
+			return (int) tokens.nval;
 		switch(tokens.sval){
 		case "LDR": // 0x01
 			return (parseRAndIXAndAddressAndOptionalI(tokens) | (1 << 10));
