@@ -227,10 +227,16 @@ public class FrontPanelController   {
                 case 51:{
                     if (Cap_look) {
                         Cap_look=false;
+                        x.setStyle("-fx-background-color: linear-gradient(#2A5058, #61a2b1);");
                         System.out.println("butt is disarmed");
                     }
                     else {
                         Cap_look=true;
+                        x.setStyle( "    -fx-text-fill: white;\n" +
+                                    "    -fx-font-family: \"Consolas, Monaco, monospace\",Georgia,Serif;\n" +
+                                    "    -fx-font-weight: bold;\n" +
+                                    "    -fx-background-color: linear-gradient(#212121   , #757575   );\n" +
+                                    "    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );");
                         System.out.println("butt is armed");
                     }
                 }break;
