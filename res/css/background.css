@@ -15,16 +15,16 @@
 }
 
 .text {
-	-fx-font-family: "menlo";
+	-fx-font-family: "Menlo";
 	-fx-font-size: 16px;
 }
 .text_15 {
-	-fx-font-family: "menlo"";
+	-fx-font-family: "Menlo";
 	-fx-font-size: 15px;
 }
 
 text_memory {
-	-fx-font-family: "menlo;
+	-fx-font-family: "Menlo";
 	-fx-font-size: 15px;
 }
 

@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Font;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,6 +17,7 @@ public class Main extends Application {
 	
     @Override
     public void start(Stage primaryStage) throws Exception{
+    	Font.loadFont(getClass().getResource("/res/font/Menlo.ttf").toExternalForm(), 10);
     	machine = new MachineWrapper(new Machine());
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/res/fxml/FrontPanel.fxml"));
         Parent root = fxmlLoader.load();
