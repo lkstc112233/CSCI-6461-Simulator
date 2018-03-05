@@ -200,6 +200,7 @@ public class MachineWrapper {
 	
 	public void keyPress(short key) {
 		machine.keyPress(key);
+		forceUpdate();
 	}
 	
 	public void insertCard(File card) {
