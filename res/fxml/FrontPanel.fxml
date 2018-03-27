@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.control.Spinner?>
 <?import java.util.ArrayList?>
 
 <?import javafx.scene.control.TextField?>
