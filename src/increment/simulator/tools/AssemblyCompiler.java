@@ -151,8 +151,10 @@ public class AssemblyCompiler {
 			return (parseRAndCountAndLRAndAL(tokens) | (25 << 10));
 		case "RRC": // 0x1A
 			return (parseRAndCountAndLRAndAL(tokens) | (26 << 10));
-		case "CHK":
+		case "CHK": // 0x33
 			return (parseRAndImmediate(tokens) | (51 << 10));
+		case "TRAP": // 0x1D
+			return (parseImmediate(tokens) | (30 << 10));
 		case "HLT": // 0
 			return 0;
 		case "NOP": // 0x3F, does nothing.
