@@ -16,6 +16,9 @@
 352				# Paging
 500				# Beginning of the paragraph
 255				# Mask for lower 8 bits.
+0				# Where the paragraph ends.
+400				# Beginning of the word taken
+400				# Where the user input word ends.
 0				# Reserved
 0				# Reserved
 0				# Reserved
@@ -23,12 +26,9 @@
 0				# Reserved
 0				# Reserved
 0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
+13				# char '\n'
+32				# char ' '
+0				# Reserved for page ending 0
 0				# Last Page
 64				# Next Page
 LDX 1, 31		# EntryPoint, #2
@@ -53,9 +53,9 @@ JSR 2, 2
 JMA 1, 12		# Jump, Also end of loop, #21
 LDR 0, 1, 28	# Save array ending point.
 STR 0, 0, 19	# Save array ending point.
-HLT				# Stop for now. Later JMA goes from here.
-NOP
-NOP
+LDX 1, 1		# Page shift
+LDX 1, 1		# Page shift
+JMA 2, 16		# To next page
 0				# Reserved for input. #27
 0				# Current Saving point, #28
 46				# '.', #29
@@ -77,24 +77,24 @@ SIR 0, 1		# Update sentence count
 STR 0, 1, 30	# Update sentence count
 RFS 1			# Is a sentence, sentence count updated, #14
 RFS 0			# Not a sentence, #15
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
+IN 0, 0			# Cont. of main, loop begins, take a word from user
+JZ 0, 2, 16		# Input
+SMR 0, 0, 29	# Check if it's a '\n'
+JZ 0, 2, 30		# Check if it's a '\n'
+AMR 0, 0, 29	# Check if it's a '\n'
+SMR 0, 0, 30	# Check if it's a ' '
+JZ 0, 2, 30		# Check if it's a ' '
+AMR 0, 0, 30	# Check if it's a ' '
+STR 0, 0, 21, 1	# Store the character
+OUT 0, 1		# Output the character
+LDR 0, 0, 21	# Update the pointer
+AIR 0, 1		# Update the pointer
+STR 0, 0, 21	# Update the pointer
+JMA 2, 16		# Loop
+HLT				# Reserved
 0				# Reserved for page ending 0
-0				# Reserved
-0				# Reserved
+64				# Last page
+128				# Next page
 0				# Reserved
 0				# Reserved
 0				# Reserved
