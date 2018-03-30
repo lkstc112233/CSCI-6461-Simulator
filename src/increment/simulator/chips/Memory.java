@@ -56,14 +56,18 @@ public class Memory extends Chip {
 	 */
 	@Override
 	public void tick(){
+		int address = (int) getPort("address").toInteger();
 		if (getPort("load").getBit(0)) {
-			int address = (int) getPort("address").toInteger();
 			if (outofRange(address))
 				return; // Or throw.
 			data[address].assign(getPort("input"));
 			changed[address] = true;
 		}
-		loadCache((int)getPort("address").toInteger() >> 2);
+		if (!outofRange(address)) {
+			loadCache(address >> 2);
+		} else {
+			System.err.println("Trying to access " + address);
+		}
 	}
 	/**
 	 * Checks if target address is out of range.

@@ -19,10 +19,10 @@
 0				# Where the paragraph ends.
 400				# Beginning of the word taken
 400				# Where the user input word ends.
-1				# Word count
+0				# Word count
 1				# Sentence count
 0				# Current searching in word
-0				# Reserved
+0				# Current output in word
 0				# Reserved
 0				# Reserved
 46				# char '.'
@@ -97,51 +97,52 @@ JMA 1, 2		# Jump to next page.
 128				# Next page
 LDX 2, 1		# Page shift
 LDX 2, 1		# Page shift, IR1 = This page, IR2 = Next page.
-LDR 0, 0, 17, 1	# Beginning of word search: Find the beginning of a word. #4
-SMR 0, 0, 30	# Skip ' '
-JNE 0, 1, 16	# Skip ' '
-LDR 0, 0, 22	# Word count + 1
-AIR 0, 1		# Word count + 1
-STR 0, 0, 22	# Word count + 1
-LDR 0, 0, 17	# Pointer + 1
-AIR 0, 1		# Pointer + 1
-STR 0, 0, 17	# Pointer + 1
+LDX 3, 31
+LDX 3, 10		# IR3 = 160
+LDR 1, 0, 17, 1	# Beginning of word search: Find the beginning of a word, #6
+JSR 3, 2		# Func Call.
+JNE 0, 1, 6		# loop
+LDR 2, 0, 20 	# Initialize pointer, #9
+STR 2, 0, 24	# Initialize pointer
+SMR 1, 0, 24, 1	# Check if the character match, #11
+JNE	0, 2, 7		# Check if the character match.
+LDR 0, 0, 17	# word matches, move pointers ahead.
+AIR 0, 1		# Paragraph pointer + 1
+STR 0, 0, 17	# Paragraph pointer + 1
 SMR 0, 0, 19	# Check if endable
-JZ 0, <>		# Reach the end of paragraph
-JMA 1, 4		# Loop.
-AMR 0, 0, 30	# Not ' ', #16
-SMR 0, 0, 28	# Skip '.'
-JNE 0, 1, 25	# Skip '.'
-LDR 0, 0, 23	# Sentence count + 1
-AIR 0, 1		# Sentence count + 1
-STR 0, 0, 23	# Sentence count + 1
-LDA 0, 0, 1		# Reset word count
-STR 0, 0, 22	# Reset word count
-JMA 1, <>		# Loop - pointer + 1
-AMR 0, 0, 28	# Not '.', Word match begins, #25
-LDR 1, 0, 20 	# Initialize pointer
-STR 1, 0, 24	# Initialize pointer
-SMR 0, 0, 24, 1	# Check if the character match.
-JNE	0, <Not match>		# Check if the character match.
-JMA 2, 2		# Jump to next page.
+JZ 0, 3, 26		# Reach the end of paragraph
+LDR 0, 0, 24	# Word progress + 1
+AIR 0, 1		# Word progress + 1
+STR 0, 0, 24	# Word progress + 1
+SMR 0, 0, 21	# Check if new word ends
+JZ 0, 2, 4		# 
+LDR 1, 0, 17, 1	# Check if paragraph word ends
+JSR 3, 2		# Check if paragraph word ends
+JNE 0, 1, 27	# 
+JMA 1, 11		# Both not ends, continue comparing.
+LDR 0, 0, 17	# Paragraph pointer + 1, #27
+AIR 0, 1		# Paragraph pointer + 1
+STR 0, 0, 17	# Paragraph pointer + 1
+JMA 2, 2		# Word continues, while paragraph ends, not an answer. 
 0				# Reserved for page ending 0
 96				# Last page
 160				# Next page
-LDR 0, 0, 17	# New page starts, word matches, move pointers ahead.
-AIR 0, 1		# Paragraph pointer + 1
-STR 0, 0, 17	# Paragraph pointer + 1
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
+SMR 0, 0, 19	# Check if endable
+JZ 0, 3, 26		# Reach the end of paragraph
+JMA 1, 6		# Word continues, while paragraph ends, not an answer. 
+LDR	1, 0, 17, 1	# Check if paragraph word ends, #5
+JSR 3, 2		# Check if paragraph word ends
+JNE 0, 2, 12	# Reserved
+LDR 1, 0, 17, 1	# Paragraph Word continues, while word ends, not an answer, skip word, #8
+JSR 3, 2		# Reserved
+JZ 0, 2, 14		# Reserved
+JMA 1, 9		# Back to compare
+JSR 3, 24		# Both word ends together, output info, #12
+JMA 1, 6		# Reserved
+LDR 0, 0, 17	# Reserved, #14
+AIR 0, 1		# Reserved
+STR 0, 0, 17	# Reserved
+JMA 2, 8		# Reserved
 0				# Reserved
 0				# Reserved
 0				# Reserved
@@ -157,120 +158,60 @@ STR 0, 0, 17	# Paragraph pointer + 1
 0				# Reserved
 0				# Reserved
 0				# Reserved for page ending 0
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
+0
+196
+SMR 1, 0, 30	# Check if end, Skip ' ', #2
+JNE 1, 3, 13	# Skip ' '
+LDR 0, 0, 22	# Word count + 1
+AIR 0, 1		# Word count + 1
+STR 0, 0, 22	# Word count + 1
+LDR 0, 0, 17	# Pointer + 1, #7
+AIR 0, 1		# Pointer + 1
+STR 0, 0, 17	# Pointer + 1
+SMR 0, 0, 19	# Check if endable
+JZ 0, 3, 26		# Reach the end of paragraph
+RFS 1			# Word ends
+AMR 1, 0, 30	# Not ' ', #13
+SMR 1, 0, 28	# Skip '.'
+JNE 1, 3, 22	# Skip '.'
+LDR 0, 0, 23	# Sentence count + 1
+AIR 0, 1		# Sentence count + 1
+STR 0, 0, 23	# Sentence count + 1
+LDA 0, 0, 0		# Reset word count
+STR 0, 0, 22	# Reset word count
+JMA 3, 7		# To pointer + 1
+AMR 1, 0, 28	# Not '.', #22
+RFS 0			# Is word
+LDX 3, 1		# Output information, #24
+JMA 3, 2
+HLT				# Reserved
+0				# Reserved
+0				# Reserved
+0				# Reserved
+0				# Reserved
+0				# Reserved
+0				# Reserved
+0				# Reserved
+0				# Reserved
+0				# Reserved for page ending 0
+160				# Paging
+0				# Reserved
+LDR 2, 0, 20	# Output information, #2
+STR 2, 0, 25	# Reserved
+SMR 2, 0, 21	# Reserved
+JZ 2, 3, 11		# Reserved
+LDR 2, 0, 25, 1	# Reserved
+OUT 2, 1		# Reserved
+LDR 2, 0, 25	# Reserved
+AIR 2, 1		# Reserved
+JMA 3, 3		# Reserved
+LDR 2, 0, 23	# Print sentence number, #11
+AIR 2, 24		# Reserved
+AIR 2, 24		# Reserved
+OUT 2, 1		# Reserved
+LDR 2, 0, 22	# Print word number, #11
+AIR 2, 24		# Reserved
+AIR 2, 24		# Reserved
+OUT 2, 1		# Reserved
+LDX 3, 0		# Revert changes on IRF
+RFS 0			# Return
