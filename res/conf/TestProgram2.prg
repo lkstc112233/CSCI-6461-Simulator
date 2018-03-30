@@ -19,13 +19,13 @@
 0				# Where the paragraph ends.
 400				# Beginning of the word taken
 400				# Where the user input word ends.
+1				# Word count
+1				# Sentence count
+0				# Current searching in word
 0				# Reserved
 0				# Reserved
 0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
+46				# char '.'
 13				# char '\n'
 32				# char ' '
 0				# Reserved for page ending 0
@@ -91,10 +91,45 @@ LDR 0, 0, 21	# Update the pointer
 AIR 0, 1		# Update the pointer
 STR 0, 0, 21	# Update the pointer
 JMA 2, 16		# Loop
-HLT				# Reserved
+JMA 1, 2		# Jump to next page.
 0				# Reserved for page ending 0
 64				# Last page
 128				# Next page
+LDX 2, 1		# Page shift
+LDX 2, 1		# Page shift, IR1 = This page, IR2 = Next page.
+LDR 0, 0, 17, 1	# Beginning of word search: Find the beginning of a word. #4
+SMR 0, 0, 30	# Skip ' '
+JNE 0, 1, 16	# Skip ' '
+LDR 0, 0, 22	# Word count + 1
+AIR 0, 1		# Word count + 1
+STR 0, 0, 22	# Word count + 1
+LDR 0, 0, 17	# Pointer + 1
+AIR 0, 1		# Pointer + 1
+STR 0, 0, 17	# Pointer + 1
+SMR 0, 0, 19	# Check if endable
+JZ 0, <>		# Reach the end of paragraph
+JMA 1, 4		# Loop.
+AMR 0, 0, 30	# Not ' ', #16
+SMR 0, 0, 28	# Skip '.'
+JNE 0, 1, 25	# Skip '.'
+LDR 0, 0, 23	# Sentence count + 1
+AIR 0, 1		# Sentence count + 1
+STR 0, 0, 23	# Sentence count + 1
+LDA 0, 0, 1		# Reset word count
+STR 0, 0, 22	# Reset word count
+JMA 1, <>		# Loop - pointer + 1
+AMR 0, 0, 28	# Not '.', Word match begins, #25
+LDR 1, 0, 20 	# Initialize pointer
+STR 1, 0, 24	# Initialize pointer
+SMR 0, 0, 24, 1	# Check if the character match.
+JNE	0, <Not match>		# Check if the character match.
+JMA 2, 2		# Jump to next page.
+0				# Reserved for page ending 0
+96				# Last page
+160				# Next page
+LDR 0, 0, 17	# New page starts, word matches, move pointers ahead.
+AIR 0, 1		# Paragraph pointer + 1
+STR 0, 0, 17	# Paragraph pointer + 1
 0				# Reserved
 0				# Reserved
 0				# Reserved
@@ -121,42 +156,7 @@ HLT				# Reserved
 0				# Reserved
 0				# Reserved
 0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
-0				# Reserved
+0				# Reserved for page ending 0
 0				# Reserved
 0				# Reserved
 0				# Reserved
