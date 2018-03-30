@@ -109,8 +109,6 @@ JNE	0, 2, 7		# Check if the character match.
 LDR 0, 0, 17	# word matches, move pointers ahead.
 AIR 0, 1		# Paragraph pointer + 1
 STR 0, 0, 17	# Paragraph pointer + 1
-SMR 0, 0, 19	# Check if endable
-JZ 0, 3, 26		# Reach the end of paragraph
 LDR 0, 0, 24	# Word progress + 1
 AIR 0, 1		# Word progress + 1
 STR 0, 0, 24	# Word progress + 1
@@ -118,31 +116,32 @@ SMR 0, 0, 21	# Check if new word ends
 JZ 0, 2, 4		# 
 LDR 1, 0, 17, 1	# Check if paragraph word ends
 JSR 3, 2		# Check if paragraph word ends
-JNE 0, 1, 27	# 
+JNE 0, 1, 25	# 
 JMA 1, 11		# Both not ends, continue comparing.
-LDR 0, 0, 17	# Paragraph pointer + 1, #27
+LDR 0, 0, 17	# Paragraph pointer + 1, #25
 AIR 0, 1		# Paragraph pointer + 1
 STR 0, 0, 17	# Paragraph pointer + 1
-JMA 2, 2		# Word continues, while paragraph ends, not an answer. 
+JMA 1, 6		# Word continues, while paragraph ends, not an answer. 
+NOP				# Reserved
+NOP				# Reserved
 0				# Reserved for page ending 0
 96				# Last page
 160				# Next page
-SMR 0, 0, 19	# Check if endable
-JZ 0, 3, 26		# Reach the end of paragraph
-JMA 1, 6		# Word continues, while paragraph ends, not an answer. 
-LDR	1, 0, 17, 1	# Check if paragraph word ends, #5
+NOP				# Reserved
+NOP				# Back to compare
+LDR	1, 0, 17, 1	# Check if paragraph word ends, #4
 JSR 3, 2		# Check if paragraph word ends
-JNE 0, 2, 12	# Reserved
-LDR 1, 0, 17, 1	# Paragraph Word continues, while word ends, not an answer, skip word, #8
+JNE 0, 2, 11	# Reserved
+LDR 1, 0, 17, 1	# Paragraph Word continues, while word ends, not an answer, skip word, #7
 JSR 3, 2		# Reserved
-JZ 0, 2, 14		# Reserved
+JZ 0, 2, 13		# Reserved
 JMA 1, 9		# Back to compare
-JSR 3, 24		# Both word ends together, output info, #12
+JSR 3, 24		# Both word ends together, output info, #11
 JMA 1, 6		# Reserved
-LDR 0, 0, 17	# Reserved, #14
+LDR 0, 0, 17	# Reserved, #13
 AIR 0, 1		# Reserved
 STR 0, 0, 17	# Reserved
-JMA 2, 8		# Reserved
+JMA 2, 7		# Reserved
 0				# Reserved
 0				# Reserved
 0				# Reserved
