@@ -23,8 +23,8 @@
 1				# Sentence count
 0				# Current searching in word
 0				# Current output in word
-0				# Reserved
-0				# Reserved
+65535			# -1
+44				# char ','
 46				# char '.'
 13				# char '\n'
 32				# char ' '
@@ -176,7 +176,7 @@ JNE 1, 3, 22	# Skip '.'
 LDR 0, 0, 23	# Sentence count + 1
 AIR 0, 1		# Sentence count + 1
 STR 0, 0, 23	# Sentence count + 1
-LDA 0, 0, 0		# Reset word count
+LDR 0, 0, 26	# Reset word count
 STR 0, 0, 22	# Reset word count
 JMA 3, 7		# To pointer + 1
 AMR 1, 0, 28	# Not '.', #22
@@ -195,20 +195,30 @@ HLT				# Reserved
 0				# Reserved for page ending 0
 160				# Paging
 0				# Reserved
-LDR 2, 0, 20	# Output information, #2
-STR 2, 0, 25	# Reserved
+LDR 2, 0, 29
+OUT 2, 1		# Output a newline
+LDR 2, 0, 20	# Output information, #4
+STR 2, 0, 25	# Reserved, #5
 SMR 2, 0, 21	# Reserved
-JZ 2, 3, 11		# Reserved
+JZ 2, 3, 13		# Reserved
 LDR 2, 0, 25, 1	# Reserved
 OUT 2, 1		# Reserved
 LDR 2, 0, 25	# Reserved
 AIR 2, 1		# Reserved
-JMA 3, 3		# Reserved
-LDR 2, 0, 23	# Print sentence number, #11
+JMA 3, 5		# Reserved
+LDR 2, 0, 27	# Print sentence number, #13
+OUT 2, 1
+LDR 2, 0, 30
+OUT 2, 1
+LDR 2, 0, 23	
 AIR 2, 24		# Reserved
 AIR 2, 24		# Reserved
 OUT 2, 1		# Reserved
-LDR 2, 0, 22	# Print word number, #11
+LDR 2, 0, 27	# Print word number
+OUT 2, 1
+LDR 2, 0, 30
+OUT 2, 1
+LDR 2, 0, 22	
 AIR 2, 24		# Reserved
 AIR 2, 24		# Reserved
 OUT 2, 1		# Reserved
