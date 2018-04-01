@@ -136,7 +136,7 @@ JNE 0, 2, 12	# Check if paragraph word ends. <2, 12>: Paragraph word ends
 LDR 1, 0, 17, 1	# Paragraph Word continues, while word ends, not an answer, skip word, #8
 JSR 3, 2		# Reserved
 JZ 0, 2, 14		# Reserved <2, 14>: Move to next char.
-JMA 1, 9		# Back to compare
+JMA 2, 21		# Back to compare
 JSR 3, 24		# Both word ends together, output info, #12
 JMA 1, 6		# Reserved
 LDR 0, 0, 17	# Reserved, #14
@@ -146,8 +146,8 @@ SMR 0, 0, 19	# Check if endable
 JZ 0, 3, 26		# Reach the end of paragraph
 LDR 1, 0, 17, 1	# Reload char.
 JMA 2, 8		# Reserved
-0				# Reserved
-0				# Reserved
+LDR 1, 0, 17, 1	# Reload char, #21
+JMA 1, 9		# Reserved
 0				# Reserved
 0				# Reserved
 0				# Reserved
