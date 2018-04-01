@@ -144,8 +144,8 @@ AIR 0, 1		# Reserved
 STR 0, 0, 17	# Reserved
 SMR 0, 0, 19	# Check if endable
 JZ 0, 3, 26		# Reach the end of paragraph
+LDR 1, 0, 17, 1	# Reload char.
 JMA 2, 8		# Reserved
-0				# Reserved
 0				# Reserved
 0				# Reserved
 0				# Reserved
