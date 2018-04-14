@@ -403,7 +403,7 @@ public class ControlUnit extends Chip {
 		if (converter != null)
 			currentState = converter.nextState((int) getPort("opcode").toInteger());
 		if (currentState == null)
-			currentState = "INVALID_INSTRUCTION";
+			currentState = faultState;
 	}
 	
 	/**
