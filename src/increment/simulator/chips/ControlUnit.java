@@ -79,6 +79,10 @@ public class ControlUnit extends Chip {
 	 */
 	private String defaultState = null;
 	/**
+	 * Stores fault state.
+	 */
+	private String faultState = null;
+	/**
 	 * Stores convert rules.
 	 */
 	private Map<String, StateConverter> stateConvertations = new HashMap<>();
@@ -110,6 +114,8 @@ public class ControlUnit extends Chip {
 		inputPortNames.add("pause");
 		addPort("reset", 1);
 		inputPortNames.add("reset");
+		addPort("fault", 1);
+		inputPortNames.add("fault");
 		try {
 			loadFile();
 		} catch (IOException e) {
@@ -226,6 +232,8 @@ public class ControlUnit extends Chip {
 			result.add(tokens.sval);
 			if (currentState == null)
 				currentState = defaultState = tokens.sval;
+			else if (faultState == null)
+				faultState = tokens.sval;
 		}
 		else 
 			tokens.pushBack();
@@ -385,6 +393,10 @@ public class ControlUnit extends Chip {
 		}
 		if (getPort("reset").getBit(0)) {
 			currentState = defaultState;
+			return;
+		}
+		if (getPort("fault").getBit(0)) {
+			currentState = faultState;
 			return;
 		}
 		StateConverter converter = stateConvertations.get(currentState);
