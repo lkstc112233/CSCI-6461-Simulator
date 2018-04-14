@@ -11,8 +11,9 @@ import increment.simulator.tools.AssemblyCompiler.CompiledProgram;
  * 		* load[1]<br>
  * 		* address[12]<br>
  * 		* input[16] <br>
- * A memory will have one output:<br>
+ * A memory will have two outputs:<br>
  * 		* output[16]
+ * 		* fault[1]
  * 
  * @author Xu Ke
  *
@@ -47,6 +48,7 @@ public class Memory extends Chip {
 		addPort("address", 1 << width);
 		addPort("input", 16);
 		addPort("output", 16);
+		addPort("fault", 1);
 		cache = new CacheEntry[16];
 		for (int i = 0; i < 16; ++i)
 			cache[i] = new CacheEntry();
@@ -59,7 +61,7 @@ public class Memory extends Chip {
 		int address = (int) getPort("address").toInteger();
 		if (getPort("load").getBit(0)) {
 			if (outofRange(address))
-				return; // Or throw.
+				return; 
 			data[address].assign(getPort("input"));
 			changed[address] = true;
 		}
@@ -87,7 +89,7 @@ public class Memory extends Chip {
 	public boolean evaluate(){
 		int address = (int) getPort("address").toInteger();
 		if (outofRange(address))
-			return false; // Or throw.
+			return assignPort("fault", 1); 
 		return getPort("output").assign(data[address]);
 	}
 	
