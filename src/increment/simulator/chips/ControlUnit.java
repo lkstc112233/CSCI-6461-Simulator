@@ -397,6 +397,7 @@ public class ControlUnit extends Chip {
 		}
 		if (getPort("fault").getBit(0)) {
 			currentState = faultState;
+			assignPort("fault", 0);
 			return;
 		}
 		StateConverter converter = stateConvertations.get(currentState);
