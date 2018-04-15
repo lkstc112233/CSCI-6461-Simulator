@@ -15,7 +15,11 @@ package increment.simulator.chips;
 public class Predictor extends Chip {
 	private long EALast = -1;
 	private long PCLast = -1;
-	private long opcodeLast = -1;
+	private int opcodeLast = -1;
+	
+	private long predict = 0;
+	private boolean predictSucceed = false;
+	
 	public Predictor() {
 		addPort("EA", 16);
 		addPort("PC", 12);
@@ -26,6 +30,19 @@ public class Predictor extends Chip {
 	public void tick() {
 		if (getPort("EA").toInteger() == EALast && getPort("PC").toInteger() == PCLast && getPort("PC").toInteger() == opcodeLast)
 			return;
-		
+		if (getPort("PC").toInteger() != PCLast)
+			predictSucceed = getPort("PC").toInteger() == predict;
+		EALast = getPort("EA").toInteger();
+		PCLast = getPort("PC").toInteger();
+		opcodeLast = (int) getPort("opcode").toInteger();
+		switch(opcodeLast) {
+		default:
+			predict = getPort("PC").toInteger() + 1;
+		}
+	}
+	
+	@Override
+	public String toString(){
+		return "";
 	}
 }
