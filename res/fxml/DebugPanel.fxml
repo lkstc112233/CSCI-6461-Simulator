@@ -18,9 +18,10 @@
           stylesheets="@../css/background.css"
 >
   <columnConstraints>
-      <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
-      <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
-      <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="33.33" prefWidth="100.0" />
+      <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="25" />
+      <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="25" />
+      <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="25" />
+      <ColumnConstraints halignment="CENTER" minWidth="10.0" percentWidth="25" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints />
@@ -109,6 +110,14 @@
            <children>
                <Text fx:id="Text_CU_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Control Unit:" styleClass="text"/>
                <Text fx:id="Text_CU_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
+           </children>
+       </VBox>
+
+       <!--Predict Text-->
+       <VBox GridPane.columnIndex="3" GridPane.rowSpan="6">
+           <children>
+               <Text fx:id="Text_Predict_Label" strokeType="OUTSIDE" strokeWidth="0.0" text="Prediction:" styleClass="text"/>
+               <Text fx:id="Text_Predict_Text" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="196" styleClass="text"/>
            </children>
        </VBox>
 

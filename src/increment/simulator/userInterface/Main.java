@@ -42,7 +42,8 @@ public class Main extends Application {
 
     }
 
-    private EventHandler keychanged(){
+    @SuppressWarnings("unused")
+	private EventHandler<?> keychanged(){
 
 
         return null;

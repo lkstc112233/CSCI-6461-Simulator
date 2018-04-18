@@ -4,17 +4,14 @@ import java.io.File;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -35,7 +32,7 @@ public class FrontPanelController   {
           private Duration duration;
           private Boolean Cap_look=true;
 
-          public EventHandler handleLoadKeyboardAction;
+          public EventHandler<?> handleLoadKeyboardAction;
 
     @FXML
     public void keyHandler(KeyEvent keyEvent){
@@ -50,8 +47,8 @@ public class FrontPanelController   {
 
 
 	public void setMachine(MachineWrapper machine) {
-		this.machine = machine;
-		Radio_Pause.selectedProperty().bind(this.machine.getPausedProperty());
+		FrontPanelController.machine = machine;
+		Radio_Pause.selectedProperty().bind(FrontPanelController.machine.getPausedProperty());
       // FrontPanel.setGridLinesVisible(true);
         for(int i = 0 ; i < 12; i++)
        ((RadioButton) FrontPanel.lookup("#r" + i)).selectedProperty().bind(machine.getAddressBulbsProperty(i));
@@ -128,7 +125,7 @@ public class FrontPanelController   {
 	        Parent root = fxmlLoader.load();
 	        fxmlLoader.<DebugPanelController>getController().setMachine(machine);
 	        debugStage = new Stage();
-	        debugStage.setScene(new Scene(root, 800, 600));
+	        debugStage.setScene(new Scene(root, 1000, 600));
 	        debugStage.setTitle("Field Engineer Console");
 	        debugStage.show();
 	        machine.forceUpdate();
