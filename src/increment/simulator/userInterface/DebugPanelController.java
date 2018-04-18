@@ -19,6 +19,7 @@ public class DebugPanelController {
 		Text_IRF_Text.textProperty().bind(machine.getIndexRegisterFileProperty());
 		Text_CU_Text.textProperty().bind(machine.getControlUnitProperty());
 		Text_Memory_Text.textProperty().bind(machine.getMemoryProperty());
+		Text_Predict_Text.textProperty().bind(machine.getPredictProperty());
 
 	}
 
@@ -32,6 +33,7 @@ public class DebugPanelController {
     @FXML private  Text Text_IRF_Text;
     @FXML private  Text Text_CU_Text;
     @FXML private  Text Text_Memory_Text;
+    @FXML private  Text Text_Predict_Text;
 
     public void handleTickButtonAction(ActionEvent actionEvent) {
 

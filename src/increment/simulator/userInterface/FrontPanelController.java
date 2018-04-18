@@ -125,7 +125,7 @@ public class FrontPanelController   {
 	        Parent root = fxmlLoader.load();
 	        fxmlLoader.<DebugPanelController>getController().setMachine(machine);
 	        debugStage = new Stage();
-	        debugStage.setScene(new Scene(root, 800, 600));
+	        debugStage.setScene(new Scene(root, 1000, 600));
 	        debugStage.setTitle("Field Engineer Console");
 	        debugStage.show();
 	        machine.forceUpdate();

@@ -50,6 +50,8 @@ public class MachineWrapper {
 	public ReadOnlyJavaBeanStringProperty getGeneralPurposeRegisterFileProperty() { return generalPurposeRegisterFileProperty; }
     private ReadOnlyJavaBeanStringProperty indexRegisterFileProperty;
 	public ReadOnlyJavaBeanStringProperty getIndexRegisterFileProperty() { return indexRegisterFileProperty; }
+	private ReadOnlyJavaBeanStringProperty predictProperty;
+	public ReadOnlyJavaBeanStringProperty getPredictProperty() { return predictProperty; }
 	private ReadOnlyJavaBeanStringProperty memoryProperty;
 	public ReadOnlyJavaBeanStringProperty getMemoryProperty() { return memoryProperty; }
 	private ReadOnlyJavaBeanStringProperty controlUnitProperty;
@@ -92,6 +94,7 @@ public class MachineWrapper {
     		properties.add(instructionRegisterProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("instructionRegister").build());
     		properties.add(generalPurposeRegisterFileProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("generalPurposeRegisterFile").build());
     		properties.add(indexRegisterFileProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("indexRegisterFile").build());
+    		properties.add(predictProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("predict").build());
     		properties.add(memoryProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("memory").build());
     		properties.add(controlUnitProperty = new ReadOnlyJavaBeanStringPropertyBuilder().bean(this).name("controlUnit").build());
     		properties.add(radioSwitchProperty = new JavaBeanIntegerPropertyBuilder().bean(this).name("radioSwitch").build());
@@ -122,6 +125,7 @@ public class MachineWrapper {
     public final String getInstructionRegister(){ try{return machine.getChip("IR").toString();}catch(NullPointerException e){return "Not Found";} }
     public final String getGeneralPurposeRegisterFile(){ try{return machine.getChip("GPRF").toString();}catch(NullPointerException e){return "Not Found";} }
     public final String getIndexRegisterFile(){ try{return machine.getChip("IRF").toString();}catch(NullPointerException e){return "Not Found";} }
+    public final String getPredict(){ try{return machine.getChip("predictor").toString();}catch(NullPointerException e){return "Not Found";} }
     public final String getMemory(){ try{return machine.getChip("memory").toString();}catch(NullPointerException e){return "Not Found";} }
     public final String getControlUnit(){ try{return machine.getChip("CU").toString();}catch(NullPointerException e){return "Not Found";} }
     public final Integer getRadioSwitch(){ try{return ((NumberedSwitch) machine.getChip("panelDestSelectSwitch")).getValue();}catch(NullPointerException e){return 0;} }
