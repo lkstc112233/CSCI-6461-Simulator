@@ -19,6 +19,7 @@ public class Predictor extends Chip {
 	
 	private long predict = 0;
 	private boolean predictSucceed = false;
+	private long timeSaved = 0;
 	
 	public Predictor() {
 		addPort("EA", 16);
@@ -30,8 +31,10 @@ public class Predictor extends Chip {
 	public void tick() {
 		if (getPort("EA").toInteger() == EALast && getPort("PC").toInteger() == PCLast && getPort("PC").toInteger() == opcodeLast)
 			return;
-		if (getPort("PC").toInteger() != PCLast)
+		if (getPort("PC").toInteger() != PCLast){
 			predictSucceed = getPort("PC").toInteger() == predict;
+			timeSaved += predictSucceed ? 3 : -7;
+		}
 		EALast = getPort("EA").toInteger();
 		PCLast = getPort("PC").toInteger();
 		opcodeLast = (int) getPort("opcode").toInteger();
@@ -43,6 +46,23 @@ public class Predictor extends Chip {
 	
 	@Override
 	public String toString(){
-		return "";
+		StringBuilder sb = new StringBuilder();
+		sb.append("Next Instruction Prediction: ");
+		sb.append(predict);
+		sb.append("\n");
+		sb.append("Second Next Instruction Prediction: ");
+		sb.append(predict + 1);
+		sb.append("\n");
+		sb.append("Third Next Instruction Prediction: ");
+		sb.append(predict + 2);
+		sb.append("\n");
+		
+		sb.append("Last prediction was ");
+		sb.append(predictSucceed?"Succeed.\n":"Failed.\n");
+		sb.append("Time saved total: ");
+		sb.append(timeSaved);
+		sb.append(" ticks.\n");
+		
+		return sb.toString();
 	}
 }
