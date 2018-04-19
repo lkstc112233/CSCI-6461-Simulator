@@ -39,8 +39,24 @@ public class Predictor extends Chip {
 		PCLast = getPort("PC").toInteger();
 		opcodeLast = (int) getPort("opcode").toInteger();
 		switch(opcodeLast) {
+		case 0x08: // JZ
+		case 0x09: // JNE
+		case 0x0A: // JCC
+		case 0x0E: // SOB
+		case 0x0F: // JGE
+			if (EALast > PCLast)
+				predict = PCLast + 1;
+			else
+				predict = EALast;
+			break;
+		case 0x0B: // JMA
+		case 0x0C: // JSR
+		case 0x0D: // RFS
+			predict = EALast;
+			break;
 		default:
-			predict = getPort("PC").toInteger() + 1;
+			predict = PCLast + 1;
+			break;
 		}
 	}
 	
