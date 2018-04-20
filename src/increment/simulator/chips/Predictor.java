@@ -20,6 +20,7 @@ public class Predictor extends Chip {
 	private long predict = 0;
 	private boolean predictSucceed = false;
 	private long timeSaved = 0;
+	private long totalTime = 0;
 	
 	public Predictor() {
 		addPort("EA", 16);
@@ -33,7 +34,9 @@ public class Predictor extends Chip {
 			return;
 		if (getPort("PC").toInteger() != PCLast){
 			predictSucceed = getPort("PC").toInteger() == predict;
-			timeSaved += predictSucceed ? 3 : -7;
+			if (predictSucceed)
+				timeSaved += 1;
+			totalTime += 1;
 		}
 		EALast = getPort("EA").toInteger();
 		PCLast = getPort("PC").toInteger();
@@ -75,9 +78,12 @@ public class Predictor extends Chip {
 		
 		sb.append("Last prediction was ");
 		sb.append(predictSucceed?"Succeed.\n":"Failed.\n");
-		sb.append("Time saved total: ");
-		sb.append(timeSaved);
-		sb.append(" ticks.\n");
+		sb.append("Predict succeed rate: ");
+		if (totalTime > 0)
+			sb.append(Double.toString(((double) timeSaved) * 100 / totalTime));
+		else
+			sb.append(0);
+		sb.append("%.\n");
 		
 		return sb.toString();
 	}
